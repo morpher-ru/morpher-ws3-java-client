@@ -5,113 +5,141 @@ Java-клиент веб-сервиса ["Морфер" 3.0](http://morpher.ru/w
 Позднее здесь будет раздел, содержащий способ подключения библиотеки в *gradle* и *maven*.
 ***
 ## Использование
-Работа с web-сервисом осуществляется за счет основного класса Morpher, который реализует все функции web-сервиса.
-#### Инициализация
-Перед использованием web-сервиса требуется инициализировать Morpher, указав требуемый язык.  
+Работа с web-сервисом осуществляется за счет основного класса morpherClient, который реализует все функции web-сервиса.  
+Результат выполнения запросов возвращается как объект класса соответствующей модели данных.  
+Модели данных перечислены ниже.  
+### Модели данных
+Русский язык:  
+* RussianDeclensionResult - результат склонения слов на русском языке,
+* RussianSpellingResult - результат согласования числительных с единицей измерения на русском языке,
+* RussianAdjectiveGenders - результат склонения русских прилагательных по родам.
+
+Украинский язык:  
+* UkrainianDeclensionResult - результат склонения слов на украинском языке,
+* UkrainianSpellingResult - результат согласования числительных с единицией измерения на украинском языке,
+* UkrainianAdjectiveGenders - результат склонения украинских прилагательных по родам.
+### Начало работы
+Перед использованием web-сервиса требуется создать экземпляр класса morpherClient:  
 ```java
-Morpher.initialization(Languages.RUSSIAN);
+morpherClient = new MorpherClient();
 ```
-В случае использования платной версии web-сервиса Морфер при инициализации передается access-token.
+В случае использования платной версии web-сервиса Морфер в конструктор передается access-token:
 ```java
-final String ACCESS_TOKEN = "some token";
-Morpher.initialization(Language.RUSSIAN, ACCESS_TOKEN);
+final String ACCESS_TOKEN = "Some token";
+morpherClient = new MorpherClient(ACCESS_TOKEN);
 ```
-#### Выполнение запросов
-Обмен запросами с web-сервисом осуществляется асинхронно, поэтому методам класса Morpher, кроме основных параметров,
-необходимо передавать экземпляр класса MorpherRequestListener.
-***
-##### Выполнение склонения
+### Выполнение запросов
+
+#### Русский язык
+##### Склонение
 ```java
-//Формат вызова:
-//Morpher.getDeclension(<текст>, <падеж>, <число>, <экземпляр MorpherRequestListener>);
-//Пример вызова:
-Morpher.getDeclension("ёлка", Cases.NOMINATIVE_CASE, Quantity.SINGULAR, new MorpherRequestListener() {
-    public void onResponse(String result) {
-    //Манипулация результатом
-    }
-    public void onFailure(String error) {
-    //Обработка ошибки
-    }
-});
-```
-***
-##### Выделение ФИО
-```java
-//Формат вызова:
-//Morpher.getSeparatedFullName(<полное имя>, <экземпляр MorpherRequestListener>);
-//Пример вызова:
-Morpher.getSeparatedFullName("Иванов Иван Иванович", new MorpherRequestListener() {
-    public void onResponse(String name, String surname, String middleName) {
-    //Манипулация результатом
-    }
-    public void onFailure(String error) {
-    //Обработка ошибки
-    }
-});
-```
-***
-##### Согласование единицы измерения с числом
-```java
-//Формат вызова:
-//Morpher.getNumeralAndUnit(<текст>, <число>, <падеж>, <экземпляр MorpherRequestListener>);
-//Пример вызова:
-Morpher.getNumeralAndUnit("ёлка", 10, Cases.NOMINATIVE_CASE, new MorpherRequestListener() {
-    public void onResponse(String result) {
-    //Манипулация результатом
-    }
-    public void onFailure(String error) {
-    //Обработка
-    }
-});
-```
-***
-##### Определение пола по ФИО
-```java
-//Формат вызова:
-//Morpher.getGender(<ФИО>, <экземпляр MorpherRequestListener>);
-//Пример вызова:
-Morpher.getGender("Иванов Иван Иванович", new MorpherRequestListener() {
-    public void onResponse(String result) {
-    //Манипулация результатом
-    }
-    public void onFailure(String error) {
-    //Обработка
-    }
-});
+// Формат вызова:
+// RussianDeclensionResult russianDeclensionResult = morpherClient.russianDeclension(<текст>);
+RussianDeclensionResult russianDeclensionResult = morpherClient.russianDeclension("ёлка");
+String nominativeCase = russianDeclensionResult.getNominativeCase();
+// Для других падежей:
+// .getGenitiveCase()           - Родительный падеж
+// .getDativeCase()             - Дательный падеж
+// .getAccusativeCase()         - Винительный падеж
+// .getInstrumentalCase()       - Творительный падеж
+// .getPrepositionalCase()      - Предложный падеж
+//
+// В случае использования платной версии web-сервиса:
+// .getPrepositionalCaseWithO() - Местный падеж
+// .getWhere()                  - Где?
+// .getTo()                     - Куда?
+// .getFrom()                   - Откуда?
+
+if (russianDelensionResult.getPlural() != null) {
+    String pluralNominativeCase = russianDeclensionResult.getPluralNominativeCase();
+    // Для других падежей:
+    // .getPluralGenitiveCase()           - Родительный падеж
+    // .getPluralDativeCase()             - Дательный падеж
+    // .getPluralAccusativeCase()         - Винительный падеж
+    // .getPluralInstrumentalCase()       - Творительный падеж
+    // .getPluralPrepositionalCase()      - Предложный падеж
+    //
+    // В случае использования платной версии web-сервиса
+    // .getPluralPrepositionalCaseWithO() - Местный падеж
+}
 ```
 ***
-##### Склонение прилагательного по родам
+##### Определение рода (для платной версии web-сервиса):
 ```java
-//Формат вызова:
-//Morpher.getAdjectiveByGender(<прилагательное>, <род>, <экземпляр MorpherRequestListener>);
-//Пример вызова:
-Morpher.getAdjectiveByGender("ёлочный", Gender.MALE, new MorpherRequestListener() {
-    public void onResponse(String result) {
-    //Манипулация результатом
-    }
-    public void onFailure(String error) {
-    //Обработка
-    }
-});
+String gender = russianDeclensionResult.getGender();
 ```
 ***
-##### Образование прилагательных от названий городов и стран
+##### Разделение ФИО на части:
 ```java
-//Формат вызова:
-//Morpher.getAdjectivize(<название>, <экземпляр MorpherRequestListener>);
-//Пример вызова:
-Morpher.getAdjectivize("Москва", new MorpherRequestListener() {
-    public void onResponse(Vector<String> result) {
-    //Манипулация результатом
-    }
-    public void onFailure(String error) {
-    //Обработка
-    }
-});
+String surname = russianDeclensionResul.getSurname();           //Фамилия
+String name = russianDeclensionResul.getName();                 //Имя
+String pantronymic = russianDeclensionResul.getPantronymic();   //Отчество
 ```
 ***
-#### Исключения
-В процессе работы с библиотекой могут порождаться следующие исключения:  
+##### Cумма прописью:
+```java
+//  Формат вызова:
+//  RussianSpellingResult russianSpellingResult = morpherClient.russianSpell(<число>, <единица измерения>);
+RussianSpellingResult russianSpellingResult = morpherClient.russianSpell(123, "ёлка");
+String numberNominativeCase = russianSpellingResult.getNumberNominativeCase();      //Сто двадцать три
+String unitNominativeCase = russianSpellingResult.getUnitNominativeCase();          //ёлки
+String alignmentNominativeCase = russianSpellResult.getAlignmentNominativeCase();   //Сто двадцать три ёлки
+
+//Для работы с падежами применяются принципы, аналогичные склонению слов.
+```
+***
+##### Склонение прилагательных по родам
+```java
+// Формат вызова:
+// RussianAdjectiveGenders russianAdjectiveGenders = morpherClient.russianAdjectiveGenders(<прилагательное>);
+RussianAdjectiveGenders russianAdjectiveGenders = morpherClient.russianAdjectiveGenders("ёлочный");
+String feminieGender = russianAdjectiveGenders.getFeminie();//Женский род
+String neuterGender = russianAdjectiveGenders.getNeuter();  //Средний род
+String plural = russianAdjectiveGenders.getPlural();        //Множественное число
+```
+***
+##### Образование прилагательных:
+```java
+// Формат вызова:
+// List<String> adjectives = morpherClient.russianAdjectivize(<слово>);
+List<String> adjectives = morpherClient.russianAdjectivize("Мытищи");
+```
+***
+#### Украинский язык
+##### Склонение
+```java
+// Формат вызова:
+// UkrainianDeclensionResult ukrainianDeclensionResult = morpherClient.ukrainianDeclension(<текст>);
+UkrainianDeclensionResult ukrainianDeclensionResult = morpherClient.ukrainianDeclension("ялинка");
+String nominativeCase = ukrainianDeclensionResult.getNominativeCase();
+// Для других падежей
+// .getGenitiveCase()       - родовий відмінок
+// .getDativeCase()         - давальний відмінок
+// .getAccusativeCase()     - знахідний відмінок
+// .getInstrumentalCase()   - орудний відмінок
+// .getPrepositionalCase()  - місцевий відмінок
+// .getVocativeCase()       - кличний відмінок
+```
+***
+##### Определение рода (для платной версии web-сервиса):
+```java
+String gender = ukrainianDeclensionResult.getGender();
+```
+***
+##### Сумма прописью
+```java
+// Формат вызова:
+// UkrainianSpellingResult ukrainianSpellingResult = morpherClient.urkainianSpell(<число>,<одиниця виміру>);
+UkrainianSpellingResult ukrainianSpellingResult = morpherClient.urkainianSpell(123, "ялинка");
+String numberNominativeCase = ukrainianSpellingResult.getNumberNominativeCase();      //Сто двадцять три 
+String unitNominativeCase = ukrainianSpellingResult.getUnitNominativeCase();          //ялинки
+String alignmentNominativeCase = ukrainianSpellResult.getAlignmentNominativeCase();   //Сто двадцять три ялинки
+
+//Для работы с падежами применяются принципы, аналогичные склонению слов.
+```
+***
+### Обработка исключений
+В процессе работы с библиотекой может быть сгенерировано исключение MorpherWebServiceException по следующим причинам:  
 * LimitExceededException - Превышен лимит на количество запросов в сутки.
 * IpBlockedException - IP заблокирован.
 * WrongMethodException - Склонение числительных в declension не поддерживается. Используйте метод spell.
