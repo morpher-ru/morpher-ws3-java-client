@@ -23,7 +23,7 @@ Java-клиент веб-сервиса ["Морфер" 3.0](http://morpher.ru/w
 ```java
 morpherClient = new MorpherClient();
 ```
-В случае использования платной версии web-сервиса Морфер в конструктор передается access-token:
+В случае использования [платной](http://morpher.ru/ws3#premium) версии web-сервиса Морфер в конструктор передается access-token:
 ```java
 final String ACCESS_TOKEN = "Some token";
 morpherClient = new MorpherClient(ACCESS_TOKEN);
@@ -34,8 +34,8 @@ morpherClient = new MorpherClient(ACCESS_TOKEN);
 ##### Склонение
 ```java
 // Формат вызова:
-// RussianDeclensionResult russianDeclensionResult = morpherClient.russianDeclension(<текст>);
-RussianDeclensionResult russianDeclensionResult = morpherClient.russianDeclension("ёлка");
+// declensionResult russianDeclensionResult = morpherClient.Russian.declension(<текст>);
+declensionResult russianDeclensionResult = morpherClient.Russian.declension("ёлка");
 String nominativeCase = russianDeclensionResult.getNominativeCase();
 // Для других падежей:
 // .getGenitiveCase()           - Родительный падеж
@@ -43,12 +43,6 @@ String nominativeCase = russianDeclensionResult.getNominativeCase();
 // .getAccusativeCase()         - Винительный падеж
 // .getInstrumentalCase()       - Творительный падеж
 // .getPrepositionalCase()      - Предложный падеж
-//
-// В случае использования платной версии web-сервиса:
-// .getPrepositionalCaseWithO() - Местный падеж
-// .getWhere()                  - Где?
-// .getTo()                     - Куда?
-// .getFrom()                   - Откуда?
 
 if (russianDelensionResult.getPlural() != null) {
     String pluralNominativeCase = russianDeclensionResult.getPluralNominativeCase();
@@ -58,13 +52,18 @@ if (russianDelensionResult.getPlural() != null) {
     // .getPluralAccusativeCase()         - Винительный падеж
     // .getPluralInstrumentalCase()       - Творительный падеж
     // .getPluralPrepositionalCase()      - Предложный падеж
-    //
-    // В случае использования платной версии web-сервиса
-    // .getPluralPrepositionalCaseWithO() - Местный падеж
 }
 ```
+Также есть возможность получения дополнительной информации [(платно)](http://morpher.ru/ws3#premium):
+```java
+// .getPrepositionalCaseWithO()         - Местный падеж
+// .getPluralPrepositionalCaseWithO()   - Местный падеж множественного числа
+// .getWhere()                          - Где?
+// .getTo()                             - Куда?
+// .getFrom()                           - Откуда?
+```
 ***
-##### Определение рода (для платной версии web-сервиса):
+##### Определение рода [(платно)](http://morpher.ru/ws3#premium):
 ```java
 String gender = russianDeclensionResult.getGender();
 ```
@@ -79,8 +78,8 @@ String pantronymic = russianDeclensionResul.getPantronymic();   //Отчеств
 ##### Cумма прописью:
 ```java
 //  Формат вызова:
-//  RussianSpellingResult russianSpellingResult = morpherClient.russianSpell(<число>, <единица измерения>);
-RussianSpellingResult russianSpellingResult = morpherClient.russianSpell(123, "ёлка");
+//  spellingResult russianSpellingResult = morpherClient.Russian.spell(<число>, <единица измерения>);
+spellingResult russianSpellingResult = morpherClient.Russian.spell(123, "ёлка");
 String numberNominativeCase = russianSpellingResult.getNumberNominativeCase();      //Сто двадцать три
 String unitNominativeCase = russianSpellingResult.getUnitNominativeCase();          //ёлки
 String alignmentNominativeCase = russianSpellResult.getAlignmentNominativeCase();   //Сто двадцать три ёлки
@@ -91,8 +90,8 @@ String alignmentNominativeCase = russianSpellResult.getAlignmentNominativeCase()
 ##### Склонение прилагательных по родам
 ```java
 // Формат вызова:
-// RussianAdjectiveGenders russianAdjectiveGenders = morpherClient.russianAdjectiveGenders(<прилагательное>);
-RussianAdjectiveGenders russianAdjectiveGenders = morpherClient.russianAdjectiveGenders("ёлочный");
+// adjectiveGenders russianAdjectiveGenders = morpherClient.Russian.adjectiveGenders(<прилагательное>);
+adjectiveGenders russianAdjectiveGenders = morpherClient.Russian.adjectiveGenders("ёлочный");
 String feminieGender = russianAdjectiveGenders.getFeminie();//Женский род
 String neuterGender = russianAdjectiveGenders.getNeuter();  //Средний род
 String plural = russianAdjectiveGenders.getPlural();        //Множественное число
@@ -101,27 +100,27 @@ String plural = russianAdjectiveGenders.getPlural();        //Множестве
 ##### Образование прилагательных:
 ```java
 // Формат вызова:
-// List<String> adjectives = morpherClient.russianAdjectivize(<слово>);
-List<String> adjectives = morpherClient.russianAdjectivize("Мытищи");
+// List<String> adjectives = morpherClient.Russian.adjectivize(<слово>);
+List<String> adjectives = morpherClient.Russian.adjectivize("Мытищи");
 ```
 ***
 #### Украинский язык
 ##### Склонение
 ```java
 // Формат вызова:
-// UkrainianDeclensionResult ukrainianDeclensionResult = morpherClient.ukrainianDeclension(<текст>);
-UkrainianDeclensionResult ukrainianDeclensionResult = morpherClient.ukrainianDeclension("ялинка");
+// declensionResult ukrainianDeclensionResult = morpherClient.Ukrainian.declension(<текст>);
+declensionResult ukrainianDeclensionResult = morpherClient.Ukrainian.declension("ялинка");
 String nominativeCase = ukrainianDeclensionResult.getNominativeCase();
 // Для других падежей
 // .getGenitiveCase()       - родовий відмінок
 // .getDativeCase()         - давальний відмінок
 // .getAccusativeCase()     - знахідний відмінок
 // .getInstrumentalCase()   - орудний відмінок
-// .getPrepositionalCase()  - місцевий відмінок
+// .getLocativeCase()       - місцевий відмінок
 // .getVocativeCase()       - кличний відмінок
 ```
 ***
-##### Определение рода (для платной версии web-сервиса):
+##### Определение рода [(платно)](http://morpher.ru/ws3#premium):
 ```java
 String gender = ukrainianDeclensionResult.getGender();
 ```
@@ -129,8 +128,8 @@ String gender = ukrainianDeclensionResult.getGender();
 ##### Сумма прописью
 ```java
 // Формат вызова:
-// UkrainianSpellingResult ukrainianSpellingResult = morpherClient.urkainianSpell(<число>,<одиниця виміру>);
-UkrainianSpellingResult ukrainianSpellingResult = morpherClient.urkainianSpell(123, "ялинка");
+// spellingResult ukrainianSpellingResult = morpherClient.Ukrainian.spell(<число>,<одиниця виміру>);
+spellingResult ukrainianSpellingResult = morpherClient.Ukrainian.spell(123, "ялинка");
 String numberNominativeCase = ukrainianSpellingResult.getNumberNominativeCase();      //Сто двадцять три 
 String unitNominativeCase = ukrainianSpellingResult.getUnitNominativeCase();          //ялинки
 String alignmentNominativeCase = ukrainianSpellResult.getAlignmentNominativeCase();   //Сто двадцять три ялинки
