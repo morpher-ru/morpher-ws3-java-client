@@ -1,9 +1,6 @@
 # morpher-ws3-java-client
 Java-клиент веб-сервиса ["Морфер" 3.0](http://morpher.ru/ws3)
 ***
-## Сборка
-Позднее здесь будет раздел, содержащий способ подключения библиотеки в *gradle* и *maven*.
-***
 ## Использование
 Работа с веб-сервисом осуществляется за счет основного класса MorpherClient, который реализует все функции веб-сервиса.  
 Результат выполнения запросов возвращается как объект класса соответствующей модели данных.  
@@ -147,5 +144,8 @@ String alignmentNominativeCase = ukrainianSpellResult.getAlignmentNominativeCase
 * UnpaidServiceException - Необходимо оплатить услугу.
 * TokenNotFoundException - Данный token не найден.
 * WrongTokenFormatException - Неверный формат токена.
+***
+## Сборка
+Позднее здесь будет раздел, содержащий способ подключения библиотеки в *gradle* и *maven*.
 
 [1] http://morpher.ru/ws3#premium
