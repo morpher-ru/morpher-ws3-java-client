@@ -61,7 +61,7 @@ String patronymic = russianDeclensionResult.getPatronymic();     //Отчест�
 //  Формат вызова:
 //  SpellingResult russianSpellingResult = morpherClient.getRussian().spell(<число>, <единица измерения>);
 SpellingResult russianSpellingResult = morpherClient.getRussian().spell(123, "ёлка");
-String numberNominativeCase = russianSpellingResult.getNumberNominativeCase();      //Сто двадцать три
+String numberNominativeCase = russianSpellingResult.getNumberNominativeCase();      //сто двадцать три
 String unitNominativeCase = russianSpellingResult.getUnitNominativeCase();          //ёлки
 String alignmentNominativeCase = russianSpellingResult.getAlignmentNominativeCase();//Сто двадцать три ёлки
 
@@ -111,7 +111,7 @@ String gender = ukrainianDeclensionResult.getGender();
 // Формат вызова:
 // SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(<число>,<одиниця виміру>);
 SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(123, "ялинка");
-String numberNominativeCase = ukrainianSpellingResult.getNumberNominativeCase();      //Сто двадцять три 
+String numberNominativeCase = ukrainianSpellingResult.getNumberNominativeCase();      //сто двадцять три 
 String unitNominativeCase = ukrainianSpellingResult.getUnitNominativeCase();          //ялинки
 String alignmentNominativeCase = ukrainianSpellingResult.getAlignmentNominativeCase();//Сто двадцять три ялинки
 
