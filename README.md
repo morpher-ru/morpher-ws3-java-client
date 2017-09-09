@@ -63,7 +63,7 @@ String patronymic = russianDeclensionResult.getPatronymic();     //Отчест�
 SpellingResult russianSpellingResult = morpherClient.getRussian().spell(123, "ёлка");
 String numberNominativeCase = russianSpellingResult.getNumberNominativeCase();      //Сто двадцать три
 String unitNominativeCase = russianSpellingResult.getUnitNominativeCase();          //ёлки
-String alignmentNominativeCase = russianSpellResult.getAlignmentNominativeCase();   //Сто двадцать три ёлки
+String alignmentNominativeCase = russianSpellingResult.getAlignmentNominativeCase();//Сто двадцать три ёлки
 
 //Для работы с падежами применяются принципы, аналогичные склонению слов.
 ```
