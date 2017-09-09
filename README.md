@@ -23,7 +23,7 @@ Java-клиент веб-сервиса ["Морфер" 3.0](http://morpher.ru/w
 ```java
 morpherClient = new MorpherClient();
 ```
-В случае использования [платной](http://morpher.ru/ws3#premium) версии web-сервиса Морфер в конструктор передается access-token:
+В случае использования [платной](1) версии web-сервиса Морфер в конструктор передается access-token:
 ```java
 final String ACCESS_TOKEN = "Some token";
 morpherClient = new MorpherClient(ACCESS_TOKEN);
@@ -54,7 +54,7 @@ if (russianDeclensionResult.getPlural() != null) {
     // .getPluralPrepositionalCase()      - Предложный падеж
 }
 ```
-Также есть возможность получения дополнительной информации [(платно)](http://morpher.ru/ws3#premium):
+Также есть возможность получения дополнительной информации [(платно)](1):
 ```java
 // .getPrepositionalCaseWithO()         - Местный падеж
 // .getPluralPrepositionalCaseWithO()   - Местный падеж множественного числа
@@ -63,7 +63,7 @@ if (russianDeclensionResult.getPlural() != null) {
 // .getFrom()                           - Откуда?
 ```
 ***
-##### Определение рода [(платно)](http://morpher.ru/ws3#premium):
+##### Определение рода [(платно)](1):
 ```java
 String gender = russianDeclensionResult.getGender();
 ```
@@ -120,7 +120,7 @@ String nominativeCase = ukrainianDeclensionResult.getNominativeCase();
 // .getVocativeCase()       - кличний відмінок
 ```
 ***
-##### Определение рода [(платно)](http://morpher.ru/ws3#premium):
+##### Определение рода [(платно)](1):
 ```java
 String gender = ukrainianDeclensionResult.getGender();
 ```
@@ -147,3 +147,5 @@ String alignmentNominativeCase = ukrainianSpellResult.getAlignmentNominativeCase
 * UnpaidServiceException - Необходимо оплатить услугу.
 * TokenNotFoundException - Данный token не найден.
 * WrongTokenFormatException - Неверный формат токена.
+
+[1] http://morpher.ru/ws3#premium
