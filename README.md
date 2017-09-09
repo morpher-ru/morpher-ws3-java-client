@@ -32,13 +32,8 @@ String nominativeCase = russianDeclensionResult.getNominativeCase();
 // .getPrepositionalCase()      - Предложный падеж
 
 if (russianDeclensionResult.getPlural() != null) {
-    String pluralNominativeCase = russianDeclensionResult.getPluralNominativeCase();
-    // Для других падежей:
-    // .getPluralGenitiveCase()           - Родительный падеж
-    // .getPluralDativeCase()             - Дательный падеж
-    // .getPluralAccusativeCase()         - Винительный падеж
-    // .getPluralInstrumentalCase()       - Творительный падеж
-    // .getPluralPrepositionalCase()      - Предложный падеж
+    String pluralNominativeCase = russianDeclensionResult.getPlural().NominativeCase();
+    // Для других падежей - аналогично единственному числу.
 }
 ```
 Также есть возможность получения дополнительной информации [(платно)](1):
