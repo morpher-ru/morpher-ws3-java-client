@@ -1,4 +1,4 @@
-[![](https://travis-ci.org/morlok1/morpher-ws3-java-client.svg?branch=master)](https://travis-ci.org/morlok1/morpher-ws3-java-client)
+[![](https://travis-ci.org/morpher-ru/morpher-ws3-java-client.svg?branch=master)](https://travis-ci.org/morpher-ru/morpher-ws3-java-client)
 # morpher-ws3-java-client
 Java-клиент веб-сервиса ["Морфер" 3.0](http://morpher.ru/ws3)
 ***
