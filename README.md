@@ -61,12 +61,11 @@ String patronymic = russianDeclensionResult.getPatronymic();     //Отчест�
 //  Формат вызова:
 //  SpellingResult russianSpellingResult = morpherClient.getRussian().spell(<число>, <единица измерения>);
 SpellingResult russianSpellingResult = morpherClient.getRussian().spell(123, "ёлка");
-String numberNominativeCase = russianSpellingResult.getNumberNominativeCase();      //сто двадцать три
-String unitNominativeCase = russianSpellingResult.getUnitNominativeCase();          //ёлки
-String alignmentNominativeCase = russianSpellingResult.getAlignmentNominativeCase();//Сто двадцать три ёлки
-
-//Для работы с падежами применяются принципы, аналогичные склонению слов.
+String numberNominativeCase = russianSpellingResult.getNumber().getNominativeCase();//сто двадцать три
+String unitNominativeCase = russianSpellingResult.getUnit().getNominativeCase();    //ёлки
+String nominativeCase = russianSpellingResult.getNominativeCase();                  //Сто двадцать три ёлки
 ```
+Склонение по падежам аналогично функции declension (см. выше), т.е. `.getGenitiveCase()`, `.getDativeCase()` и т.д.
 ***
 ##### Склонение прилагательных по родам
 ```java
@@ -111,12 +110,11 @@ String gender = ukrainianDeclensionResult.getGender();
 // Формат вызова:
 // SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(<число>,<одиниця виміру>);
 SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(123, "ялинка");
-String numberNominativeCase = ukrainianSpellingResult.getNumberNominativeCase();      //сто двадцять три 
-String unitNominativeCase = ukrainianSpellingResult.getUnitNominativeCase();          //ялинки
-String alignmentNominativeCase = ukrainianSpellingResult.getAlignmentNominativeCase();//Сто двадцять три ялинки
-
-//Для работы с падежами применяются принципы, аналогичные склонению слов.
+String numberNominativeCase = ukrainianSpellingResult.getNumber().getNominativeCase();  //сто двадцять три 
+String unitNominativeCase = ukrainianSpellingResult.getUnit().getNominativeCase();      //ялинки
+String nominativeCase = ukrainianSpellingResult.getNominativeCase();                    //Сто двадцять три ялинки
 ```
+Склонение по падежам аналогично функции declension (см. выше), т.е. `.getGenitiveCase()`, `.getDativeCase()` и т.д.
 ***
 ### Обработка исключений
 В процессе работы с библиотекой может быть сгенерировано исключение MorpherWebServiceException по следующим причинам:  
