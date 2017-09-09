@@ -108,8 +108,8 @@ List<String> adjectives = morpherClient.getRussian().adjectivize("Мытищи")
 ##### Склонение
 ```java
 // Формат вызова:
-// DeclensionResult ukrainianDeclensionResult = morpherClient.Ukrainian.declension(<текст>);
-DeclensionResult ukrainianDeclensionResult = morpherClient.Ukrainian.declension("ялинка");
+// DeclensionResult ukrainianDeclensionResult = morpherClient.getUkrainian().declension(<текст>);
+DeclensionResult ukrainianDeclensionResult = morpherClient.getUkrainian().declension("ялинка");
 String nominativeCase = ukrainianDeclensionResult.getNominativeCase();
 // Для других падежей
 // .getGenitiveCase()       - родовий відмінок
@@ -128,8 +128,8 @@ String gender = ukrainianDeclensionResult.getGender();
 ##### Сумма прописью
 ```java
 // Формат вызова:
-// SpellingResult ukrainianSpellingResult = morpherClient.Ukrainian.spell(<число>,<одиниця виміру>);
-SpellingResult ukrainianSpellingResult = morpherClient.Ukrainian.spell(123, "ялинка");
+// SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(<число>,<одиниця виміру>);
+SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(123, "ялинка");
 String numberNominativeCase = ukrainianSpellingResult.getNumberNominativeCase();      //Сто двадцять три 
 String unitNominativeCase = ukrainianSpellingResult.getUnitNominativeCase();          //ялинки
 String alignmentNominativeCase = ukrainianSpellResult.getAlignmentNominativeCase();   //Сто двадцять три ялинки
