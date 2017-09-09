@@ -113,7 +113,7 @@ String gender = ukrainianDeclensionResult.getGender();
 SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(123, "ялинка");
 String numberNominativeCase = ukrainianSpellingResult.getNumberNominativeCase();      //Сто двадцять три 
 String unitNominativeCase = ukrainianSpellingResult.getUnitNominativeCase();          //ялинки
-String alignmentNominativeCase = ukrainianSpellResult.getAlignmentNominativeCase();   //Сто двадцять три ялинки
+String alignmentNominativeCase = ukrainianSpellingResult.getAlignmentNominativeCase();//Сто двадцять три ялинки
 
 //Для работы с падежами применяются принципы, аналогичные склонению слов.
 ```
