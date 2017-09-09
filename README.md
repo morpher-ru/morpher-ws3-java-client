@@ -34,8 +34,8 @@ morpherClient = new MorpherClient(ACCESS_TOKEN);
 ##### Склонение
 ```java
 // Формат вызова:
-// DeclensionResult russianDeclensionResult = morpherClient.Russian.declension(<текст>);
-DeclensionResult russianDeclensionResult = morpherClient.Russian.declension("ёлка");
+// DeclensionResult russianDeclensionResult = morpherClient.getRussian().declension(<текст>);
+DeclensionResult russianDeclensionResult = morpherClient.getRussian().declension("ёлка");
 String nominativeCase = russianDeclensionResult.getNominativeCase();
 // Для других падежей:
 // .getGenitiveCase()           - Родительный падеж
@@ -78,8 +78,8 @@ String patronymic = russianDeclensionResul.getPatronymic();     //Отчеств
 ##### Cумма прописью:
 ```java
 //  Формат вызова:
-//  SpellingResult russianSpellingResult = morpherClient.Russian.spell(<число>, <единица измерения>);
-SpellingResult russianSpellingResult = morpherClient.Russian.spell(123, "ёлка");
+//  SpellingResult russianSpellingResult = morpherClient.getRussian().spell(<число>, <единица измерения>);
+SpellingResult russianSpellingResult = morpherClient.getRussian().spell(123, "ёлка");
 String numberNominativeCase = russianSpellingResult.getNumberNominativeCase();      //Сто двадцать три
 String unitNominativeCase = russianSpellingResult.getUnitNominativeCase();          //ёлки
 String alignmentNominativeCase = russianSpellResult.getAlignmentNominativeCase();   //Сто двадцать три ёлки
@@ -90,8 +90,8 @@ String alignmentNominativeCase = russianSpellResult.getAlignmentNominativeCase()
 ##### Склонение прилагательных по родам
 ```java
 // Формат вызова:
-// AdjectiveGenders russianAdjectiveGenders = morpherClient.Russian.adjectiveGenders(<прилагательное>);
-AdjectiveGenders russianAdjectiveGenders = morpherClient.Russian.adjectiveGenders("ёлочный");
+// AdjectiveGenders russianAdjectiveGenders = morpherClient.getRussian().adjectiveGenders(<прилагательное>);
+AdjectiveGenders russianAdjectiveGenders = morpherClient.getRussian().adjectiveGenders("ёлочный");
 String feminineGender = russianAdjectiveGenders.getFeminine();//Женский род
 String neuterGender = russianAdjectiveGenders.getNeuter();  //Средний род
 String plural = russianAdjectiveGenders.getPlural();        //Множественное число
@@ -100,8 +100,8 @@ String plural = russianAdjectiveGenders.getPlural();        //Множестве
 ##### Образование прилагательных:
 ```java
 // Формат вызова:
-// List<String> adjectives = morpherClient.Russian.adjectivize(<слово>);
-List<String> adjectives = morpherClient.Russian.adjectivize("Мытищи");
+// List<String> adjectives = morpherClient.getRussian().adjectivize(<слово>);
+List<String> adjectives = morpherClient.getRussian().adjectivize("Мытищи");
 ```
 ***
 #### Украинский язык
