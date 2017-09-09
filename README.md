@@ -122,7 +122,7 @@ String nominativeCase = ukrainianSpellingResult.getNominativeCase();            
 * IpBlockedException - IP заблокирован.
 * WrongMethodException - Склонение числительных в declension не поддерживается. Используйте метод spell.
 * NoRussianWordsException - Не найдено русских слов.
-* NoRequiredParameterException - Не указан обязательный параметр s.
+* EmptyStringException - В функцию передана пустая строка.
 * UnpaidServiceException - Необходимо оплатить услугу.
 * TokenNotFoundException - Данный token не найден.
 * WrongTokenFormatException - Неверный формат токена.
