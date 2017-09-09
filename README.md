@@ -72,7 +72,7 @@ String gender = russianDeclensionResult.getGender();
 ```java
 String surname = russianDeclensionResul.getSurname();           //Фамилия
 String name = russianDeclensionResul.getName();                 //Имя
-String pantronymic = russianDeclensionResul.getPantronymic();   //Отчество
+String patronymic = russianDeclensionResul.getPatronymic();     //Отчество
 ```
 ***
 ##### Cумма прописью:
@@ -92,7 +92,7 @@ String alignmentNominativeCase = russianSpellResult.getAlignmentNominativeCase()
 // Формат вызова:
 // AdjectiveGenders russianAdjectiveGenders = morpherClient.Russian.adjectiveGenders(<прилагательное>);
 AdjectiveGenders russianAdjectiveGenders = morpherClient.Russian.adjectiveGenders("ёлочный");
-String feminieGender = russianAdjectiveGenders.getFeminie();//Женский род
+String feminineGender = russianAdjectiveGenders.getFeminine();//Женский род
 String neuterGender = russianAdjectiveGenders.getNeuter();  //Средний род
 String plural = russianAdjectiveGenders.getPlural();        //Множественное число
 ```
