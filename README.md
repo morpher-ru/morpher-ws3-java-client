@@ -51,9 +51,12 @@ String gender = russianDeclensionResult.getGender();
 ***
 ##### Разделение ФИО на части:
 ```java
-String surname = russianDeclensionResult.getSurname();           //Фамилия
-String name = russianDeclensionResult.getName();                 //Имя
-String patronymic = russianDeclensionResult.getPatronymic();     //Отчество
+Name name = russianDeclensionResult.getName();
+if (name != null) { // Это ФИО
+    String surname = name.getSurname();        //Фамилия
+    String givenName = name.getGivenName();    //Имя
+    String patronymic = name.getPatronymic();  //Отчество
+}
 ```
 ***
 ##### Cумма прописью:
