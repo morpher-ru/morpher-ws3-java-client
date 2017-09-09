@@ -38,9 +38,8 @@ if (russianDeclensionResult.getPlural() != null) {
 ```
 Также есть возможность получения дополнительной информации [(платно)](1):
 ```java
-// .getPrepositionalCaseWithO()         - Местный падеж
-// .getPluralPrepositionalCaseWithO()   - Местный падеж множественного числа
-// .getWhere()                          - Где?
+// .getPrepositionalCaseWithO()         - Предложный падеж с предлогом О/ОБ/ОБО
+// .getWhere()                          - Предложный падеж с предлогом В/НА, отвечает на вопрос Где?
 // .getTo()                             - Куда?
 // .getFrom()                           - Откуда?
 ```
