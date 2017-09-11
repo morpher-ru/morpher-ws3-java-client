@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/morpher-ws3-java-client.iml" filepath="$PROJECT_DIR$/.idea/modules/morpher-ws3-java-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/morpher-ws3-java-client_main.iml" filepath="$PROJECT_DIR$/.idea/modules/morpher-ws3-java-client_main.iml" group="morpher-ws3-java-client" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/morpher-ws3-java-client_test.iml" filepath="$PROJECT_DIR$/.idea/modules/morpher-ws3-java-client_test.iml" group="morpher-ws3-java-client" />
     </modules>
   </component>
 </project>

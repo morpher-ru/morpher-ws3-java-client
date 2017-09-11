@@ -7,10 +7,12 @@ sourceCompatibility = 1.5
 
 repositories {
     mavenCentral()
+    jcenter()
+
 }
 
 dependencies {
-    testCompile group: 'org.testng', name: 'testng', version: '5.7'
+    testCompile 'org.testng:testng:6.10'
 
     compile group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
     compile "org.projectlombok:lombok:1.16.16"
