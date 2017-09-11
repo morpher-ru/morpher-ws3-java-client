@@ -7,5 +7,7 @@ public class TempleClass {
 
         System.out.println("Hello World");
 
+        MorpherClient morpherClient = new MorpherClient.ClientBuilder().useToken("Some token").build();
+
     }
 }

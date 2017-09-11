@@ -49,4 +49,5 @@ crashlytics-build.properties
 fabric.properties
 
 #classes
-*.classs
+*.classsbuild/
+build/
