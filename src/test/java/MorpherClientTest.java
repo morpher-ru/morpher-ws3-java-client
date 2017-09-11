@@ -15,6 +15,7 @@ public class MorpherClientTest {
         //Тестовые данные
         String url = "some url";
         String token = "some token";
+        String defaultUrl = "https://ws3.morpher.ru";
 
         SoftAssert softAssert = new SoftAssert();
 
@@ -23,9 +24,13 @@ public class MorpherClientTest {
                 .useToken(token)
                 .build();
 
+        MorpherClient morpherClientDefaulf = new MorpherClient.ClientBuilder().build();
+
         softAssert.assertEquals(morpherClient.getHttpClient(), null);
         softAssert.assertEquals(morpherClient.getUrl(), url);
         softAssert.assertEquals(morpherClient.getToken(), token);
+
+        softAssert.assertEquals(morpherClientDefaulf.getUrl(), defaultUrl);
 
         softAssert.assertAll();
 

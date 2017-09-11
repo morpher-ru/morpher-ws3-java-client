@@ -25,7 +25,7 @@ public class MorpherClient
     public static class ClientBuilder
     {
         private String token = null;
-        private String url = null;
+        private String url = "https://ws3.morpher.ru"; //Значение по умолчанию
         private OkHttpClient httpClient = null;
 
         public ClientBuilder useUrl(String clientUrl) {
