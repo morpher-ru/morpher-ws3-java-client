@@ -1,7 +1,9 @@
+import Domain.Russian.RussianClient;
 import com.squareup.okhttp.OkHttpClient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import retrofit2.Retrofit;
 
 /**
  * Created by Kraken on 11.09.2017.
@@ -13,14 +15,27 @@ import lombok.Setter;
  * httpClient - для проведения unit-тестов
  */
 @Getter
-@Setter
-@AllArgsConstructor
 public class MorpherClient
 {
-    private String token;
+    private static String token;
     private String url;
     private OkHttpClient httpClient;
 
+    private RussianClient russianClient;
+
+    public MorpherClient(String token, String url, OkHttpClient httpClient) {
+        this.token = token;
+        this.url = url;
+        this.httpClient = httpClient;
+
+        russianClient = new RussianClient(token);
+    }
+
+    public RussianClient getRussian() {
+        return russianClient;
+    }
+
+    public static String getToken() { return token; }
 
     public static class ClientBuilder
     {

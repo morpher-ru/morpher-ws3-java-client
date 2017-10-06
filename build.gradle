@@ -13,8 +13,19 @@ repositories {
 
 dependencies {
     testCompile 'org.testng:testng:6.10'
+    testCompile "com.github.tomakehurst:wiremock:2.8.0"
 
     compile group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
-    compile "org.projectlombok:lombok:1.16.16"
+    compileOnly "org.projectlombok:lombok:1.16.16"
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
 
+
+
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
 }

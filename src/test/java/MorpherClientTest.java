@@ -28,7 +28,7 @@ public class MorpherClientTest {
 
         softAssert.assertEquals(morpherClient.getHttpClient(), null);
         softAssert.assertEquals(morpherClient.getUrl(), url);
-        softAssert.assertEquals(morpherClient.getToken(), token);
+        softAssert.assertEquals(MorpherClient.getToken(), token);
 
         softAssert.assertEquals(morpherClientDefaulf.getUrl(), defaultUrl);
 
