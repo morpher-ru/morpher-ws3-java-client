@@ -1,73 +1,84 @@
-import Domain.Russian.RussianClient;
-import com.squareup.okhttp.OkHttpClient;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import retrofit2.Retrofit;
+import clients.russian.RussianClient;
+import communicator.Communicator;
+import communicator.WS3MorpherCommunicator;
 
 /**
- * Created by Kraken on 11.09.2017.
- *
+ * <p>
  * Базовый класс, предоставляющий доступ к API веб-сервиса
- *
+ * <p>
  * token - access-token при использовании платной версии веб-сервиса
  * url -  url сервиса
  * httpClient - для проведения unit-тестов
  */
-@Getter
-public class MorpherClient
-{
-    private static String token;
-    private String url;
-    private OkHttpClient httpClient;
+public class MorpherClient {
+    private String token;
+    private String url = "https://ws3.morpher.ru";
+    private Communicator communicator = new WS3MorpherCommunicator();
 
     private RussianClient russianClient;
 
-    public MorpherClient(String token, String url, OkHttpClient httpClient) {
+    public MorpherClient(String token) {
         this.token = token;
-        this.url = url;
-        this.httpClient = httpClient;
-
-        russianClient = new RussianClient(token);
     }
 
-    public RussianClient getRussian() {
+    public MorpherClient(String token, String url) {
+        this.token = token;
+        this.url = url;
+    }
+
+    public MorpherClient(String token, String url, Communicator communicator) {
+        this.token = token;
+        this.url = url;
+        this.communicator = communicator;
+    }
+
+    public RussianClient russian() {
+        if (russianClient == null) {
+            russianClient = new RussianClient(token, url, communicator);
+        }
+
         return russianClient;
     }
 
-    public static String getToken() { return token; }
+    public static ClientBuilder createNewClient(){
+        return new ClientBuilder();
+    }
 
-    public static class ClientBuilder
-    {
+    public static class ClientBuilder {
         private String token = null;
         private String url = "https://ws3.morpher.ru"; //Значение по умолчанию
-        private OkHttpClient httpClient = null;
+        private Communicator communicator = new WS3MorpherCommunicator();
+
+        private ClientBuilder() {
+        }
 
         public ClientBuilder useUrl(String clientUrl) {
-            url = clientUrl;
+            this.url = clientUrl;
 
             return this;
         }
 
         public ClientBuilder useToken(String clientToken) {
-            token = clientToken;
+            this.token = clientToken;
 
             return this;
         }
 
-        public ClientBuilder useHttpClient(OkHttpClient clientHttpClient) {
-            httpClient = clientHttpClient;
+        public ClientBuilder useCommunicator(Communicator clientCommunicator) {
+            this.communicator = clientCommunicator;
 
             return this;
         }
 
         public MorpherClient build() {
             //Собираем экземпляр класса
-            MorpherClient client = new MorpherClient(token, url, httpClient);
+            MorpherClient client = new MorpherClient(token, url, communicator);
+
             //Сбрасываем значения для следующей сборки
             token = null;
             url = null;
-            httpClient = null;
+            communicator = null;
+
             //Возвращаем собранный экземпляр
             return client;
         }

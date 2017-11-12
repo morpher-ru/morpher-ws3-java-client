@@ -1,4 +1,4 @@
-package Domain.Ukrainian;
+package clients.ukrainian;
 
 /**
  * Created by Kraken on 25.09.2017.
