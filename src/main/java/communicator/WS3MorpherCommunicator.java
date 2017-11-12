@@ -128,7 +128,6 @@ public class WS3MorpherCommunicator implements Communicator {
             case 497:
                 throw new MorpherException("Неверный формат токена");
             default:
-                //TODO: should we throw it or just return empty response?
                 throw new IllegalStateException("Unexpected error: " + responseErrorBody);
         }
     }
