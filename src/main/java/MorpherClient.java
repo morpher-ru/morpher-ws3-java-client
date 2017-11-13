@@ -12,21 +12,12 @@ import communicator.HttpURLConnectionCommunicator;
  */
 public class MorpherClient {
     private String token;
-    private String url = "https://ws3.morpher.ru";
-    private Communicator communicator = new HttpURLConnectionCommunicator();
+    private String url;
+    private Communicator communicator;
 
     private RussianClient russianClient;
 
-    public MorpherClient(String token) {
-        this.token = token;
-    }
-
-    public MorpherClient(String token, String url) {
-        this.token = token;
-        this.url = url;
-    }
-
-    public MorpherClient(String token, String url, Communicator communicator) {
+    MorpherClient(String token, String url, Communicator communicator) {
         this.token = token;
         this.url = url;
         this.communicator = communicator;
@@ -40,16 +31,12 @@ public class MorpherClient {
         return russianClient;
     }
 
-    public static ClientBuilder createNewClient(){
-        return new ClientBuilder();
-    }
-
-    public static class ClientBuilder {
+    public class ClientBuilder {
         private String token = null;
         private String url = "https://ws3.morpher.ru"; //Значение по умолчанию
         private Communicator communicator = new HttpURLConnectionCommunicator();
 
-        private ClientBuilder() {
+        public ClientBuilder() {
         }
 
         public ClientBuilder useUrl(String clientUrl) {
@@ -73,11 +60,6 @@ public class MorpherClient {
         public MorpherClient build() {
             //Собираем экземпляр класса
             MorpherClient client = new MorpherClient(token, url, communicator);
-
-            //Сбрасываем значения для следующей сборки
-            token = null;
-            url = null;
-            communicator = null;
 
             //Возвращаем собранный экземпляр
             return client;

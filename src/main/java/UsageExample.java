@@ -27,7 +27,7 @@ public class UsageExample {
         // MorpherClient morpherClient = new MorpherClient(token, url);
         // Для удобства можно использовать встроенный билдер:
 
-        MorpherClient morpherClient = MorpherClient.createNewClient()
+        MorpherClient morpherClient = new MorpherClient.ClientBuilder()
                 .useToken("a8dab5fe-7a47-4c17-84ea-46facb7d19fe")
                 .useUrl("http://ws3.morpher.ru")
                 .build();
