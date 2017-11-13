@@ -13,7 +13,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
-public class WS3MorpherCommunicator implements Communicator {
+public class HttpURLConnectionCommunicator implements Communicator {
 
     public String sendRequest(String url, Map<String, String> params, String token, String method) throws IOException, MorpherException {
         //TODO: migrate to Basic auth and avoid logic with ? and &

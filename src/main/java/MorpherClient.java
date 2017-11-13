@@ -1,6 +1,6 @@
 import clients.russian.RussianClient;
 import communicator.Communicator;
-import communicator.WS3MorpherCommunicator;
+import communicator.HttpURLConnectionCommunicator;
 
 /**
  * <p>
@@ -13,7 +13,7 @@ import communicator.WS3MorpherCommunicator;
 public class MorpherClient {
     private String token;
     private String url = "https://ws3.morpher.ru";
-    private Communicator communicator = new WS3MorpherCommunicator();
+    private Communicator communicator = new HttpURLConnectionCommunicator();
 
     private RussianClient russianClient;
 
@@ -47,7 +47,7 @@ public class MorpherClient {
     public static class ClientBuilder {
         private String token = null;
         private String url = "https://ws3.morpher.ru"; //Значение по умолчанию
-        private Communicator communicator = new WS3MorpherCommunicator();
+        private Communicator communicator = new HttpURLConnectionCommunicator();
 
         private ClientBuilder() {
         }
