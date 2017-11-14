@@ -60,7 +60,7 @@ public class RussianClient extends AbstractLanguageClient {
         return sendRequest("genders", params, HTTP_METHOD_GET, AdjectiveGendersResult.class);
     }
 
-    public void addOrUpdateToUserDict(CorrectionEntry correctionEntry) throws MorpherException, IOException {
+    public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws MorpherException, IOException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("И", correctionEntry.singular.nominative);
         params.put("Р", correctionEntry.singular.genitive);

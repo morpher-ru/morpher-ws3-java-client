@@ -83,7 +83,7 @@ public class UsageExample {
         correctionEntry.singular = singular;
         correctionEntry.plural = plural;
 
-        russianClient.addOrUpdateToUserDict(correctionEntry);
+        russianClient.addOrUpdateUserDict(correctionEntry);
 
         log("Склонение с исправлением:");
         DeclensionResult declensionWithCorrection = russianClient.declension("Кошка");
