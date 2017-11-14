@@ -8,7 +8,7 @@ public class Authenticator {
         this.token = token;
     }
 
-    public String addAuthDataToUr(String url) {
+    public String addAuthDataToUrl(String url) {
         //TODO: migrate to Basic auth and avoid logic with ? and &
         if (token != null) {
             url = url + "?" + "token=" + token;

@@ -25,7 +25,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
 
     public String sendRequest(String methodPath, Map<String, String> params, String method) throws IOException, MorpherException {
        String url = baseUrl + methodPath;
-        url = authenticator.addAuthDataToUr(url);
+        url = authenticator.addAuthDataToUrl(url);
 
         String requestParameters = toRequestParameters(params);
         if (!method.equalsIgnoreCase("POST")) {
