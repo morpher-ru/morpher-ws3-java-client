@@ -1,11 +1,11 @@
 package clients.russian;
 
+import clients.AbstractLanguageClient;
 import clients.russian.data.AdjectiveGendersResult;
 import clients.russian.data.CorrectionEntry;
 import clients.russian.data.DeclensionResult;
 import clients.russian.data.NumberSpellingResult;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import communicator.Communicator;
 import exceptions.MorpherException;
 
@@ -15,25 +15,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static communicator.Communicator.HTTP_METHOD_DELETE;
+import static communicator.Communicator.HTTP_METHOD_GET;
+import static communicator.Communicator.HTTP_METHOD_POST;
 
-public class RussianClient {
-    private static final String RUSSIAN = "/russian/";
 
-    private Communicator communicator;
-    private String token;
-    private String baseUrl;
+public class RussianClient extends AbstractLanguageClient {
+    private static final String RUSSIAN = "russian";
 
-    public RussianClient(String token, String baseUrl, Communicator communicator) {
+    public RussianClient(Communicator communicator) {
         this.communicator = communicator;
-        this.token = token;
-        this.baseUrl = baseUrl;
     }
 
     public DeclensionResult declension(String lemma) throws MorpherException, IOException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
 
-        DeclensionResult declensionResult = sendRequest("declension", params, Communicator.HTTP_METHOD_GET, DeclensionResult.class);
+        DeclensionResult declensionResult = sendRequest("declension", params, HTTP_METHOD_GET, DeclensionResult.class);
         declensionResult.nominative = lemma;
 
         return declensionResult;
@@ -44,14 +42,14 @@ public class RussianClient {
         params.put("n", String.valueOf(number));
         params.put("unit", unit);
 
-        return sendRequest("spell", params, Communicator.HTTP_METHOD_GET, NumberSpellingResult.class);
+        return sendRequest("spell", params, HTTP_METHOD_GET, NumberSpellingResult.class);
     }
 
     public List<String> adjectivize(String lemma) throws MorpherException, IOException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
 
-        return sendRequest("adjectivize", params, Communicator.HTTP_METHOD_GET, new TypeReference<ArrayList<String>>() {
+        return sendRequest("adjectivize", params, HTTP_METHOD_GET, new TypeReference<ArrayList<String>>() {
         });
     }
 
@@ -59,7 +57,7 @@ public class RussianClient {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
 
-        return sendRequest("genders", params, Communicator.HTTP_METHOD_GET, AdjectiveGendersResult.class);
+        return sendRequest("genders", params, HTTP_METHOD_GET, AdjectiveGendersResult.class);
     }
 
     public void addOrUpdateToUserDict(CorrectionEntry correctionEntry) throws MorpherException, IOException {
@@ -83,11 +81,11 @@ public class RussianClient {
             params.put("М_М", correctionEntry.plural.locative);
         }
 
-        sendRequest("userdict", params, Communicator.HTTP_METHOD_POST);
+        sendRequest("userdict", params, HTTP_METHOD_POST);
     }
 
     public List<CorrectionEntry> fetchAllFromUserDictionary() throws MorpherException, IOException {
-        return sendRequest("userdict", null, Communicator.HTTP_METHOD_GET, new TypeReference<List<CorrectionEntry>>() {
+        return sendRequest("userdict", null, HTTP_METHOD_GET, new TypeReference<List<CorrectionEntry>>() {
         });
     }
 
@@ -95,26 +93,11 @@ public class RussianClient {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", nominativeCorrection);
 
-        return sendRequest("userdict", params, Communicator.HTTP_METHOD_DELETE, Boolean.class);
+        return sendRequest("userdict", params, HTTP_METHOD_DELETE, Boolean.class);
     }
 
-    private void sendRequest(String operation, Map<String, String> params, String httpMethod) throws IOException, MorpherException {
-        String url = baseUrl + RUSSIAN + operation;
-        communicator.sendRequest(url, params, token, httpMethod);
+    @Override
+    protected String getLanguage() {
+        return RUSSIAN;
     }
-
-    private <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, Class<T> responseType) throws IOException, MorpherException {
-        String url = baseUrl + RUSSIAN + operation;
-
-        String responseBody = communicator.sendRequest(url, params, token, httpMethod);
-        return new ObjectMapper().readValue(responseBody, responseType);
-    }
-
-    private <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException, MorpherException {
-        String url = baseUrl + RUSSIAN + operation;
-
-        String responseBody = communicator.sendRequest(url, params, token, httpMethod);
-        return new ObjectMapper().readValue(responseBody, responseType);
-    }
-
 }

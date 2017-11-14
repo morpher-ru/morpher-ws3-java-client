@@ -15,15 +15,25 @@ import java.util.Map;
 
 public class HttpURLConnectionCommunicator implements Communicator {
 
-    public String sendRequest(String url, Map<String, String> params, String token, String method) throws IOException, MorpherException {
-        //TODO: migrate to Basic auth and avoid logic with ? and &
-        if(token != null){
-            url = url + "?" + "token=" + token;
-        }
+    private final Authenticator authenticator;
+    private final String baseUrl;
+
+    public HttpURLConnectionCommunicator(String baseUrl, Authenticator authenticator) {
+        this.baseUrl = baseUrl;
+        this.authenticator = authenticator;
+    }
+
+    public String sendRequest(String methodPath, Map<String, String> params, String method) throws IOException, MorpherException {
+       String url = baseUrl + methodPath;
+        url = authenticator.addAuthDataToUr(url);
 
         String requestParameters = toRequestParameters(params);
         if (!method.equalsIgnoreCase("POST")) {
-            String appenderChar = token == null ? "?" : "&";
+            //TODO: remove this logic when migrated to Basic auth
+            String appenderChar = url.contains("?")
+                    ? "&"
+                    : "?";
+
             url = url + appenderChar + requestParameters;
         }
 
@@ -128,7 +138,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
             case 497:
                 throw new MorpherException("Неверный формат токена");
             default:
-                throw new IllegalStateException("Unexpected error: " + responseErrorBody);
+                throw new RuntimeException("Unexpected error: " + responseErrorBody);
         }
     }
 }

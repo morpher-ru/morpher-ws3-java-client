@@ -1,4 +1,6 @@
 import clients.russian.RussianClient;
+import clients.ukrainian.UkrainianClient;
+import communicator.Authenticator;
 import communicator.Communicator;
 import communicator.HttpURLConnectionCommunicator;
 
@@ -7,34 +9,41 @@ import communicator.HttpURLConnectionCommunicator;
  * Базовый класс, предоставляющий доступ к API веб-сервиса
  * <p>
  * token - access-token при использовании платной версии веб-сервиса
- * url -  url сервиса
- * httpClient - для проведения unit-тестов
+ * url -  endpoint url сервиса
+ * communicator - кастомная имплементация коммуникатора, также может использоваться для проведения unit-тестов
  */
 public class MorpherClient {
-    private String token;
-    private String url;
+    private static final String WS3_MORPHER_DEFAULT_URL = "https://ws3.morpher.ru";
+
     private Communicator communicator;
 
     private RussianClient russianClient;
+    private UkrainianClient ukrainianClient;
 
-    MorpherClient(String token, String url, Communicator communicator) {
-        this.token = token;
-        this.url = url;
+    MorpherClient(Communicator communicator) {
         this.communicator = communicator;
     }
 
     public RussianClient russian() {
         if (russianClient == null) {
-            russianClient = new RussianClient(token, url, communicator);
+            russianClient = new RussianClient(communicator);
         }
 
         return russianClient;
     }
 
-    public class ClientBuilder {
-        private String token = null;
-        private String url = "https://ws3.morpher.ru"; //Значение по умолчанию
-        private Communicator communicator = new HttpURLConnectionCommunicator();
+    public UkrainianClient ukrainian() {
+        if (ukrainianClient == null) {
+            ukrainianClient = new UkrainianClient(communicator);
+        }
+
+        return ukrainianClient;
+    }
+
+    public static class ClientBuilder {
+        private String url = WS3_MORPHER_DEFAULT_URL;
+        private String token;
+        private Communicator communicator;
 
         public ClientBuilder() {
         }
@@ -58,11 +67,12 @@ public class MorpherClient {
         }
 
         public MorpherClient build() {
-            //Собираем экземпляр класса
-            MorpherClient client = new MorpherClient(token, url, communicator);
+            if (communicator == null) {
+                Authenticator authenticator = new Authenticator(token);
+                communicator = new HttpURLConnectionCommunicator(url, authenticator);
+            }
 
-            //Возвращаем собранный экземпляр
-            return client;
+            return new MorpherClient(communicator);
         }
     }
 }
