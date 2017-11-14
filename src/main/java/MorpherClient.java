@@ -15,28 +15,19 @@ import communicator.HttpURLConnectionCommunicator;
 public class MorpherClient {
     private static final String WS3_MORPHER_DEFAULT_URL = "https://ws3.morpher.ru";
 
-    private Communicator communicator;
-
     private RussianClient russianClient;
     private UkrainianClient ukrainianClient;
 
     MorpherClient(Communicator communicator) {
-        this.communicator = communicator;
+        russianClient = new RussianClient(communicator);
+        ukrainianClient = new UkrainianClient(communicator);
     }
 
     public RussianClient russian() {
-        if (russianClient == null) {
-            russianClient = new RussianClient(communicator);
-        }
-
         return russianClient;
     }
 
     public UkrainianClient ukrainian() {
-        if (ukrainianClient == null) {
-            ukrainianClient = new UkrainianClient(communicator);
-        }
-
         return ukrainianClient;
     }
 
