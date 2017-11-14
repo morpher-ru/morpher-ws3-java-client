@@ -34,9 +34,8 @@ public class UsageExample {
                 .build();
 
         try {
-            runRussianClientExamples(morpherClient);
-            runUkrainianClientExamples(morpherClient);
-
+            demo(morpherClient.russian());
+            demo(morpherClient.ukrainian());
         } catch (MorpherException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -47,9 +46,7 @@ public class UsageExample {
 
     }
 
-    private static void runRussianClientExamples(MorpherClient morpherClient) throws MorpherException, IOException {
-        RussianClient russianClient = morpherClient.russian();
-
+    private static void demo(RussianClient russianClient) throws MorpherException, IOException {
         russianDeclensionsAndGenderExample(russianClient);
         russianNamesDeclensionsExample(russianClient);
         russianAdjectivesGendersExample(russianClient);
@@ -58,9 +55,7 @@ public class UsageExample {
         russianNumberSpellingResult(russianClient);
     }
 
-    private static void runUkrainianClientExamples(MorpherClient morpherClient) throws MorpherException, IOException {
-        UkrainianClient ukrainianClient = morpherClient.ukrainian();
-
+    private static void demo(UkrainianClient ukrainianClient) throws MorpherException, IOException {
         ukrainianDeclensionsAndGenderExample(ukrainianClient);
         ukrainianNumberSpellingResult(ukrainianClient);
         ukrainianSpellWithCorrectionExample(ukrainianClient);
