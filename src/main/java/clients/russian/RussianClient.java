@@ -24,7 +24,7 @@ public class RussianClient extends AbstractLanguageClient {
     private static final String RUSSIAN = "russian";
 
     public RussianClient(Communicator communicator) {
-        this.communicator = communicator;
+        super(communicator);
     }
 
     public DeclensionResult declension(String lemma) throws MorpherException, IOException {

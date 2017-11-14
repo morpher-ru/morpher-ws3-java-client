@@ -22,7 +22,7 @@ public class UkrainianClient extends AbstractLanguageClient {
     private static final String UKRAINIAN = "ukrainian";
 
     public UkrainianClient(Communicator communicator) {
-        this.communicator = communicator;
+        super(communicator);
     }
 
     public DeclensionResult declension(String lemma) throws MorpherException, IOException {

@@ -10,7 +10,11 @@ import java.util.Map;
 
 public abstract class AbstractLanguageClient {
 
-    protected Communicator communicator;
+    protected AbstractLanguageClient(Communicator communicator) {
+        this.communicator = communicator;
+    }
+
+    private final Communicator communicator;
 
     protected abstract String getLanguage();
 
