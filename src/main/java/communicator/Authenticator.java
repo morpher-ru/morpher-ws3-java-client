@@ -1,19 +1,22 @@
 package communicator;
 
-public class Authenticator {
+import exceptions.MorpherException;
+
+import java.io.IOException;
+import java.util.Map;
+
+public class Authenticator implements Communicator {
 
     private final String token;
+    private final Communicator communicator;
 
-    public Authenticator(String token) {
+    public Authenticator(String token, Communicator communicator) {
         this.token = token;
+        this.communicator = communicator;
     }
 
-    public String addAuthDataToUrl(String url) {
-        //TODO: migrate to Basic auth and avoid logic with ? and &
-        if (token != null) {
-            url = url + "?" + "token=" + token;
-        }
-
-        return url;
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, MorpherException {
+        params.put("token", token);
+        return communicator.sendRequest(url, params, method);
     }
 }

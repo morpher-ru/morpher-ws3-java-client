@@ -59,10 +59,11 @@ public class MorpherClient {
 
         public MorpherClient build() {
             if (communicator == null) {
-                Authenticator authenticator = new Authenticator(token);
-                communicator = new HttpURLConnectionCommunicator(url, authenticator);
+                communicator = new HttpURLConnectionCommunicator(url);
             }
-
+            if (token != null) {
+                communicator = new Authenticator(token, communicator);
+            }
             return new MorpherClient(communicator);
         }
     }
