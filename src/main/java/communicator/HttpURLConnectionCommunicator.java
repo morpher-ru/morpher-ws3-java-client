@@ -26,12 +26,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
 
         String requestParameters = toRequestParameters(params);
         if (!method.equalsIgnoreCase("POST")) {
-            //TODO: remove this logic when migrated to Basic auth
-            String appenderChar = url.contains("?")
-                    ? "&"
-                    : "?";
-
-            url = url + appenderChar + requestParameters;
+            url = url + "?" + requestParameters;
         }
 
         HttpURLConnection con = getHttpConnection(url, method);
