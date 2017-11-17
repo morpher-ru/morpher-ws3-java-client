@@ -12,9 +12,10 @@
     <orderEntry type="module" module-name="morpher-ws3-java-client_main" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.testng:testng:6.10" level="project" />
+    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.10" level="project" />
+    <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.beust:jcommander:1.48" level="project" />
+    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="morpher-ws3-java-client_main" />
 </module>

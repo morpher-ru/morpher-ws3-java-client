@@ -1,5 +1,6 @@
-package communicator;
+package communicator.ws3;
 
+import communicator.Communicator;
 import exceptions.MorpherException;
 
 import java.io.BufferedReader;
@@ -15,14 +16,16 @@ import java.util.Map;
 
 public class HttpURLConnectionCommunicator implements Communicator {
 
+    private final Authenticator authenticator;
     private final String baseUrl;
 
-    public HttpURLConnectionCommunicator(String baseUrl) {
+    public HttpURLConnectionCommunicator(String baseUrl, Authenticator authenticator) {
+        this.authenticator = authenticator;
         this.baseUrl = baseUrl;
     }
 
-    public String sendRequest(String methodPath, Map<String, String> params, String method) throws IOException, MorpherException {
-       String url = baseUrl + methodPath;
+    public String sendRequest(String operationPath, Map<String, String> params, String method) throws IOException, MorpherException {
+        String url = buildUrl(operationPath);
 
         String requestParameters = toRequestParameters(params);
         if (!method.equalsIgnoreCase("POST")) {
@@ -46,7 +49,25 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return toResponseBody(con.getInputStream());
     }
 
-    private String toRequestParameters(Map<String, String> params) throws UnsupportedEncodingException {
+    String buildUrl(String methodPath) {
+        String baseUrlNoEndingSlash = baseUrl;
+        if(baseUrl.endsWith("/")){
+            baseUrlNoEndingSlash = baseUrl.substring(0, baseUrl.length() - 1);
+        }
+
+        String methodPathNoStartingSlash = methodPath;
+        if(methodPathNoStartingSlash.startsWith("/")){
+            methodPathNoStartingSlash = methodPath.substring(1, methodPath.length());
+        }
+
+        if(methodPathNoStartingSlash.endsWith("/")){
+            methodPathNoStartingSlash = methodPathNoStartingSlash.substring(0, methodPathNoStartingSlash.length() - 1);
+        }
+
+        return baseUrlNoEndingSlash + "/" + methodPathNoStartingSlash;
+    }
+
+    String toRequestParameters(Map<String, String> params) throws UnsupportedEncodingException {
         if (params == null || params.size() == 0) {
             return "";
         }
@@ -76,16 +97,21 @@ public class HttpURLConnectionCommunicator implements Communicator {
         con.setConnectTimeout(10000);
         con.setReadTimeout(10000);
         con.setRequestMethod(method);
-        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        con.setRequestProperty("Accept", "application/json");
         con.setInstanceFollowRedirects(false);
         con.setUseCaches(false);
         con.setDoOutput(true);
 
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        con.setRequestProperty("Accept", "application/json");
+
+        if(authenticator != null){
+            authenticator.populateAuthHeader(con);
+        }
+
         return con;
     }
 
-    private void populatePostParams(String urlParameters, HttpURLConnection con) throws IOException {
+    void populatePostParams(String urlParameters, HttpURLConnection con) throws IOException {
         byte[] postData = urlParameters.getBytes("UTF8");
         int postDataLength = postData.length;
 

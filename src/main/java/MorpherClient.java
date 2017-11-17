@@ -1,8 +1,8 @@
 import clients.russian.RussianClient;
 import clients.ukrainian.UkrainianClient;
-import communicator.Authenticator;
+import communicator.ws3.Authenticator;
 import communicator.Communicator;
-import communicator.HttpURLConnectionCommunicator;
+import communicator.ws3.HttpURLConnectionCommunicator;
 
 /**
  * <p>
@@ -59,11 +59,10 @@ public class MorpherClient {
 
         public MorpherClient build() {
             if (communicator == null) {
-                communicator = new HttpURLConnectionCommunicator(url);
+                Authenticator authenticator = new Authenticator(token);
+                communicator = new HttpURLConnectionCommunicator(url, authenticator);
             }
-            if (token != null) {
-                communicator = new Authenticator(token, communicator);
-            }
+
             return new MorpherClient(communicator);
         }
     }
