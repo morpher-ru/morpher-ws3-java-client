@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static communicator.Communicator.HTTP_METHOD_DELETE;
 import static communicator.Communicator.HTTP_METHOD_GET;
 import static communicator.Communicator.HTTP_METHOD_POST;
 import static org.junit.Assert.assertEquals;
@@ -158,12 +159,12 @@ public class HttpURLConnectionCommunicatorTest {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "test");
 
-        communicator.sendRequest("russian/declension", params, HTTP_METHOD_GET);
+        communicator.sendRequest("russian/some-operation", params, HTTP_METHOD_GET);
 
         // GET request params are part of Url
-        assertEquals(communicator.getConnectionStub().getSourceUrl(), "https://ws3.morpher.ru/russian/declension?s=test");
+        assertEquals(communicator.getConnectionStub().getSourceUrl(), "https://ws3.morpher.ru/russian/some-operation?s=test");
 
-        // POST request params are empty
+        // Request body is empty
         assertEquals(communicator.getConnectionStub().getOutputStream().toString(), "");
         assertNull(communicator.getConnectionStub().getRequestProperty("Content-Length"));
     }
@@ -177,12 +178,29 @@ public class HttpURLConnectionCommunicatorTest {
 
         communicator.sendRequest("russian/some-operation", params, HTTP_METHOD_POST);
 
-        // GET request params are part of Url
+        // URL doesn't contain request params
         assertEquals(communicator.getConnectionStub().getSourceUrl(), "https://ws3.morpher.ru/russian/some-operation");
 
-        // POST request params are empty
+        // POST body is populated with request params
         assertEquals(communicator.getConnectionStub().getOutputStream().toString(), "s=test");
         assertEquals(communicator.getConnectionStub().getRequestProperty("Content-Length"), "6");
+    }
+
+    @Test
+    public void sendRequest_urlParamsPopulatedForDELETEParams() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("s", "test");
+
+        communicator.sendRequest("russian/some-operation", params, HTTP_METHOD_DELETE);
+
+        // GET request params are part of Url
+        assertEquals(communicator.getConnectionStub().getSourceUrl(), "https://ws3.morpher.ru/russian/some-operation?s=test");
+
+        // Request body is empty
+        assertEquals(communicator.getConnectionStub().getOutputStream().toString(), "");
+        assertNull(communicator.getConnectionStub().getRequestProperty("Content-Length"));
     }
 
 
