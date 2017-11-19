@@ -85,7 +85,11 @@ public class HttpURLConnectionStub extends HttpURLConnection {
         customResponseCode = responseCodeToSet;
     }
 
-    public void setErrorStream(ByteArrayInputStream errorStream) {
+    void setErrorStream(ByteArrayInputStream errorStream) {
         this.errorStream = errorStream;
+    }
+
+    void setInputStream(ByteArrayInputStream inputStream) {
+        this.inputStream = inputStream;
     }
 }

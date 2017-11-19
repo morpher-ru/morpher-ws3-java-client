@@ -139,7 +139,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void populatePostParams_outputSreamOfConnectionPopulatedWithUrlParameters() throws IOException {
+    public void populatePostParams_outputStreamOfConnectionPopulatedWithUrlParameters() throws IOException {
         String urlParameters = "unit=twenty+five&s=test&n=25";
         HttpURLConnectionStub con = new HttpURLConnectionStub("http://test.com");
         OutputStream outputStreamPopulatedWithParams = con.getOutputStream();
@@ -328,5 +328,21 @@ public class HttpURLConnectionCommunicatorTest {
         }
     }
 
+    @Test
+    public void sendRequest_ResponseInputStreamShouldBeConvertedToStringResponse() throws IOException, MorpherException {
+        String expectedResponseString = "{\"feminine\": \"тестовая\",\"neuter\": \"тестовое\",\"plural\": \"тестовые\"}";
+
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(200);
+        communicator.getConnectionStub().setInputStream(new ByteArrayInputStream(expectedResponseString.getBytes()));
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("s", "тестовый");
+        params.put("format", "json");
+
+        String response = communicator.sendRequest("russian/genders", params, HTTP_METHOD_GET);
+
+        assertEquals(response, expectedResponseString);
+    }
 
 }
