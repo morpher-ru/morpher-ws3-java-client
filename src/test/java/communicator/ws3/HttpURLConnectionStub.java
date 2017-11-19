@@ -2,6 +2,9 @@ package communicator.ws3;
 
 import sun.net.www.protocol.http.HttpURLConnection;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -12,6 +15,7 @@ import static java.util.Collections.singletonList;
 
 public class HttpURLConnectionStub extends HttpURLConnection {
     private Map<String, List<String>> requestProperties = new HashMap<String, List<String>>();
+    private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
     HttpURLConnectionStub(String url) throws MalformedURLException {
         super(new URL(url), "", 0);
@@ -35,5 +39,10 @@ public class HttpURLConnectionStub extends HttpURLConnection {
         }
 
         return properties.get(0);
+    }
+
+    @Override
+    public synchronized OutputStream getOutputStream() throws IOException {
+        return outputStream;
     }
 }

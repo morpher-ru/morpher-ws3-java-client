@@ -67,7 +67,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return baseUrlNoEndingSlash + "/" + methodPathNoStartingSlash;
     }
 
-    String toRequestParameters(Map<String, String> params) throws UnsupportedEncodingException {
+    static String toRequestParameters(Map<String, String> params) throws UnsupportedEncodingException {
         if (params == null || params.size() == 0) {
             return "";
         }
@@ -111,7 +111,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return con;
     }
 
-    void populatePostParams(String urlParameters, HttpURLConnection con) throws IOException {
+    static void populatePostParams(String urlParameters, HttpURLConnection con) throws IOException {
         byte[] postData = urlParameters.getBytes("UTF8");
         int postDataLength = postData.length;
 
