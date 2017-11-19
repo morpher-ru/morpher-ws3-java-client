@@ -9,11 +9,14 @@ public class HttpURLConnectionCommunicatorStub extends HttpURLConnectionCommunic
 
     public HttpURLConnectionCommunicatorStub(String baseUrl, Authenticator authenticator) throws MalformedURLException {
         super(baseUrl, authenticator);
+        connectionStub = new HttpURLConnectionStub(baseUrl);
     }
 
     @Override
     HttpURLConnection getHttpConnection(String urlString, String method) throws IOException {
-        connectionStub = new HttpURLConnectionStub(urlString);
+        connectionStub.setSourceUrl(urlString);
+        connectionStub.setRequestMethod(method);
+
         return connectionStub;
     }
 

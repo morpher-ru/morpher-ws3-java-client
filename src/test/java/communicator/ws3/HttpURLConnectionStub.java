@@ -18,7 +18,10 @@ import static java.util.Collections.singletonList;
 public class HttpURLConnectionStub extends HttpURLConnection {
     private Map<String, List<String>> requestProperties = new HashMap<String, List<String>>();
     private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private ByteArrayInputStream inputStream = new ByteArrayInputStream("".getBytes());
+    private ByteArrayInputStream errorStream = new ByteArrayInputStream("".getBytes());
     private String sourceUrl;
+    private int customResponseCode = 200;
 
     HttpURLConnectionStub(String url) throws MalformedURLException {
         super(new URL(url), "", 0);
@@ -51,21 +54,38 @@ public class HttpURLConnectionStub extends HttpURLConnection {
     }
 
     @Override
+    public synchronized InputStream getInputStream() throws IOException {
+        return inputStream;
+    }
+
+    @Override
+    public synchronized InputStream getErrorStream(){
+        return errorStream;
+    }
+
+    @Override
     public void connect() throws IOException {
 
     }
 
     @Override
     public int getResponseCode() throws IOException {
-        return 200;
+        return customResponseCode;
     }
 
-    @Override
-    public synchronized InputStream getInputStream() throws IOException {
-        return new ByteArrayInputStream("".getBytes());
+    void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 
     String getSourceUrl() {
         return sourceUrl;
+    }
+
+    void setResponseCode(int responseCodeToSet) {
+        customResponseCode = responseCodeToSet;
+    }
+
+    public void setErrorStream(ByteArrayInputStream errorStream) {
+        this.errorStream = errorStream;
     }
 }

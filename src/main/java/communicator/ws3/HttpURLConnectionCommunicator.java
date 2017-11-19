@@ -149,8 +149,6 @@ public class HttpURLConnectionCommunicator implements Communicator {
                 throw new MorpherException("Не найдено русских слов");
             case 400:
                 throw new MorpherException("Передана пустая строка");
-                //case 402:
-                //    throw new MorpherException("Необходимо оплатить услугу");
             case 498:
                 throw new MorpherException("Переданный токен не найден");
             case 497:

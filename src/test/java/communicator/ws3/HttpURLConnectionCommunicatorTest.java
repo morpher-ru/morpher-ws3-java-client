@@ -3,6 +3,7 @@ package communicator.ws3;
 import exceptions.MorpherException;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -15,6 +16,7 @@ import static communicator.Communicator.HTTP_METHOD_POST;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 public class HttpURLConnectionCommunicatorTest {
 
@@ -201,6 +203,129 @@ public class HttpURLConnectionCommunicatorTest {
         // Request body is empty
         assertEquals(communicator.getConnectionStub().getOutputStream().toString(), "");
         assertNull(communicator.getConnectionStub().getRequestProperty("Content-Length"));
+    }
+
+    @Test
+    public void sendRequest_validateErrorResponseCode_400() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(400);
+
+        try {
+            communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), HTTP_METHOD_DELETE);
+            fail("Should throw MorpherException");
+        } catch (IOException e) {
+            fail("Should not throw IOException, MorpherException should be thrown instead");
+        } catch (MorpherException e) {
+            assertEquals(e.getMessage(), "Передана пустая строка");
+        }
+    }
+
+    @Test
+    public void sendRequest_validateErrorResponseCode_402() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(402);
+
+        try {
+            communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), HTTP_METHOD_DELETE);
+            fail("Should throw MorpherException");
+        } catch (IOException e) {
+            fail("Should not throw IOException, MorpherException should be thrown instead");
+        } catch (MorpherException e) {
+            assertEquals(e.getMessage(), "Превышен лимит на количество запросов");
+        }
+    }
+
+    @Test
+    public void sendRequest_validateErrorResponseCode_403() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(403);
+
+        try {
+            communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), HTTP_METHOD_DELETE);
+            fail("Should throw MorpherException");
+        } catch (IOException e) {
+            fail("Should not throw IOException, MorpherException should be thrown instead");
+        } catch (MorpherException e) {
+            assertEquals(e.getMessage(), "IP-адрес заблокирован");
+        }
+    }
+
+    @Test
+    public void sendRequest_validateErrorResponseCode_495() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(495);
+
+        try {
+            communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), HTTP_METHOD_DELETE);
+            fail("Should throw MorpherException");
+        } catch (IOException e) {
+            fail("Should not throw IOException, MorpherException should be thrown instead");
+        } catch (MorpherException e) {
+            assertEquals(e.getMessage(), "Для склонения числительных используйте метод spell");
+        }
+    }
+
+    @Test
+    public void sendRequest_validateErrorResponseCode_496() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(496);
+
+        try {
+            communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), HTTP_METHOD_DELETE);
+            fail("Should throw MorpherException");
+        } catch (IOException e) {
+            fail("Should not throw IOException, MorpherException should be thrown instead");
+        } catch (MorpherException e) {
+            assertEquals(e.getMessage(), "Не найдено русских слов");
+        }
+    }
+
+    @Test
+    public void sendRequest_validateErrorResponseCode_497() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(497);
+
+        try {
+            communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), HTTP_METHOD_DELETE);
+            fail("Should throw MorpherException");
+        } catch (IOException e) {
+            fail("Should not throw IOException, MorpherException should be thrown instead");
+        } catch (MorpherException e) {
+            assertEquals(e.getMessage(), "Неверный формат токена");
+        }
+    }
+
+    @Test
+    public void sendRequest_validateErrorResponseCode_498() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(498);
+
+        try {
+            communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), HTTP_METHOD_DELETE);
+            fail("Should throw MorpherException");
+        } catch (IOException e) {
+            fail("Should not throw IOException, MorpherException should be thrown instead");
+        } catch (MorpherException e) {
+            assertEquals(e.getMessage(), "Переданный токен не найден");
+        }
+    }
+
+    @Test
+    public void sendRequest_validateUnknownErrorResponseCode_500() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+        communicator.getConnectionStub().setResponseCode(500);
+        communicator.getConnectionStub().setErrorStream(new ByteArrayInputStream("We have maintenance, please try again later".getBytes()));
+
+        try {
+            communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), HTTP_METHOD_DELETE);
+            fail("Should throw MorpherException");
+        } catch (IOException e) {
+            fail("Should not throw IOException, MorpherException should be thrown instead");
+        } catch (MorpherException e) {
+            fail("Should not throw MorpherException, RuntimeException should be thrown instead");
+        } catch (RuntimeException e) {
+            assertEquals(e.getMessage(), "Unexpected error: We have maintenance, please try again later");
+        }
     }
 
 
