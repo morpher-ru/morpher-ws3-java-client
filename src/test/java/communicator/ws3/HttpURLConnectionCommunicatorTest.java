@@ -1,5 +1,6 @@
 package communicator.ws3;
 
+import exceptions.MorpherException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -8,8 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static communicator.Communicator.HTTP_METHOD_GET;
+import static communicator.Communicator.HTTP_METHOD_POST;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class HttpURLConnectionCommunicatorTest {
 
@@ -145,6 +149,40 @@ public class HttpURLConnectionCommunicatorTest {
 
         // After population it contains the same urlParameters that were passed
         assertEquals(outputStreamPopulatedWithParams.toString(), urlParameters);
+    }
+
+    @Test
+    public void sendRequest_urlParamsPopulatedForGETParams() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("s", "test");
+
+        communicator.sendRequest("russian/declension", params, HTTP_METHOD_GET);
+
+        // GET request params are part of Url
+        assertEquals(communicator.getConnectionStub().getSourceUrl(), "https://ws3.morpher.ru/russian/declension?s=test");
+
+        // POST request params are empty
+        assertEquals(communicator.getConnectionStub().getOutputStream().toString(), "");
+        assertNull(communicator.getConnectionStub().getRequestProperty("Content-Length"));
+    }
+
+    @Test
+    public void sendRequest_urlParamsPopulatedForPOSTParams() throws IOException, MorpherException {
+        HttpURLConnectionCommunicatorStub communicator = new HttpURLConnectionCommunicatorStub(VALID_BASE_URL, null);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("s", "test");
+
+        communicator.sendRequest("russian/some-operation", params, HTTP_METHOD_POST);
+
+        // GET request params are part of Url
+        assertEquals(communicator.getConnectionStub().getSourceUrl(), "https://ws3.morpher.ru/russian/some-operation");
+
+        // POST request params are empty
+        assertEquals(communicator.getConnectionStub().getOutputStream().toString(), "s=test");
+        assertEquals(communicator.getConnectionStub().getRequestProperty("Content-Length"), "6");
     }
 
 

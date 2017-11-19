@@ -90,7 +90,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return paramsString.toString();
     }
 
-    private HttpURLConnection getHttpConnection(String urlString, String method) throws IOException {
+    HttpURLConnection getHttpConnection(String urlString, String method) throws IOException {
         URL url = new URL(urlString);
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
