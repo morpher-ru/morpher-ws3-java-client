@@ -39,6 +39,6 @@ public class CommunicatorStub implements Communicator {
         Map<String, String> params = lastParamsPassed;
         lastParamsPassed = null;
 
-       return params;
+        return params;
     }
 }
