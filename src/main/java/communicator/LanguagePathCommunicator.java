@@ -28,30 +28,13 @@ public class LanguagePathCommunicator {
         return new ObjectMapper().readValue(responseBody, responseType);
     }
 
+    private static String stripSlashes(String s) {
+        if (s.startsWith("/")) s = s.substring(1);
+        if (s.endsWith("/")) s = s.substring(0, s.length() - 1);
+        return s;
+    }
+
     String buildUrl(String language, String methodPath) {
-        String baseUrlNoEndingSlash = baseUrl;
-        if (baseUrl.endsWith("/")) {
-            baseUrlNoEndingSlash = baseUrl.substring(0, baseUrl.length() - 1);
-        }
-
-        String methodPathNoStartingSlash = methodPath;
-        if (methodPathNoStartingSlash.startsWith("/")) {
-            methodPathNoStartingSlash = methodPath.substring(1, methodPath.length());
-        }
-
-        if (methodPathNoStartingSlash.endsWith("/")) {
-            methodPathNoStartingSlash = methodPathNoStartingSlash.substring(0, methodPathNoStartingSlash.length() - 1);
-        }
-
-        String languageNoStartingSlash = language;
-        if (languageNoStartingSlash.startsWith("/")) {
-            languageNoStartingSlash = language.substring(1, language.length());
-        }
-
-        if (languageNoStartingSlash.endsWith("/")) {
-            languageNoStartingSlash = languageNoStartingSlash.substring(0, languageNoStartingSlash.length() - 1);
-        }
-
-        return baseUrlNoEndingSlash + "/" + languageNoStartingSlash + "/" + methodPathNoStartingSlash;
+        return stripSlashes(baseUrl) + "/" + stripSlashes(language) + "/" + stripSlashes(methodPath);
     }
 }
