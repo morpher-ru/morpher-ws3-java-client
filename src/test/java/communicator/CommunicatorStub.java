@@ -8,9 +8,11 @@ import java.util.Map;
 public class CommunicatorStub implements Communicator {
     private String nextResponse;
     private String lastUrlPassed;
+    private Map<String, String> lastParamsPassed;
 
     public String sendRequest(String url, Map<String, String> params, String method) throws IOException, MorpherException {
         lastUrlPassed = url;
+        lastParamsPassed = params;
 
         if (nextResponse == null) {
             return "";
@@ -31,5 +33,12 @@ public class CommunicatorStub implements Communicator {
         lastUrlPassed = null;
 
         return url;
+    }
+
+    public Map<String, String> readLastParamsPassed() {
+        Map<String, String> params = lastParamsPassed;
+        lastParamsPassed = null;
+
+       return params;
     }
 }
