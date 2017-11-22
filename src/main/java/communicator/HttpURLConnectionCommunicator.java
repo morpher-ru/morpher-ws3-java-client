@@ -1,6 +1,6 @@
-package communicator.ws3;
+package communicator;
 
-import communicator.Communicator;
+import communicator.connection.ConnectionHandler;
 import exceptions.MorpherException;
 
 import java.io.BufferedReader;
@@ -10,31 +10,28 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
 public class HttpURLConnectionCommunicator implements Communicator {
 
-    private final Authenticator authenticator;
-    private final String baseUrl;
+    private final ConnectionHandler connectionHandler;
 
-    public HttpURLConnectionCommunicator(String baseUrl, Authenticator authenticator) {
-        this.authenticator = authenticator;
-        this.baseUrl = baseUrl;
+    public HttpURLConnectionCommunicator(ConnectionHandler connectionHandler) {
+        this.connectionHandler = connectionHandler;
     }
 
-    public String sendRequest(String operationPath, Map<String, String> params, String method) throws IOException, MorpherException {
-        String url = buildUrl(operationPath);
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, MorpherException {
+        String requestParameters = toConcatenatedRequestParameters(params);
 
-        String requestParameters = toRequestParameters(params);
-        if (!method.equalsIgnoreCase("POST")) {
-            url = url + "?" + requestParameters;
+        if (!isPost(method)) {
+            String appenderChar = url.contains("?") ? "&" : "?";
+            url = url + appenderChar + requestParameters;
         }
 
         HttpURLConnection con = getHttpConnection(url, method);
 
-        if (method.equalsIgnoreCase("POST")) {
+        if (isPost(method)) {
             populatePostParams(requestParameters, con);
         }
 
@@ -49,25 +46,11 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return toResponseBody(con.getInputStream());
     }
 
-    String buildUrl(String methodPath) {
-        String baseUrlNoEndingSlash = baseUrl;
-        if(baseUrl.endsWith("/")){
-            baseUrlNoEndingSlash = baseUrl.substring(0, baseUrl.length() - 1);
-        }
-
-        String methodPathNoStartingSlash = methodPath;
-        if(methodPathNoStartingSlash.startsWith("/")){
-            methodPathNoStartingSlash = methodPath.substring(1, methodPath.length());
-        }
-
-        if(methodPathNoStartingSlash.endsWith("/")){
-            methodPathNoStartingSlash = methodPathNoStartingSlash.substring(0, methodPathNoStartingSlash.length() - 1);
-        }
-
-        return baseUrlNoEndingSlash + "/" + methodPathNoStartingSlash;
+    private static boolean isPost(String method) {
+        return method.equalsIgnoreCase(METHOD_POST);
     }
 
-    static String toRequestParameters(Map<String, String> params) throws UnsupportedEncodingException {
+    static String toConcatenatedRequestParameters(Map<String, String> params) throws UnsupportedEncodingException {
         if (params == null || params.size() == 0) {
             return "";
         }
@@ -90,10 +73,8 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return paramsString.toString();
     }
 
-    HttpURLConnection getHttpConnection(String urlString, String method) throws IOException {
-        URL url = new URL(urlString);
-
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+    private HttpURLConnection getHttpConnection(String urlString, String method) throws IOException {
+        HttpURLConnection con = connectionHandler.openConnection(urlString);
         con.setConnectTimeout(10000);
         con.setReadTimeout(10000);
         con.setRequestMethod(method);
@@ -103,10 +84,6 @@ public class HttpURLConnectionCommunicator implements Communicator {
 
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestProperty("Accept", "application/json");
-
-        if(authenticator != null){
-            authenticator.populateAuthHeader(con);
-        }
 
         return con;
     }

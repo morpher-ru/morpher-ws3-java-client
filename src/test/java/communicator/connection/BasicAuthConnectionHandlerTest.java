@@ -1,13 +1,15 @@
-package communicator.ws3;
+package communicator.connection;
 
+import java.net.HttpURLConnection;
+
+import communicator.HttpURLConnectionStub;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
 
-import static communicator.ws3.Authenticator.HEADER_AUTHORIZATION;
+import static communicator.connection.BasicAuthConnectionHandler.HEADER_AUTHORIZATION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -15,7 +17,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 
-public class AuthenticatorTest {
+public class BasicAuthConnectionHandlerTest {
 
     private HttpURLConnection connection;
 
@@ -27,7 +29,7 @@ public class AuthenticatorTest {
     @Test
     public void populateAuthHeader_nullToken(){
         String token = null;
-        Authenticator authenticator = new Authenticator(token);
+        BasicAuthConnectionHandler authenticator = new BasicAuthConnectionHandler(token);
 
         authenticator.populateAuthHeader(connection);
 
@@ -41,7 +43,7 @@ public class AuthenticatorTest {
     @Test
     public void populateAuthHeader_emptyToken() throws Exception {
         String token = "";
-        Authenticator authenticator = new Authenticator(token);
+        BasicAuthConnectionHandler authenticator = new BasicAuthConnectionHandler(token);
 
         authenticator.populateAuthHeader(connection);
 
@@ -55,7 +57,7 @@ public class AuthenticatorTest {
     @Test
     public void populateAuthHeader_populatedToken() throws Exception {
         String token = "a3cfb5fe-7a47-4c27-81ea-46facb5d19fa";
-        Authenticator authenticator = new Authenticator(token);
+        BasicAuthConnectionHandler authenticator = new BasicAuthConnectionHandler(token);
 
         authenticator.populateAuthHeader(connection);
 

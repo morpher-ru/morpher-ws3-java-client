@@ -1,8 +1,10 @@
 import clients.russian.RussianClient;
 import clients.ukrainian.UkrainianClient;
-import communicator.ws3.Authenticator;
 import communicator.Communicator;
-import communicator.ws3.HttpURLConnectionCommunicator;
+import communicator.HttpURLConnectionCommunicator;
+import communicator.LanguagePathCommunicator;
+import communicator.UrlAuthCommunicator;
+import communicator.connection.ConnectionHandler;
 
 /**
  * <p>
@@ -18,7 +20,7 @@ public class MorpherClient {
     private RussianClient russianClient;
     private UkrainianClient ukrainianClient;
 
-    MorpherClient(Communicator communicator) {
+    MorpherClient(LanguagePathCommunicator communicator) {
         russianClient = new RussianClient(communicator);
         ukrainianClient = new UkrainianClient(communicator);
     }
@@ -59,11 +61,17 @@ public class MorpherClient {
 
         public MorpherClient build() {
             if (communicator == null) {
-                Authenticator authenticator = new Authenticator(token);
-                communicator = new HttpURLConnectionCommunicator(url, authenticator);
+                // Can be used for Basic authentication
+                // ConnectionHandler connectionHandler = new BasicAuthConnectionHandler(token);
+                ConnectionHandler connectionHandler = new ConnectionHandler();
+                HttpURLConnectionCommunicator httpCommunicator = new HttpURLConnectionCommunicator(connectionHandler);
+
+                communicator = new UrlAuthCommunicator(token, httpCommunicator);
             }
 
-            return new MorpherClient(communicator);
+            LanguagePathCommunicator languagePathCommunicator = new LanguagePathCommunicator(url, this.communicator);
+
+            return new MorpherClient(languagePathCommunicator);
         }
     }
 }

@@ -1,4 +1,4 @@
-package communicator.ws3;
+package communicator;
 
 import sun.net.www.protocol.http.HttpURLConnection;
 
@@ -23,7 +23,7 @@ public class HttpURLConnectionStub extends HttpURLConnection {
     private String sourceUrl;
     private int customResponseCode = 200;
 
-    HttpURLConnectionStub(String url) throws MalformedURLException {
+    public HttpURLConnectionStub(String url) throws MalformedURLException {
         super(new URL(url), "", 0);
         this.sourceUrl = url;
     }
