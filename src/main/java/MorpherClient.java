@@ -4,6 +4,7 @@ import communicator.Communicator;
 import communicator.HttpURLConnectionCommunicator;
 import communicator.LanguagePathCommunicator;
 import communicator.UrlAuthCommunicator;
+import communicator.PrefixAppender;
 import communicator.connection.ConnectionHandler;
 
 /**
@@ -21,8 +22,8 @@ public class MorpherClient {
     private UkrainianClient ukrainianClient;
 
     MorpherClient(LanguagePathCommunicator communicator) {
-        russianClient = new RussianClient(communicator);
-        ukrainianClient = new UkrainianClient(communicator);
+        russianClient = new RussianClient(new PrefixAppender(communicator, "russian"));
+        ukrainianClient = new UkrainianClient(new PrefixAppender(communicator, "ukrainian"));
     }
 
     public RussianClient russian() {

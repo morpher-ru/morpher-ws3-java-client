@@ -4,7 +4,7 @@ import clients.ukrainian.data.CorrectionEntry;
 import clients.ukrainian.data.DeclensionResult;
 import clients.ukrainian.data.NumberSpellingResult;
 import com.fasterxml.jackson.core.type.TypeReference;
-import communicator.LanguagePathCommunicator;
+import communicator.PathCommunicator;
 import exceptions.MorpherException;
 
 import java.io.IOException;
@@ -17,11 +17,9 @@ import static communicator.Communicator.METHOD_GET;
 import static communicator.Communicator.METHOD_POST;
 
 public class UkrainianClient{
-    private static final String UKRAINIAN = "ukrainian";
-    
-    private LanguagePathCommunicator communicator;
+    private PathCommunicator communicator;
 
-    public UkrainianClient(LanguagePathCommunicator communicator) {
+    public UkrainianClient(PathCommunicator communicator) {
         this.communicator = communicator;
     }
 
@@ -32,7 +30,7 @@ public class UkrainianClient{
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
 
-        DeclensionResult declensionResult = communicator.sendRequest(UKRAINIAN, "declension", params, METHOD_GET, responseType);
+        DeclensionResult declensionResult = communicator.sendRequest("declension", params, METHOD_GET, responseType);
         declensionResult.nominative = lemma;
 
         return declensionResult;
@@ -46,7 +44,7 @@ public class UkrainianClient{
         params.put("n", String.valueOf(number));
         params.put("unit", unit);
 
-        return communicator.sendRequest(UKRAINIAN, "spell", params, METHOD_GET, responseType);
+        return communicator.sendRequest("spell", params, METHOD_GET, responseType);
     }
 
     public void addOrUpdateToUserDict(CorrectionEntry correctionEntry) throws MorpherException, IOException {
@@ -71,14 +69,14 @@ public class UkrainianClient{
             params.put("М_К", correctionEntry.plural.vocative);
         }
 
-        communicator.sendRequest(UKRAINIAN, "userdict", params, METHOD_POST, null);
+        communicator.sendRequest("userdict", params, METHOD_POST, null);
     }
 
     public List<CorrectionEntry> fetchAllFromUserDictionary() throws MorpherException, IOException {
         TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {
         };
 
-        return communicator.sendRequest(UKRAINIAN, "userdict", null, METHOD_GET, responseType);
+        return communicator.sendRequest("userdict", null, METHOD_GET, responseType);
     }
 
     public boolean removeFromUserDictionary(String nominativeCorrection) throws MorpherException, IOException {
@@ -88,7 +86,7 @@ public class UkrainianClient{
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", nominativeCorrection);
 
-        return communicator.sendRequest(UKRAINIAN, "userdict", params, METHOD_DELETE, responseType);
+        return communicator.sendRequest("userdict", params, METHOD_DELETE, responseType);
     }
 
 }
