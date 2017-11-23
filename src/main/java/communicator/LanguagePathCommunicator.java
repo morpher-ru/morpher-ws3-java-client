@@ -21,7 +21,7 @@ public class LanguagePathCommunicator implements PathCommunicator {
         String url = buildUrl(operation);
         String responseBody = communicator.sendRequest(url, params, httpMethod);
 
-        return new ObjectMapper().readValue(responseBody, new TypeReference<T>());
+        return new ObjectMapper().readValue(responseBody, new TypeReference<T>() {});
     }
 
     String buildUrl(String methodPath) {
