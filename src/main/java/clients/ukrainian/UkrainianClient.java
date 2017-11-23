@@ -3,7 +3,6 @@ package clients.ukrainian;
 import clients.ukrainian.data.CorrectionEntry;
 import clients.ukrainian.data.DeclensionResult;
 import clients.ukrainian.data.NumberSpellingResult;
-import com.fasterxml.jackson.core.type.TypeReference;
 import communicator.PathCommunicator;
 import exceptions.MorpherException;
 
@@ -24,27 +23,21 @@ public class UkrainianClient{
     }
 
     public DeclensionResult declension(String lemma) throws MorpherException, IOException {
-        TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
-        };
-
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
 
-        DeclensionResult declensionResult = communicator.sendRequest("declension", params, METHOD_GET, responseType);
+        DeclensionResult declensionResult = communicator.sendRequest("declension", params, METHOD_GET);
         declensionResult.nominative = lemma;
 
         return declensionResult;
     }
 
     public NumberSpellingResult spell(int number, String unit) throws MorpherException, IOException {
-        TypeReference<NumberSpellingResult> responseType = new TypeReference<NumberSpellingResult>() {
-        };
-
         Map<String, String> params = new HashMap<String, String>();
         params.put("n", String.valueOf(number));
         params.put("unit", unit);
 
-        return communicator.sendRequest("spell", params, METHOD_GET, responseType);
+        return communicator.sendRequest("spell", params, METHOD_GET);
     }
 
     public void addOrUpdateToUserDict(CorrectionEntry correctionEntry) throws MorpherException, IOException {
@@ -69,24 +62,18 @@ public class UkrainianClient{
             params.put("М_К", correctionEntry.plural.vocative);
         }
 
-        communicator.sendRequest("userdict", params, METHOD_POST, null);
+        communicator.sendRequest("userdict", params, METHOD_POST);
     }
 
     public List<CorrectionEntry> fetchAllFromUserDictionary() throws MorpherException, IOException {
-        TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {
-        };
-
-        return communicator.sendRequest("userdict", null, METHOD_GET, responseType);
+        return communicator.sendRequest("userdict", null, METHOD_GET);
     }
 
     public boolean removeFromUserDictionary(String nominativeCorrection) throws MorpherException, IOException {
-        TypeReference<Boolean> responseType = new TypeReference<Boolean>() {
-        };
-
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", nominativeCorrection);
 
-        return communicator.sendRequest("userdict", params, METHOD_DELETE, responseType);
+        return communicator.sendRequest("userdict", params, METHOD_DELETE);
     }
 
 }

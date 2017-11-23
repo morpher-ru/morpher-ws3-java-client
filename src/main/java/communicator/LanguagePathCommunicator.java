@@ -17,15 +17,11 @@ public class LanguagePathCommunicator implements PathCommunicator {
         this.communicator = communicator;
     }
 
-    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException, MorpherException {
+    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod) throws IOException, MorpherException {
         String url = buildUrl(operation);
         String responseBody = communicator.sendRequest(url, params, httpMethod);
-        
-        if(responseType == null){
-            return null;
-        }
 
-        return new ObjectMapper().readValue(responseBody, responseType);
+        return new ObjectMapper().readValue(responseBody, new TypeReference<T>());
     }
 
     String buildUrl(String methodPath) {
