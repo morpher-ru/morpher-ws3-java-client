@@ -65,7 +65,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
 
             String appenderChar = paramsString.length() == 0 ? "" : "&";
             paramsString.append(appenderChar);
-            paramsString.append(entry.getKey());
+            paramsString.append(URLEncoder.encode(entry.getKey(), "UTF8"));
             paramsString.append("=");
             paramsString.append(URLEncoder.encode(entry.getValue(), "UTF8"));
         }
