@@ -7,6 +7,7 @@ import clients.russian.data.Gender;
 import clients.russian.data.NumberSpellingResult;
 import communicator.CommunicatorStub;
 import communicator.LanguagePathCommunicator;
+import communicator.PrefixAppender;
 import exceptions.MorpherException;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class RussianClientTest {
         String baseUrl = "https://ws3.morpher.ru";
 
         communicator = new CommunicatorStub();
-        russianClient = new RussianClient(new LanguagePathCommunicator(baseUrl, communicator));
+        russianClient = new RussianClient(new PrefixAppender(new LanguagePathCommunicator(baseUrl, communicator), "russian"));
     }
 
     @Test
@@ -83,18 +84,18 @@ public class RussianClientTest {
 
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNotNull(params);
-        assertTrue(params.size() == 1);
+        assertEquals(1, params.size());
         assertEquals("тест", params.get("s"));
     }
 
     @Test
     public void declension_SplitFio() throws MorpherException, IOException {
         communicator.writeNextResponse("{\n" +
-                "  \"Р\": \"Александра Пушкина Сергеевича\",\n" +
-                "  \"Д\": \"Александру Пушкину Сергеевичу\",\n" +
-                "  \"В\": \"Александра Пушкина Сергеевича\",\n" +
-                "  \"Т\": \"Александром Пушкином Сергеевичем\",\n" +
-                "  \"П\": \"Александре Пушкине Сергеевиче\",\n" +
+                "  \"Р\": \"Александра Сергеевича Пушкина\",\n" +
+                "  \"Д\": \"Александру Сергеевичу Пушкину\",\n" +
+                "  \"В\": \"Александра Сергеевича Пушкина\",\n" +
+                "  \"Т\": \"Александром Сергеевичем Пушкиным\",\n" +
+                "  \"П\": \"Александре Сергеевиче Пушкине\",\n" +
                 "  \"ФИО\": {\n" +
                 "    \"Ф\": \"Пушкин\",\n" +
                 "    \"И\": \"Александр\",\n" +
@@ -111,8 +112,9 @@ public class RussianClientTest {
 
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNotNull(params);
-        assertTrue(params.size() == 1);
+        assertEquals(1, params.size());
         assertEquals("Александр Сергеевич Пушкин", params.get("s"));
+        assertEquals("https://ws3.morpher.ru/russian/declension", communicator.readLastUrlPassed());
     }
 
     @Test
@@ -126,8 +128,9 @@ public class RussianClientTest {
 
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNotNull(params);
-        assertTrue(params.size() == 1);
+        assertEquals(1, params.size());
         assertEquals("теля", params.get("s"));
+        assertEquals("https://ws3.morpher.ru/russian/declension", communicator.readLastUrlPassed());
     }
 
     @Test
@@ -174,9 +177,10 @@ public class RussianClientTest {
 
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNotNull(params);
-        assertTrue(params.size() == 2);
+        assertEquals(2, params.size());
         assertEquals("10", params.get("n"));
         assertEquals("рубль", params.get("unit"));
+        assertEquals("https://ws3.morpher.ru/russian/spell", communicator.readLastUrlPassed());
     }
 
     @Test
@@ -196,8 +200,9 @@ public class RussianClientTest {
 
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNotNull(params);
-        assertTrue(params.size() == 1);
+        assertEquals(1, params.size());
         assertEquals("уважаемый", params.get("s"));
+        assertEquals("https://ws3.morpher.ru/russian/genders", communicator.readLastUrlPassed());
     }
 
     @Test
@@ -211,6 +216,7 @@ public class RussianClientTest {
         assertNotNull(adjList);
         assertEquals("мытыщинский", adjList.get(0));
         assertEquals("мытыщенский", adjList.get(1));
+        assertEquals("https://ws3.morpher.ru/russian/adjectivize", communicator.readLastUrlPassed());
     }
 
     @Test
@@ -222,8 +228,9 @@ public class RussianClientTest {
 
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNotNull(params);
-        assertTrue(params.size() == 1);
+        assertEquals(1, params.size());
         assertEquals("кошка", params.get("s"));
+        assertEquals("https://ws3.morpher.ru/russian/userdict", communicator.readLastUrlPassed());
     }
 
     @Test
@@ -275,5 +282,6 @@ public class RussianClientTest {
 
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNull(params);
+        assertEquals("https://ws3.morpher.ru/russian/userdict", communicator.readLastUrlPassed());
     }
 }

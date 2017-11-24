@@ -16,11 +16,9 @@ public class UrlAuthCommunicator implements Communicator {
     }
 
     public String sendRequest(String url, Map<String, String> params, String method) throws IOException, MorpherException {
-        if(token != null && token.trim().length() != 0){
-            //Keep appender logic since url may already contain some url params in future for some reason
-            String appenderChar = url.contains("?") ? "&" : "?";
-            url = url + appenderChar + "token=" + token;
-        }
+        //Keep appender logic since url may already contain some url params in future for some reason
+        String appenderChar = url.contains("?") ? "&" : "?";
+        url = url + appenderChar + "token=" + token;
 
         return communicator.sendRequest(url, params, method);
     }

@@ -20,28 +20,6 @@ public class UrlAuthCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_nullableToken() throws Exception {
-        UrlAuthCommunicator urlAuthCommunicator = new UrlAuthCommunicator(null, communicator);
-
-        urlAuthCommunicator.sendRequest(REQUEST_URL, new HashMap<String, String>(), METHOD_GET);
-
-        String urlPassed = communicator.readLastUrlPassed();
-        assertNotNull(urlPassed);
-        assertEquals(REQUEST_URL, urlPassed);
-    }
-
-    @Test
-    public void sendRequest_emptyToken() throws Exception {
-        UrlAuthCommunicator urlAuthCommunicator = new UrlAuthCommunicator("", communicator);
-
-        urlAuthCommunicator.sendRequest(REQUEST_URL, new HashMap<String, String>(), METHOD_GET);
-
-        String urlPassed = communicator.readLastUrlPassed();
-        assertNotNull(urlPassed);
-        assertEquals(REQUEST_URL, urlPassed);
-    }
-
-    @Test
     public void sendRequest_passedToken() throws Exception {
         String token = "a3cfb5fe-7a47-4c27-81ea-46facb5d19fa";
         UrlAuthCommunicator urlAuthCommunicator = new UrlAuthCommunicator(token, communicator);
