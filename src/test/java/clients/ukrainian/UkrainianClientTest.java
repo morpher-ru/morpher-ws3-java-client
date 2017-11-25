@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static communicator.Communicator.METHOD_DELETE;
+import static communicator.Communicator.METHOD_GET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -60,6 +62,9 @@ public class UkrainianClientTest {
         assertEquals(1, params.size());
         assertEquals("тест", params.get("s"));
         assertEquals("https://ws3.morpher.ru/ukrainian/declension", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
     @Test
@@ -112,6 +117,9 @@ public class UkrainianClientTest {
         assertEquals("10", params.get("n"));
         assertEquals("рубль", params.get("unit"));
         assertEquals("https://ws3.morpher.ru/ukrainian/spell", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
     @Test
@@ -126,6 +134,9 @@ public class UkrainianClientTest {
         assertEquals(1, params.size());
         assertEquals("тест", params.get("s"));
         assertEquals("https://ws3.morpher.ru/ukrainian/userdict", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_DELETE, httpMethod);
     }
 
     @Test
@@ -161,6 +172,9 @@ public class UkrainianClientTest {
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNull(params);
         assertEquals("https://ws3.morpher.ru/ukrainian/userdict", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
 }

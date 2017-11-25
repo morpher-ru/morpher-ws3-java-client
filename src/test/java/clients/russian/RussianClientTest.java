@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static communicator.Communicator.METHOD_DELETE;
+import static communicator.Communicator.METHOD_GET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -86,6 +88,9 @@ public class RussianClientTest {
         assertNotNull(params);
         assertEquals(1, params.size());
         assertEquals("тест", params.get("s"));
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
     @Test
@@ -115,6 +120,9 @@ public class RussianClientTest {
         assertEquals(1, params.size());
         assertEquals("Александр Сергеевич Пушкин", params.get("s"));
         assertEquals("https://ws3.morpher.ru/russian/declension", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
     @Test
@@ -131,10 +139,12 @@ public class RussianClientTest {
         assertEquals(1, params.size());
         assertEquals("теля", params.get("s"));
         assertEquals("https://ws3.morpher.ru/russian/declension", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
     @Test
-
     public void spell_Success() throws MorpherException, IOException {
         communicator.writeNextResponse("{\n" +
                 "  \"n\": {\n" +
@@ -181,6 +191,9 @@ public class RussianClientTest {
         assertEquals("10", params.get("n"));
         assertEquals("рубль", params.get("unit"));
         assertEquals("https://ws3.morpher.ru/russian/spell", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
     @Test
@@ -203,6 +216,9 @@ public class RussianClientTest {
         assertEquals(1, params.size());
         assertEquals("уважаемый", params.get("s"));
         assertEquals("https://ws3.morpher.ru/russian/genders", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
     @Test
@@ -217,6 +233,9 @@ public class RussianClientTest {
         assertEquals("мытыщинский", adjList.get(0));
         assertEquals("мытыщенский", adjList.get(1));
         assertEquals("https://ws3.morpher.ru/russian/adjectivize", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 
     @Test
@@ -231,6 +250,9 @@ public class RussianClientTest {
         assertEquals(1, params.size());
         assertEquals("кошка", params.get("s"));
         assertEquals("https://ws3.morpher.ru/russian/userdict", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_DELETE, httpMethod);
     }
 
     @Test
@@ -283,5 +305,8 @@ public class RussianClientTest {
         Map<String, String> params = communicator.readLastParamsPassed();
         assertNull(params);
         assertEquals("https://ws3.morpher.ru/russian/userdict", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
     }
 }

@@ -9,10 +9,12 @@ public class CommunicatorStub implements Communicator {
     private String nextResponse;
     private String lastUrlPassed;
     private Map<String, String> lastParamsPassed;
+    private String lastHttpMethodPassed;
 
     public String sendRequest(String url, Map<String, String> params, String method) throws IOException, MorpherException {
         lastUrlPassed = url;
         lastParamsPassed = params;
+        lastHttpMethodPassed = method;
 
         if (nextResponse == null) {
             return "";
@@ -40,5 +42,12 @@ public class CommunicatorStub implements Communicator {
         lastParamsPassed = null;
 
         return params;
+    }
+
+    public String readLastHttpMethodPassed() {
+        String method = lastHttpMethodPassed;
+        lastHttpMethodPassed = null;
+
+        return method;
     }
 }
