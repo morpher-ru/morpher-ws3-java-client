@@ -51,11 +51,8 @@ public class HttpURLConnectionCommunicator implements Communicator {
     }
 
     static String toConcatenatedRequestParameters(Map<String, String> params) throws UnsupportedEncodingException {
-        if (params == null || params.size() == 0) {
-            return "";
-        }
-
         StringBuilder paramsString = new StringBuilder();
+
         for (Map.Entry<String, String> entry : params.entrySet()) {
             if (entry.getKey() == null || entry.getKey().trim().length() == 0 ||
                     entry.getValue() == null || entry.getValue().trim().length() == 0) {

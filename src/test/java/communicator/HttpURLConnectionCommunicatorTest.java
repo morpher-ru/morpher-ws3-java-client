@@ -42,14 +42,6 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void toConcatenatedRequestParameters_emptyRequestParamsFromNullParamsMap() throws UnsupportedEncodingException {
-        String requestParameters = HttpURLConnectionCommunicator.toConcatenatedRequestParameters(null);
-
-        assertNotNull(requestParameters);
-        assertEquals(requestParameters, "");
-    }
-
-    @Test
     public void toConcatenatedRequestParameters_emptyRequestParamsFromEmptyParamsMap() throws UnsupportedEncodingException {
         Map<String, String> params = new HashMap<String, String>();
 

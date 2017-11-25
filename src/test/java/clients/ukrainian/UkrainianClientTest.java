@@ -170,7 +170,8 @@ public class UkrainianClientTest {
         assertEquals("ТестК", entry.singular.vocative);
 
         Map<String, String> params = communicator.readLastParamsPassed();
-        assertNull(params);
+        assertNotNull(params);
+        assertEquals(0, params.size());
         assertEquals("https://ws3.morpher.ru/ukrainian/userdict", communicator.readLastUrlPassed());
 
         String httpMethod = communicator.readLastHttpMethodPassed();

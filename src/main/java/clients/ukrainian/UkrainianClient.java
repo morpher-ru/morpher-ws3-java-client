@@ -76,7 +76,7 @@ public class UkrainianClient{
         TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {
         };
 
-        return communicator.sendRequest("userdict", null, METHOD_GET, responseType);
+        return communicator.sendRequest("userdict", new HashMap<String, String>(), METHOD_GET, responseType);
     }
 
     public boolean removeFromUserDictionary(String nominativeCorrection) throws MorpherException, IOException {

@@ -303,7 +303,8 @@ public class RussianClientTest {
         assertEquals("в Пантерах", entry.plural.locative);
 
         Map<String, String> params = communicator.readLastParamsPassed();
-        assertNull(params);
+        assertNotNull(params);
+        assertEquals(0, params.size());
         assertEquals("https://ws3.morpher.ru/russian/userdict", communicator.readLastUrlPassed());
 
         String httpMethod = communicator.readLastHttpMethodPassed();
