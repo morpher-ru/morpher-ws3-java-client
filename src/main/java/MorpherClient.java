@@ -65,14 +65,11 @@ public class MorpherClient {
                 // Can be used for Basic authentication
                 // ConnectionHandler connectionHandler = new BasicAuthConnectionHandler(token);
                 ConnectionHandler connectionHandler = new ConnectionHandler();
-                HttpURLConnectionCommunicator httpCommunicator = new HttpURLConnectionCommunicator(connectionHandler);
+                communicator = new HttpURLConnectionCommunicator(connectionHandler);
 
-                if(token != null && token.trim().length() != 0) {
-                    communicator = new UrlAuthCommunicator(token, httpCommunicator);
-                } else {
-                    communicator = httpCommunicator;
+                if (token != null && token.trim().length() != 0) {
+                    communicator = new UrlAuthCommunicator(token, communicator);
                 }
-
             }
 
             LanguagePathCommunicator languagePathCommunicator = new LanguagePathCommunicator(url, this.communicator);
