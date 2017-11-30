@@ -4,8 +4,9 @@ import clients.russian.data.CorrectionEntry;
 import clients.russian.data.CorrectionForms;
 import clients.russian.data.DeclensionResult;
 import clients.russian.data.NumberSpellingResult;
+import clients.russian.exceptions.ArgumentNotRussianException;
+import clients.russian.exceptions.NumeralsDeclensionNotSupportedException;
 import clients.ukrainian.UkrainianClient;
-import exceptions.MorpherException;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,8 +37,6 @@ public class UsageExample {
         try {
             demo(morpherClient.russian());
             demo(morpherClient.ukrainian());
-        } catch (MorpherException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -46,7 +45,7 @@ public class UsageExample {
 
     }
 
-    private static void demo(RussianClient russianClient) throws MorpherException, IOException {
+    private static void demo(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException {
         russianDeclensionsAndGenderExample(russianClient);
         russianNamesDeclensionsExample(russianClient);
         russianAdjectivesGendersExample(russianClient);
@@ -55,13 +54,13 @@ public class UsageExample {
         russianNumberSpellingResult(russianClient);
     }
 
-    private static void demo(UkrainianClient ukrainianClient) throws MorpherException, IOException {
+    private static void demo(UkrainianClient ukrainianClient) throws IOException {
         ukrainianDeclensionsAndGenderExample(ukrainianClient);
         ukrainianNumberSpellingResult(ukrainianClient);
         ukrainianSpellWithCorrectionExample(ukrainianClient);
     }
 
-    private static void russianSpellWithCorrectionExample(RussianClient russianClient) throws MorpherException, IOException {
+    private static void russianSpellWithCorrectionExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException {
         // Функции пользовательского словаря для ws3.morpher.ru работают только при наличии токена.
         // Для local сервиса токен не нужен.
 
@@ -122,7 +121,7 @@ public class UsageExample {
 
     }
 
-    private static void russianAdjectivizeExample(RussianClient russianClient) throws MorpherException, IOException {
+    private static void russianAdjectivizeExample(RussianClient russianClient) throws IOException {
         log("Образование прилагательных:");
         List<String> adjectives = russianClient.adjectivize("Мытищи");
         for (String adjective : adjectives) {
@@ -132,7 +131,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void russianNumberSpellingResult(RussianClient russianClient) throws MorpherException, IOException {
+    private static void russianNumberSpellingResult(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException {
         log("Сумма прописью:");
 
         int number = 2513;
@@ -142,7 +141,7 @@ public class UsageExample {
                 result.unitDeclension.genitive);
     }
 
-    private static void russianAdjectivesGendersExample(RussianClient russianClient) throws MorpherException, IOException {
+    private static void russianAdjectivesGendersExample(RussianClient russianClient) throws IOException {
         log("Склонение прилагательных по родам:");
 
         AdjectiveGendersResult adjectiveGenders = russianClient.adjectiveGenders("уважаемый");
@@ -152,7 +151,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void russianDeclensionsAndGenderExample(RussianClient russianClient) throws MorpherException, IOException {
+    private static void russianDeclensionsAndGenderExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException {
         log("Склонение на русском языке:");
 
         DeclensionResult result = russianClient.declension("Соединенное королевство");
@@ -183,7 +182,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void russianNamesDeclensionsExample(RussianClient russianClient) throws MorpherException, IOException {
+    private static void russianNamesDeclensionsExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException {
         log("Разделение ФИО на части:");
 
         DeclensionResult nameResult = russianClient.declension("Полад Бюльбюль-оглы Мамедов");
@@ -193,7 +192,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void ukrainianSpellWithCorrectionExample(UkrainianClient ukrainianClient) throws MorpherException, IOException {
+    private static void ukrainianSpellWithCorrectionExample(UkrainianClient ukrainianClient) throws IOException {
         // Функции пользовательского словаря для ws3.morpher.ru работают только при наличии токена.
         // Для local сервиса токен не нужен.
 
@@ -247,7 +246,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void ukrainianNumberSpellingResult(UkrainianClient ukrainianClient) throws MorpherException, IOException {
+    private static void ukrainianNumberSpellingResult(UkrainianClient ukrainianClient) throws IOException {
         log("Сумма прописью на укранинском:");
         int number = 2513;
         clients.ukrainian.data.NumberSpellingResult ukrainianNumberSpellingResult = ukrainianClient.spell(number, "рубль");
@@ -257,7 +256,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void ukrainianDeclensionsAndGenderExample(UkrainianClient ukrainianClient) throws MorpherException, IOException {
+    private static void ukrainianDeclensionsAndGenderExample(UkrainianClient ukrainianClient) throws IOException {
         log("Склонение ФИО на украинском языке:");
         clients.ukrainian.data.DeclensionResult ukrainianDeclensionResult = ukrainianClient.declension("Тест");
         log(" Називний вiдмiнок: " + ukrainianDeclensionResult.nominative);

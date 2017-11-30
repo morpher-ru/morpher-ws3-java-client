@@ -7,7 +7,6 @@ import clients.ukrainian.data.NumberSpellingResult;
 import communicator.CommunicatorStub;
 import communicator.LanguagePathCommunicator;
 import communicator.PrefixAppender;
-import exceptions.MorpherException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +18,6 @@ import static communicator.Communicator.METHOD_DELETE;
 import static communicator.Communicator.METHOD_GET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class UkrainianClientTest {
@@ -35,7 +33,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void declension_Success() throws MorpherException, IOException {
+    public void declension_Success() throws IOException {
         communicator.writeNextResponse("{" +
                 "\"Р\": \"теста\"," +
                 "\"Д\": \"тесту\"," +
@@ -68,7 +66,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void spell_Success() throws MorpherException, IOException {
+    public void spell_Success() throws IOException {
         communicator.writeNextResponse("{" +
                 "\"n\": {" +
                 "\"Н\": \"десять\"," +
@@ -123,7 +121,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void removeFromUserDictionary_Success() throws MorpherException, IOException {
+    public void removeFromUserDictionary_Success() throws IOException {
         communicator.writeNextResponse("true");
 
         boolean found = ukrainianClient.removeFromUserDictionary("тест");
@@ -140,7 +138,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void fetchAllFromUserDictionary_Success() throws MorpherException, IOException {
+    public void fetchAllFromUserDictionary_Success() throws IOException {
         communicator.writeNextResponse("[" +
                 "{" +
                 "\"singular\": {" +

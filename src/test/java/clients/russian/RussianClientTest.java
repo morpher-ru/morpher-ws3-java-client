@@ -5,10 +5,17 @@ import clients.russian.data.CorrectionEntry;
 import clients.russian.data.DeclensionResult;
 import clients.russian.data.Gender;
 import clients.russian.data.NumberSpellingResult;
+import clients.russian.exceptions.ArgumentNotRussianException;
+import clients.russian.exceptions.NumeralsDeclensionNotSupportedException;
 import communicator.CommunicatorStub;
 import communicator.LanguagePathCommunicator;
 import communicator.PrefixAppender;
-import exceptions.MorpherException;
+import exceptions.ArgumentEmptyException;
+import exceptions.DailyLimitExceededException;
+import exceptions.InvalidFlagsException;
+import exceptions.InvalidServerResponseException;
+import exceptions.IpBlockedException;
+import exceptions.TokenNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class RussianClientTest {
     private RussianClient russianClient;
@@ -36,7 +44,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_Success() throws MorpherException, IOException {
+    public void declension_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"теста\",\n" +
                 "  \"Д\": \"тесту\",\n" +
@@ -94,7 +102,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_SplitFio() throws MorpherException, IOException {
+    public void declension_SplitFio() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"Александра Сергеевича Пушкина\",\n" +
                 "  \"Д\": \"Александру Сергеевичу Пушкину\",\n" +
@@ -126,7 +134,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_nullGenitive() throws MorpherException, IOException {
+    public void declension_nullGenitive() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException {
         communicator.writeNextResponse("{\"Д\": \"теляти\",\"В\": \"теля\"}");
 
         DeclensionResult declensionResult = russianClient.declension("теля");
@@ -145,7 +153,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void spell_Success() throws MorpherException, IOException {
+    public void spell_Success() throws IOException, ArgumentNotRussianException {
         communicator.writeNextResponse("{\n" +
                 "  \"n\": {\n" +
                 "    \"И\": \"десять\",\n" +
@@ -197,7 +205,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void adjectiveGenders_Success() throws MorpherException, IOException {
+    public void adjectiveGenders_Success() throws IOException {
         communicator.writeNextResponse("{\n" +
                 "  \"feminine\": \"уважаемая\",\n" +
                 "  \"neuter\": \"уважаемое\",\n" +
@@ -222,7 +230,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void adjectivize_Success() throws MorpherException, IOException {
+    public void adjectivize_Success() throws IOException {
         communicator.writeNextResponse("[\n" +
                 "  \"мытыщинский\",\n" +
                 "  \"мытыщенский\"\n" +
@@ -239,7 +247,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void removeFromUserDictionary_Success() throws MorpherException, IOException {
+    public void removeFromUserDictionary_Success() throws IOException {
         communicator.writeNextResponse("true");
 
         boolean found = russianClient.removeFromUserDictionary("кошка");
@@ -256,7 +264,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void fetchAllFromUserDictionary_Success() throws MorpherException, IOException {
+    public void fetchAllFromUserDictionary_Success() throws IOException {
         communicator.writeNextResponse("[\n" +
                 "    {\n" +
                 "        \"singular\": {\n" +
@@ -309,5 +317,216 @@ public class RussianClientTest {
 
         String httpMethod = communicator.readLastHttpMethodPassed();
         assertEquals(METHOD_GET, httpMethod);
+    }
+
+
+    @Test
+    public void declension_rethrowsDailyLimitExceededException() throws Exception {
+        DailyLimitExceededException expectedException = new DailyLimitExceededException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.declension("тест");
+            fail("Should throw DailyLimitExceededException");
+        } catch (DailyLimitExceededException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", DailyLimitExceededException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void declension_rethrowsIpBlockedException() throws Exception {
+        IpBlockedException expectedException = new IpBlockedException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.declension("тест");
+            fail("Should throw IpBlockedException");
+        } catch (IpBlockedException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", IpBlockedException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void declension_rethrowsArgumentEmptyException() throws Exception {
+        ArgumentEmptyException expectedException = new ArgumentEmptyException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.declension("тест");
+            fail("Should throw ArgumentEmptyException");
+        } catch (ArgumentEmptyException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", ArgumentEmptyException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void declension_rethrowsInvalidFlagsException() throws Exception {
+        InvalidFlagsException expectedException = new InvalidFlagsException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.declension("тест");
+            fail("Should throw InvalidFlagsException");
+        } catch (InvalidFlagsException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", InvalidFlagsException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void declension_rethrowsTokenNotFoundException() throws Exception {
+        TokenNotFoundException expectedException = new TokenNotFoundException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.declension("тест");
+            fail("Should throw TokenNotFoundException");
+        } catch (TokenNotFoundException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", TokenNotFoundException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void declension_rethrowsInvalidServerResponseException_errorCode_500() throws Exception {
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(500, "message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.declension("тест");
+            fail("Should throw InvalidServerResponseException");
+        } catch (InvalidServerResponseException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", InvalidServerResponseException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void declension_convertsException_errorCode_495() throws Exception {
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(495, "message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.declension("десять");
+            fail("Should throw NumeralsDeclensionNotSupportedException");
+        } catch (NumeralsDeclensionNotSupportedException e) {
+            assertEquals(e.getMessage(), "Для склонения числительных используйте метод spell");
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", NumeralsDeclensionNotSupportedException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void declension_convertsException_errorCode_496() throws Exception {
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(496, "message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.declension("тест");
+            fail("Should throw ArgumentNotRussianException");
+        } catch (ArgumentNotRussianException e) {
+            assertEquals(e.getMessage(), "Не найдено русских слов");
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", ArgumentNotRussianException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void spell_rethrowsDailyLimitExceededException() throws Exception {
+        DailyLimitExceededException expectedException = new DailyLimitExceededException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.spell(10, "рубль");
+            fail("Should throw DailyLimitExceededException");
+        } catch (DailyLimitExceededException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", DailyLimitExceededException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void spell_rethrowsIpBlockedException() throws Exception {
+        IpBlockedException expectedException = new IpBlockedException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.spell(10, "рубль");
+            fail("Should throw IpBlockedException");
+        } catch (IpBlockedException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", IpBlockedException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void spell_rethrowsArgumentEmptyException() throws Exception {
+        ArgumentEmptyException expectedException = new ArgumentEmptyException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.spell(10, "рубль");
+            fail("Should throw ArgumentEmptyException");
+        } catch (ArgumentEmptyException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", ArgumentEmptyException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void spell_rethrowsInvalidFlagsException() throws Exception {
+        InvalidFlagsException expectedException = new InvalidFlagsException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.spell(10, "рубль");
+            fail("Should throw InvalidFlagsException");
+        } catch (InvalidFlagsException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", InvalidFlagsException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void spell_rethrowsTokenNotFoundException() throws Exception {
+        TokenNotFoundException expectedException = new TokenNotFoundException("message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.spell(10, "рубль");
+            fail("Should throw TokenNotFoundException");
+        } catch (TokenNotFoundException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", TokenNotFoundException should be thrown instead");
+        }
+    }
+
+    @Test
+    public void spell_rethrowsInvalidServerResponseException_errorCode_500() throws Exception {
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(500, "message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.spell(10, "рубль");
+            fail("Should throw InvalidServerResponseException");
+        } catch (InvalidServerResponseException e) {
+            assertEquals(expectedException, e);
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", InvalidServerResponseException should be thrown instead");
+        }
+    }
+    
+    @Test
+    public void spell_convertsException_errorCode_496() throws Exception {
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(496, "message");
+        try {
+            communicator.throwOnNextCall(expectedException);
+            russianClient.spell(10, "рубль");
+            fail("Should throw ArgumentNotRussianException");
+        } catch (ArgumentNotRussianException e) {
+            assertEquals(e.getMessage(), "Не найдено русских слов");
+        } catch (Exception e) {
+            fail("Should not throw " + e.getClass() + ", ArgumentNotRussianException should be thrown instead");
+        }
     }
 }

@@ -2,7 +2,6 @@ package communicator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import exceptions.MorpherException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,11 +16,11 @@ public class LanguagePathCommunicator implements PathCommunicator {
         this.communicator = communicator;
     }
 
-    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException, MorpherException {
+    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException {
         String url = buildUrl(operation);
         String responseBody = communicator.sendRequest(url, params, httpMethod);
-        
-        if(responseType == null){
+
+        if (responseType == null) {
             return null;
         }
 

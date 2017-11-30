@@ -4,9 +4,11 @@ import clients.russian.data.AdjectiveGendersResult;
 import clients.russian.data.CorrectionEntry;
 import clients.russian.data.DeclensionResult;
 import clients.russian.data.NumberSpellingResult;
+import clients.russian.exceptions.ArgumentNotRussianException;
+import clients.russian.exceptions.NumeralsDeclensionNotSupportedException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import communicator.PathCommunicator;
-import exceptions.MorpherException;
+import exceptions.InvalidServerResponseException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,20 +28,31 @@ public class RussianClient {
         this.communicator = communicator;
     }
 
-    public DeclensionResult declension(String lemma) throws MorpherException, IOException {
+    public DeclensionResult declension(String lemma) throws NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, IOException {
         TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
         };
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
 
-        DeclensionResult declension = communicator.sendRequest("declension", params, METHOD_GET, responseType);
-        declension.nominative = lemma;
+        try {
+            DeclensionResult declension = communicator.sendRequest("declension", params, METHOD_GET, responseType);
+            declension.nominative = lemma;
 
-        return declension;
+            return declension;
+        } catch (InvalidServerResponseException exception) {
+            switch (exception.getResponseCode()) {
+                case 495:
+                    throw new NumeralsDeclensionNotSupportedException("Для склонения числительных используйте метод spell");
+                case 496:
+                    throw new ArgumentNotRussianException("Не найдено русских слов");
+                default:
+                    throw exception;
+            }
+        }
     }
 
-    public NumberSpellingResult spell(int number, String unit) throws MorpherException, IOException {
+    public NumberSpellingResult spell(int number, String unit) throws ArgumentNotRussianException, IOException {
         TypeReference<NumberSpellingResult> responseType = new TypeReference<NumberSpellingResult>() {
         };
 
@@ -47,10 +60,19 @@ public class RussianClient {
         params.put("n", String.valueOf(number));
         params.put("unit", unit);
 
-        return communicator.sendRequest("spell", params, METHOD_GET, responseType);
+        try {
+            return communicator.sendRequest("spell", params, METHOD_GET, responseType);
+        } catch (InvalidServerResponseException exception) {
+            switch (exception.getResponseCode()) {
+                case 496:
+                    throw new ArgumentNotRussianException("Не найдено русских слов");
+                default:
+                    throw exception;
+            }
+        }
     }
 
-    public List<String> adjectivize(String lemma) throws MorpherException, IOException {
+    public List<String> adjectivize(String lemma) throws IOException {
         TypeReference<ArrayList<String>> responseType = new TypeReference<ArrayList<String>>() {
         };
 
@@ -60,7 +82,7 @@ public class RussianClient {
         return communicator.sendRequest("adjectivize", params, METHOD_GET, responseType);
     }
 
-    public AdjectiveGendersResult adjectiveGenders(String lemma) throws MorpherException, IOException {
+    public AdjectiveGendersResult adjectiveGenders(String lemma) throws IOException {
         TypeReference<AdjectiveGendersResult> responseType = new TypeReference<AdjectiveGendersResult>() {
         };
 
@@ -70,7 +92,7 @@ public class RussianClient {
         return communicator.sendRequest("genders", params, METHOD_GET, responseType);
     }
 
-    public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws MorpherException, IOException {
+    public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws IOException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("И", correctionEntry.singular.nominative);
         params.put("Р", correctionEntry.singular.genitive);
@@ -94,20 +116,20 @@ public class RussianClient {
         communicator.sendRequest("userdict", params, METHOD_POST, null);
     }
 
-    public List<CorrectionEntry> fetchAllFromUserDictionary() throws MorpherException, IOException {
+    public List<CorrectionEntry> fetchAllFromUserDictionary() throws IOException {
         TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {
         };
 
         return communicator.sendRequest("userdict", new HashMap<String, String>(), METHOD_GET, responseType);
     }
 
-    public boolean removeFromUserDictionary(String nominativeCorrection) throws MorpherException, IOException {
+    public boolean removeFromUserDictionary(String nominativeCorrection) throws IOException {
         TypeReference<Boolean> responseType = new TypeReference<Boolean>() {
         };
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", nominativeCorrection);
 
-        return communicator.sendRequest("userdict", params, METHOD_DELETE,responseType);
+        return communicator.sendRequest("userdict", params, METHOD_DELETE, responseType);
     }
 }

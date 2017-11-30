@@ -1,6 +1,6 @@
 package communicator;
 
-import exceptions.MorpherException;
+import exceptions.DailyLimitExceededException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -10,11 +10,16 @@ public class CommunicatorStub implements Communicator {
     private String lastUrlPassed;
     private Map<String, String> lastParamsPassed;
     private String lastHttpMethodPassed;
+    private RuntimeException nextException;
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, MorpherException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException {
         lastUrlPassed = url;
         lastParamsPassed = params;
         lastHttpMethodPassed = method;
+
+        if(nextException != null){
+            throw nextException;
+        }
 
         if (nextResponse == null) {
             return "";
@@ -49,5 +54,9 @@ public class CommunicatorStub implements Communicator {
         lastHttpMethodPassed = null;
 
         return method;
+    }
+
+    public void throwOnNextCall(RuntimeException nextException) {
+        this.nextException = nextException;
     }
 }

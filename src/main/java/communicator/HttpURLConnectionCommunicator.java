@@ -1,7 +1,12 @@
 package communicator;
 
 import communicator.connection.ConnectionHandler;
-import exceptions.MorpherException;
+import exceptions.ArgumentEmptyException;
+import exceptions.DailyLimitExceededException;
+import exceptions.InvalidFlagsException;
+import exceptions.InvalidServerResponseException;
+import exceptions.IpBlockedException;
+import exceptions.TokenNotFoundException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -21,7 +26,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         this.connectionHandler = connectionHandler;
     }
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, MorpherException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException {
         String requestParameters = toConcatenatedRequestParameters(params);
 
         if (!isPost(method)) {
@@ -110,25 +115,23 @@ public class HttpURLConnectionCommunicator implements Communicator {
     }
 
 
-    private void handleErrors(int responseCode, String responseErrorBody) throws MorpherException {
+    private void handleErrors(int responseCode, String responseErrorBody) {
 
         switch (responseCode) {
             case 402:
-                throw new MorpherException("Превышен лимит на количество запросов");
+                throw new DailyLimitExceededException("Превышен лимит на количество запросов");
             case 403:
-                throw new MorpherException("IP-адрес заблокирован");
-            case 495:
-                throw new MorpherException("Для склонения числительных используйте метод spell");
-            case 496:
-                throw new MorpherException("Не найдено русских слов");
+                throw new IpBlockedException("IP-адрес заблокирован");
             case 400:
-                throw new MorpherException("Передана пустая строка");
+                throw new ArgumentEmptyException("Передана пустая строка");
+            case 494:
+                throw new InvalidFlagsException("Указаны неправильные флаги.");
             case 498:
-                throw new MorpherException("Переданный токен не найден");
+                throw new TokenNotFoundException("Переданный токен не найден");
             case 497:
-                throw new MorpherException("Неверный формат токена");
+                throw new InvalidServerResponseException(497, "Неверный формат токена");
             default:
-                throw new RuntimeException("Unexpected error: " + responseErrorBody);
+                throw new InvalidServerResponseException(responseCode, "Сервер вернул неожиданный код. Возможно, у вас неактуальная версия клиента.");
         }
     }
 }

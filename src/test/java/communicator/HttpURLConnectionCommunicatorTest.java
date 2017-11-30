@@ -1,7 +1,11 @@
 package communicator;
 
 import communicator.connection.ConnectionHandler;
-import exceptions.MorpherException;
+import exceptions.ArgumentEmptyException;
+import exceptions.DailyLimitExceededException;
+import exceptions.InvalidServerResponseException;
+import exceptions.IpBlockedException;
+import exceptions.TokenNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +41,7 @@ public class HttpURLConnectionCommunicatorTest {
                 return httpURLConnection;
             }
         };
-        
+
         communicator = new HttpURLConnectionCommunicator(connectionHandler);
     }
 
@@ -110,7 +114,7 @@ public class HttpURLConnectionCommunicatorTest {
 
 
     @Test
-    public void sendRequest_urlParamsPopulatedForGETParams() throws IOException, MorpherException {
+    public void sendRequest_urlParamsPopulatedForGETParams() throws IOException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "test");
 
@@ -125,7 +129,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_urlParamsPopulatedForPOSTParams() throws IOException, MorpherException {
+    public void sendRequest_urlParamsPopulatedForPOSTParams() throws IOException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "test");
 
@@ -140,7 +144,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_urlParamsPopulatedForDELETEParams() throws IOException, MorpherException {
+    public void sendRequest_urlParamsPopulatedForDELETEParams() throws IOException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "test");
 
@@ -155,122 +159,122 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_400() throws IOException, MorpherException {
+    public void sendRequest_validateErrorResponseCode_400_ArgumentEmptyException() throws IOException {
         httpURLConnection.setResponseCode(400);
 
         try {
             communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), METHOD_GET);
-            fail("Should throw MorpherException");
+            fail("Should throw ArgumentEmptyException");
         } catch (IOException e) {
-            fail("Should not throw IOException, MorpherException should be thrown instead");
-        } catch (MorpherException e) {
+            fail("Should not throw IOException  should be thrown instead");
+        } catch (ArgumentEmptyException e) {
             assertEquals(e.getMessage(), "Передана пустая строка");
         }
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_402() throws IOException, MorpherException {
+    public void sendRequest_validateErrorResponseCode_402_DailyLimitExceededException() throws IOException {
         httpURLConnection.setResponseCode(402);
 
         try {
             communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), METHOD_GET);
-            fail("Should throw MorpherException");
+            fail("Should throw DailyLimitExceededException");
         } catch (IOException e) {
-            fail("Should not throw IOException, MorpherException should be thrown instead");
-        } catch (MorpherException e) {
+            fail("Should not throw IOException  should be thrown instead");
+        } catch (DailyLimitExceededException e) {
             assertEquals(e.getMessage(), "Превышен лимит на количество запросов");
         }
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_403() throws IOException, MorpherException {
+    public void sendRequest_validateErrorResponseCode_403_IpBlockedException() throws IOException {
         httpURLConnection.setResponseCode(403);
 
         try {
             communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), METHOD_GET);
-            fail("Should throw MorpherException");
+            fail("Should throw IpBlockedException");
         } catch (IOException e) {
-            fail("Should not throw IOException, MorpherException should be thrown instead");
-        } catch (MorpherException e) {
+            fail("Should not throw IOException  should be thrown instead");
+        } catch (IpBlockedException e) {
             assertEquals(e.getMessage(), "IP-адрес заблокирован");
         }
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_495() throws IOException, MorpherException {
+    public void sendRequest_validateErrorResponseCode_495_InvalidServerResponseException() throws IOException {
         httpURLConnection.setResponseCode(495);
 
         try {
             communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), METHOD_GET);
-            fail("Should throw MorpherException");
+            fail("Should throw InvalidServerResponseException");
         } catch (IOException e) {
-            fail("Should not throw IOException, MorpherException should be thrown instead");
-        } catch (MorpherException e) {
-            assertEquals(e.getMessage(), "Для склонения числительных используйте метод spell");
+            fail("Should not throw IOException  should be thrown instead");
+        } catch (InvalidServerResponseException e) {
+            assertEquals(e.getResponseCode(), 495);
         }
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_496() throws IOException, MorpherException {
+    public void sendRequest_validateErrorResponseCode_496() throws IOException {
         httpURLConnection.setResponseCode(496);
 
         try {
             communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), METHOD_GET);
-            fail("Should throw MorpherException");
+            fail("Should throw InvalidServerResponseException");
         } catch (IOException e) {
-            fail("Should not throw IOException, MorpherException should be thrown instead");
-        } catch (MorpherException e) {
-            assertEquals(e.getMessage(), "Не найдено русских слов");
+            fail("Should not throw IOException  should be thrown instead");
+        } catch (InvalidServerResponseException e) {
+            assertEquals(e.getResponseCode(), 496);
         }
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_497() throws IOException, MorpherException {
+    public void sendRequest_validateErrorResponseCode_497() throws IOException {
         httpURLConnection.setResponseCode(497);
 
         try {
             communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), METHOD_GET);
-            fail("Should throw MorpherException");
+            fail("Should throw InvalidServerResponseException");
         } catch (IOException e) {
-            fail("Should not throw IOException, MorpherException should be thrown instead");
-        } catch (MorpherException e) {
+            fail("Should not throw IOException  should be thrown instead");
+        } catch (InvalidServerResponseException e) {
             assertEquals(e.getMessage(), "Неверный формат токена");
+            assertEquals(e.getResponseCode(), 497);
         }
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_498() throws IOException, MorpherException {
+    public void sendRequest_validateErrorResponseCode_498() throws IOException {
         httpURLConnection.setResponseCode(498);
 
         try {
             communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), METHOD_GET);
-            fail("Should throw MorpherException");
+            fail("Should throw TokenNotFoundException");
         } catch (IOException e) {
-            fail("Should not throw IOException, MorpherException should be thrown instead");
-        } catch (MorpherException e) {
+            fail("Should not throw IOException  should be thrown instead");
+        } catch (TokenNotFoundException e) {
             assertEquals(e.getMessage(), "Переданный токен не найден");
         }
     }
 
     @Test
-    public void sendRequest_validateUnknownErrorResponseCode_500() throws IOException, MorpherException {
+    public void sendRequest_validateUnknownErrorResponseCode_500() throws IOException {
         httpURLConnection.setResponseCode(500);
         httpURLConnection.setErrorStream(new ByteArrayInputStream("We have maintenance, please try again later".getBytes()));
 
         try {
             communicator.sendRequest("russian/some-operation", new HashMap<String, String>(), METHOD_GET);
-            fail("Should throw MorpherException");
+            fail("Should throw InvalidServerResponseException");
         } catch (IOException e) {
-            fail("Should not throw IOException, MorpherException should be thrown instead");
-        } catch (MorpherException e) {
-            fail("Should not throw MorpherException, RuntimeException should be thrown instead");
-        } catch (RuntimeException e) {
-            assertEquals(e.getMessage(), "Unexpected error: We have maintenance, please try again later");
+            fail("Should not throw IOException  should be thrown instead");
+        } catch (InvalidServerResponseException e) {
+            assertEquals(e.getMessage(), "Сервер вернул неожиданный код. Возможно, у вас неактуальная версия клиента.");
+            assertEquals(e.getResponseCode(), 500);
         }
     }
 
     @Test
-    public void sendRequest_ResponseInputStreamShouldBeConvertedToStringResponse() throws IOException, MorpherException {
+    public void sendRequest_ResponseInputStreamShouldBeConvertedToStringResponse() throws IOException {
         String expectedResponseString = "{\"feminine\": \"тестовая\",\"neuter\": \"тестовое\",\"plural\": \"тестовые\"}";
 
         httpURLConnection.setResponseCode(200);
