@@ -29,7 +29,7 @@ public class BasicAuthConnectionHandler extends ConnectionHandler {
         }
 
         try {
-            byte[] encodeBase64 = Base64.encodeBase64((token).getBytes());
+            byte[] encodeBase64 = Base64.encodeBase64(token.getBytes());
             con.setRequestProperty(HEADER_AUTHORIZATION, "Basic " + new String(encodeBase64, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e.getMessage(), e);
