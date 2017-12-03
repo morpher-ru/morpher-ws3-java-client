@@ -54,7 +54,7 @@ public class MorpherClient {
             return this;
         }
 
-        public ClientBuilder useCommunicator(Communicator clientCommunicator) {
+        public ClientBuilder use(Communicator clientCommunicator) {
             this.communicator = clientCommunicator;
 
             return this;
