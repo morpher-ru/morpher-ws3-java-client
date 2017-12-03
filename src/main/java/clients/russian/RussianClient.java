@@ -28,7 +28,8 @@ public class RussianClient {
         this.communicator = communicator;
     }
 
-    public DeclensionResult declension(String lemma) throws NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, IOException {
+    public DeclensionResult declension(String lemma)
+            throws NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, IOException {
         TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
         };
 
