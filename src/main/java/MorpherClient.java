@@ -48,7 +48,13 @@ public class MorpherClient {
             return this;
         }
 
+        /** Enables or disables authentication using the specified token.
+         * @param clientToken Pass in null to disable authentication (which is the default).
+         */
         public ClientBuilder useToken(String clientToken) {
+            if (clientToken != null && clientToken.trim().length() == 0) {
+                throw new RuntimeException("Token must not be empty.");
+            }
             this.token = clientToken;
 
             return this;
@@ -67,7 +73,7 @@ public class MorpherClient {
                 ConnectionHandler connectionHandler = new ConnectionHandler();
                 communicator = new HttpURLConnectionCommunicator(connectionHandler);
 
-                if (token != null && token.trim().length() != 0) {
+                if (token != null) {
                     communicator = new UrlAuthCommunicator(token, communicator);
                 }
             }
