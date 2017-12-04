@@ -1,5 +1,8 @@
 package communicator;
 
+import exceptions.ArgumentEmptyException;
+import exceptions.InvalidFlagsException;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -13,7 +16,7 @@ public class UrlAuthCommunicator implements Communicator {
         this.communicator = communicator;
     }
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, InvalidFlagsException, ArgumentEmptyException {
         //Keep appender logic since url may already contain some url params in future for some reason
         String appenderChar = url.contains("?") ? "&" : "?";
         url = url + appenderChar + "token=" + token;

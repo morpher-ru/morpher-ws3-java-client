@@ -3,6 +3,7 @@ package communicator;
 import communicator.connection.ConnectionHandler;
 import exceptions.ArgumentEmptyException;
 import exceptions.DailyLimitExceededException;
+import exceptions.InvalidFlagsException;
 import exceptions.InvalidServerResponseException;
 import exceptions.IpBlockedException;
 import exceptions.TokenNotFoundException;
@@ -20,6 +21,7 @@ import java.util.Map;
 import static communicator.Communicator.METHOD_DELETE;
 import static communicator.Communicator.METHOD_GET;
 import static communicator.Communicator.METHOD_POST;
+import static communicator.HttpURLConnectionCommunicator.CONTENT_BODY_KEY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -114,7 +116,7 @@ public class HttpURLConnectionCommunicatorTest {
 
 
     @Test
-    public void sendRequest_urlParamsPopulatedForGETParams() throws IOException {
+    public void sendRequest_urlParamsPopulatedForGETParams() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "test");
 
@@ -129,9 +131,25 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_urlParamsPopulatedForPOSTParams() throws IOException {
+    public void sendRequest_urlParamsPopulatedForPOSTParams() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("s", "test");
+        params.put("s", "тест");
+
+        communicator.sendRequest("russian/some-operation", params, METHOD_POST);
+
+        // URL doesn't contain request params
+        assertEquals(httpURLConnection.getSourceUrl(), "https://ws3.morpher.ru/russian/some-operation");
+
+        // METHOD_POST body is populated with request url-encoded key-value params
+        assertEquals(httpURLConnection.getOutputStream().toString(), "s=%D1%82%D0%B5%D1%81%D1%82");
+        assertEquals(httpURLConnection.getRequestProperty("Content-Length"), "26");
+        assertEquals(httpURLConnection.getRequestProperty("Content-Type"), "application/x-www-form-urlencoded");
+    }
+
+    @Test
+    public void sendRequest_contentBodyPopulatedForPOSTParamsWithoutKey() throws IOException, InvalidFlagsException, ArgumentEmptyException {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(CONTENT_BODY_KEY, "текст без преобразования через URLEncoder");
 
         communicator.sendRequest("russian/some-operation", params, METHOD_POST);
 
@@ -139,12 +157,13 @@ public class HttpURLConnectionCommunicatorTest {
         assertEquals(httpURLConnection.getSourceUrl(), "https://ws3.morpher.ru/russian/some-operation");
 
         // METHOD_POST body is populated with request params
-        assertEquals(httpURLConnection.getOutputStream().toString(), "s=test");
-        assertEquals(httpURLConnection.getRequestProperty("Content-Length"), "6");
+        assertEquals(httpURLConnection.getOutputStream().toString(), "текст без преобразования через URLEncoder");
+        assertEquals(httpURLConnection.getRequestProperty("Content-Length"), "68");
+        assertEquals(httpURLConnection.getRequestProperty("Content-Type"), "text-plain");
     }
 
     @Test
-    public void sendRequest_urlParamsPopulatedForDELETEParams() throws IOException {
+    public void sendRequest_urlParamsPopulatedForDELETEParams() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "test");
 
@@ -159,7 +178,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_400_ArgumentEmptyException() throws IOException {
+    public void sendRequest_validateErrorResponseCode_400_ArgumentEmptyException() throws IOException, InvalidFlagsException {
         httpURLConnection.setResponseCode(400);
 
         try {
@@ -173,7 +192,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_402_DailyLimitExceededException() throws IOException {
+    public void sendRequest_validateErrorResponseCode_402_DailyLimitExceededException() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         httpURLConnection.setResponseCode(402);
 
         try {
@@ -187,7 +206,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_403_IpBlockedException() throws IOException {
+    public void sendRequest_validateErrorResponseCode_403_IpBlockedException() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         httpURLConnection.setResponseCode(403);
 
         try {
@@ -201,7 +220,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_495_InvalidServerResponseException() throws IOException {
+    public void sendRequest_validateErrorResponseCode_495_InvalidServerResponseException() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         httpURLConnection.setResponseCode(495);
 
         try {
@@ -215,7 +234,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_496() throws IOException {
+    public void sendRequest_validateErrorResponseCode_496() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         httpURLConnection.setResponseCode(496);
 
         try {
@@ -229,7 +248,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_497() throws IOException {
+    public void sendRequest_validateErrorResponseCode_497() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         httpURLConnection.setResponseCode(497);
 
         try {
@@ -244,7 +263,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_498() throws IOException {
+    public void sendRequest_validateErrorResponseCode_498() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         httpURLConnection.setResponseCode(498);
 
         try {
@@ -258,7 +277,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateUnknownErrorResponseCode_500() throws IOException {
+    public void sendRequest_validateUnknownErrorResponseCode_500() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         httpURLConnection.setResponseCode(500);
         httpURLConnection.setErrorStream(new ByteArrayInputStream("We have maintenance, please try again later".getBytes()));
 
@@ -274,7 +293,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_ResponseInputStreamShouldBeConvertedToStringResponse() throws IOException {
+    public void sendRequest_ResponseInputStreamShouldBeConvertedToStringResponse() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         String expectedResponseString = "{\"feminine\": \"тестовая\",\"neuter\": \"тестовое\",\"plural\": \"тестовые\"}";
 
         httpURLConnection.setResponseCode(200);

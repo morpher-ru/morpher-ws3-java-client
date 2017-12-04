@@ -8,6 +8,8 @@ import clients.russian.exceptions.ArgumentNotRussianException;
 import clients.russian.exceptions.NumeralsDeclensionNotSupportedException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import communicator.PathCommunicator;
+import exceptions.ArgumentEmptyException;
+import exceptions.InvalidFlagsException;
 import exceptions.InvalidServerResponseException;
 
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.util.Map;
 import static communicator.Communicator.METHOD_DELETE;
 import static communicator.Communicator.METHOD_GET;
 import static communicator.Communicator.METHOD_POST;
+import static communicator.HttpURLConnectionCommunicator.CONTENT_BODY_KEY;
 
 
 public class RussianClient {
@@ -29,7 +32,7 @@ public class RussianClient {
     }
 
     public DeclensionResult declension(String lemma)
-            throws NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, IOException {
+            throws NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, IOException, InvalidFlagsException, ArgumentEmptyException {
         TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
         };
 
@@ -53,7 +56,7 @@ public class RussianClient {
         }
     }
 
-    public NumberSpellingResult spell(int number, String unit) throws ArgumentNotRussianException, IOException {
+    public NumberSpellingResult spell(int number, String unit) throws ArgumentNotRussianException, IOException, InvalidFlagsException, ArgumentEmptyException {
         TypeReference<NumberSpellingResult> responseType = new TypeReference<NumberSpellingResult>() {
         };
 
@@ -73,7 +76,17 @@ public class RussianClient {
         }
     }
 
-    public List<String> adjectivize(String lemma) throws IOException {
+    public String addStressMarks(String text) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+        TypeReference<String> responseType = new TypeReference<String>() {
+        };
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(CONTENT_BODY_KEY, text);
+
+        return communicator.sendRequest("addstressmarks", params, METHOD_POST, responseType);
+    }
+
+    public List<String> adjectivize(String lemma) throws IOException, InvalidFlagsException, ArgumentEmptyException {
         TypeReference<ArrayList<String>> responseType = new TypeReference<ArrayList<String>>() {
         };
 
@@ -83,7 +96,7 @@ public class RussianClient {
         return communicator.sendRequest("adjectivize", params, METHOD_GET, responseType);
     }
 
-    public AdjectiveGendersResult adjectiveGenders(String lemma) throws IOException {
+    public AdjectiveGendersResult adjectiveGenders(String lemma) throws IOException, InvalidFlagsException, ArgumentEmptyException {
         TypeReference<AdjectiveGendersResult> responseType = new TypeReference<AdjectiveGendersResult>() {
         };
 
@@ -93,7 +106,7 @@ public class RussianClient {
         return communicator.sendRequest("genders", params, METHOD_GET, responseType);
     }
 
-    public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws IOException {
+    public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws IOException, InvalidFlagsException, ArgumentEmptyException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("И", correctionEntry.singular.nominative);
         params.put("Р", correctionEntry.singular.genitive);
@@ -117,14 +130,14 @@ public class RussianClient {
         communicator.sendRequest("userdict", params, METHOD_POST, null);
     }
 
-    public List<CorrectionEntry> fetchAllFromUserDictionary() throws IOException {
+    public List<CorrectionEntry> fetchAllFromUserDictionary() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {
         };
 
         return communicator.sendRequest("userdict", new HashMap<String, String>(), METHOD_GET, responseType);
     }
 
-    public boolean removeFromUserDictionary(String nominativeCorrection) throws IOException {
+    public boolean removeFromUserDictionary(String nominativeCorrection) throws IOException, InvalidFlagsException, ArgumentEmptyException {
         TypeReference<Boolean> responseType = new TypeReference<Boolean>() {
         };
 

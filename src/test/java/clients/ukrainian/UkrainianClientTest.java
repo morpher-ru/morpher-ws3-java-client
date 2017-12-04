@@ -7,6 +7,8 @@ import clients.ukrainian.data.NumberSpellingResult;
 import communicator.CommunicatorStub;
 import communicator.LanguagePathCommunicator;
 import communicator.PrefixAppender;
+import exceptions.ArgumentEmptyException;
+import exceptions.InvalidFlagsException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +35,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void declension_Success() throws IOException {
+    public void declension_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{" +
                 "\"Р\": \"теста\"," +
                 "\"Д\": \"тесту\"," +
@@ -66,7 +68,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void spell_Success() throws IOException {
+    public void spell_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{" +
                 "\"n\": {" +
                 "\"Н\": \"десять\"," +
@@ -121,7 +123,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void removeFromUserDictionary_Success() throws IOException {
+    public void removeFromUserDictionary_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("true");
 
         boolean found = ukrainianClient.removeFromUserDictionary("тест");
@@ -138,7 +140,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void fetchAllFromUserDictionary_Success() throws IOException {
+    public void fetchAllFromUserDictionary_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("[" +
                 "{" +
                 "\"singular\": {" +

@@ -25,6 +25,8 @@ import java.util.Map;
 
 import static communicator.Communicator.METHOD_DELETE;
 import static communicator.Communicator.METHOD_GET;
+import static communicator.Communicator.METHOD_POST;
+import static communicator.HttpURLConnectionCommunicator.CONTENT_BODY_KEY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -44,7 +46,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException {
+    public void declension_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"теста\",\n" +
                 "  \"Д\": \"тесту\",\n" +
@@ -102,7 +104,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_SplitFio() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException {
+    public void declension_SplitFio() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"Александра Сергеевича Пушкина\",\n" +
                 "  \"Д\": \"Александру Сергеевичу Пушкину\",\n" +
@@ -134,7 +136,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_nullGenitive() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException {
+    public void declension_nullGenitive() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\"Д\": \"теляти\",\"В\": \"теля\"}");
 
         DeclensionResult declensionResult = russianClient.declension("теля");
@@ -153,7 +155,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void spell_Success() throws IOException, ArgumentNotRussianException {
+    public void spell_Success() throws IOException, ArgumentNotRussianException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\n" +
                 "  \"n\": {\n" +
                 "    \"И\": \"десять\",\n" +
@@ -205,7 +207,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void adjectiveGenders_Success() throws IOException {
+    public void adjectiveGenders_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\n" +
                 "  \"feminine\": \"уважаемая\",\n" +
                 "  \"neuter\": \"уважаемое\",\n" +
@@ -230,7 +232,25 @@ public class RussianClientTest {
     }
 
     @Test
-    public void adjectivize_Success() throws IOException {
+    public void addStressMarks_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
+        communicator.writeNextResponse("\"передава́емый текст для ударе́ний\"");
+
+        String text = russianClient.addStressMarks("передава́емый текст для ударений");
+        assertNotNull(text);
+        assertEquals("передава́емый текст для ударе́ний", text);
+
+        Map<String, String> params = communicator.readLastParamsPassed();
+        assertNotNull(params);
+        assertEquals(1, params.size());
+        assertEquals("передава́емый текст для ударений", params.get(CONTENT_BODY_KEY));
+        assertEquals("https://ws3.morpher.ru/russian/addstressmarks", communicator.readLastUrlPassed());
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_POST, httpMethod);
+    }
+
+    @Test
+    public void adjectivize_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("[\n" +
                 "  \"мытыщинский\",\n" +
                 "  \"мытыщенский\"\n" +
@@ -247,7 +267,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void removeFromUserDictionary_Success() throws IOException {
+    public void removeFromUserDictionary_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("true");
 
         boolean found = russianClient.removeFromUserDictionary("кошка");
@@ -264,7 +284,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void fetchAllFromUserDictionary_Success() throws IOException {
+    public void fetchAllFromUserDictionary_Success() throws IOException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("[\n" +
                 "    {\n" +
                 "        \"singular\": {\n" +

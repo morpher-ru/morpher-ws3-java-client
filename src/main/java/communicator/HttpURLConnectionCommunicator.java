@@ -20,14 +20,19 @@ import java.util.Map;
 
 public class HttpURLConnectionCommunicator implements Communicator {
 
+    public static final String CONTENT_BODY_KEY = "Content-Body";
     private final ConnectionHandler connectionHandler;
 
     public HttpURLConnectionCommunicator(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
     }
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException {
-        String requestParameters = toConcatenatedRequestParameters(params);
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+        boolean isContentBody = isContentBody(params, method);
+
+        String requestParameters = isContentBody
+                ? params.get(CONTENT_BODY_KEY)
+                : toConcatenatedRequestParameters(params);
 
         if (!isPost(method)) {
             String appenderChar = url.contains("?") ? "&" : "?";
@@ -39,6 +44,13 @@ public class HttpURLConnectionCommunicator implements Communicator {
         if (isPost(method)) {
             populatePostParams(requestParameters, con);
         }
+
+        String contentType = isContentBody
+                ? "text-plain"
+                : "application/x-www-form-urlencoded";
+
+        con.setRequestProperty("Content-Type", contentType);
+        con.setRequestProperty("Accept", "application/json");
 
         con.connect();
 
@@ -75,6 +87,10 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return paramsString.toString();
     }
 
+    private static boolean isContentBody(Map<String, String> params, String method) {
+        return METHOD_POST.equalsIgnoreCase(method) && params.size() == 1 && params.containsKey(CONTENT_BODY_KEY);
+    }
+
     private HttpURLConnection getHttpConnection(String urlString, String method) throws IOException {
         HttpURLConnection con = connectionHandler.openConnection(urlString);
         con.setConnectTimeout(10000);
@@ -83,9 +99,6 @@ public class HttpURLConnectionCommunicator implements Communicator {
         con.setInstanceFollowRedirects(false);
         con.setUseCaches(false);
         con.setDoOutput(true);
-
-        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        con.setRequestProperty("Accept", "application/json");
 
         return con;
     }
@@ -115,7 +128,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
     }
 
 
-    private void handleErrors(int responseCode, String responseErrorBody) {
+    private void handleErrors(int responseCode, String responseErrorBody) throws ArgumentEmptyException, InvalidFlagsException {
 
         switch (responseCode) {
             case 402:

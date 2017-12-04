@@ -1,6 +1,8 @@
 package communicator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import exceptions.ArgumentEmptyException;
+import exceptions.InvalidFlagsException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,7 +16,7 @@ public class PrefixAppender implements PathCommunicator {
         this.prefix = prefix;
     }
 
-    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException {
+    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException, InvalidFlagsException, ArgumentEmptyException {
         return communicator.sendRequest(Path.combine(prefix, operation), params, httpMethod, responseType);
     }
 }
