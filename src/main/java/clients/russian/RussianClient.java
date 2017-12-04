@@ -30,7 +30,7 @@ public class RussianClient {
         this.communicator = communicator;
     }
 
-    public DeclensionResult declension(String lemma) throws
+    public DeclensionResult declension(String phrase) throws
             IOException,
             NumeralsDeclensionNotSupportedException,
             ArgumentNotRussianException,
@@ -40,11 +40,11 @@ public class RussianClient {
         TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {};
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("s", lemma);
+        params.put("s", phrase);
 
         try {
             DeclensionResult declension = communicator.sendRequest("declension", params, METHOD_GET, responseType);
-            declension.nominative = lemma;
+            declension.nominative = phrase;
 
             return declension;
         } catch (InvalidServerResponseException exception) {
