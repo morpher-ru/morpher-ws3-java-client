@@ -20,7 +20,6 @@ import java.util.Map;
 
 public class HttpURLConnectionCommunicator implements Communicator {
 
-    public static final String CONTENT_BODY_KEY = "Content-Body";
     private final ConnectionHandler connectionHandler;
 
     public HttpURLConnectionCommunicator(ConnectionHandler connectionHandler) {

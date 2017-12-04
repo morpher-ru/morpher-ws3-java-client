@@ -21,7 +21,7 @@ import java.util.Map;
 import static communicator.Communicator.METHOD_DELETE;
 import static communicator.Communicator.METHOD_GET;
 import static communicator.Communicator.METHOD_POST;
-import static communicator.HttpURLConnectionCommunicator.CONTENT_BODY_KEY;
+import static communicator.Communicator.CONTENT_BODY_KEY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
