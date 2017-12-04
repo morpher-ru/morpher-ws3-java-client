@@ -23,7 +23,6 @@ import static communicator.Communicator.METHOD_GET;
 import static communicator.Communicator.METHOD_POST;
 import static communicator.HttpURLConnectionCommunicator.CONTENT_BODY_KEY;
 
-
 public class RussianClient {
     private PathCommunicator communicator;
 
@@ -31,10 +30,14 @@ public class RussianClient {
         this.communicator = communicator;
     }
 
-    public DeclensionResult declension(String lemma)
-            throws NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, IOException, InvalidFlagsException, ArgumentEmptyException {
-        TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
-        };
+    public DeclensionResult declension(String lemma) throws
+            IOException,
+            NumeralsDeclensionNotSupportedException,
+            ArgumentNotRussianException,
+            InvalidFlagsException,
+            ArgumentEmptyException
+    {
+        TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {};
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
@@ -56,9 +59,13 @@ public class RussianClient {
         }
     }
 
-    public NumberSpellingResult spell(int number, String unit) throws ArgumentNotRussianException, IOException, InvalidFlagsException, ArgumentEmptyException {
-        TypeReference<NumberSpellingResult> responseType = new TypeReference<NumberSpellingResult>() {
-        };
+    public NumberSpellingResult spell(int number, String unit) throws
+            IOException,
+            ArgumentNotRussianException,
+            InvalidFlagsException,
+            ArgumentEmptyException
+    {
+        TypeReference<NumberSpellingResult> responseType = new TypeReference<NumberSpellingResult>() {};
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("n", String.valueOf(number));
@@ -76,9 +83,12 @@ public class RussianClient {
         }
     }
 
-    public String addStressMarks(String text) throws IOException, InvalidFlagsException, ArgumentEmptyException {
-        TypeReference<String> responseType = new TypeReference<String>() {
-        };
+    public String addStressMarks(String text) throws
+            IOException,
+            InvalidFlagsException,
+            ArgumentEmptyException
+    {
+        TypeReference<String> responseType = new TypeReference<String>() {};
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(CONTENT_BODY_KEY, text);
@@ -86,9 +96,12 @@ public class RussianClient {
         return communicator.sendRequest("addstressmarks", params, METHOD_POST, responseType);
     }
 
-    public List<String> adjectivize(String lemma) throws IOException, InvalidFlagsException, ArgumentEmptyException {
-        TypeReference<ArrayList<String>> responseType = new TypeReference<ArrayList<String>>() {
-        };
+    public List<String> adjectivize(String lemma) throws
+            IOException,
+            InvalidFlagsException,
+            ArgumentEmptyException
+    {
+        TypeReference<ArrayList<String>> responseType = new TypeReference<ArrayList<String>>() {};
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
@@ -96,9 +109,12 @@ public class RussianClient {
         return communicator.sendRequest("adjectivize", params, METHOD_GET, responseType);
     }
 
-    public AdjectiveGendersResult adjectiveGenders(String lemma) throws IOException, InvalidFlagsException, ArgumentEmptyException {
-        TypeReference<AdjectiveGendersResult> responseType = new TypeReference<AdjectiveGendersResult>() {
-        };
+    public AdjectiveGendersResult adjectiveGenders(String lemma) throws
+            IOException,
+            InvalidFlagsException,
+            ArgumentEmptyException
+    {
+        TypeReference<AdjectiveGendersResult> responseType = new TypeReference<AdjectiveGendersResult>() {};
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", lemma);
@@ -106,7 +122,11 @@ public class RussianClient {
         return communicator.sendRequest("genders", params, METHOD_GET, responseType);
     }
 
-    public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws
+            IOException,
+            InvalidFlagsException,
+            ArgumentEmptyException
+    {
         Map<String, String> params = new HashMap<String, String>();
         params.put("И", correctionEntry.singular.nominative);
         params.put("Р", correctionEntry.singular.genitive);
@@ -130,16 +150,22 @@ public class RussianClient {
         communicator.sendRequest("userdict", params, METHOD_POST, null);
     }
 
-    public List<CorrectionEntry> fetchAllFromUserDictionary() throws IOException, InvalidFlagsException, ArgumentEmptyException {
-        TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {
-        };
+    public List<CorrectionEntry> fetchAllFromUserDictionary() throws
+            IOException,
+            InvalidFlagsException,
+            ArgumentEmptyException
+    {
+        TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {};
 
         return communicator.sendRequest("userdict", new HashMap<String, String>(), METHOD_GET, responseType);
     }
 
-    public boolean removeFromUserDictionary(String nominativeCorrection) throws IOException, InvalidFlagsException, ArgumentEmptyException {
-        TypeReference<Boolean> responseType = new TypeReference<Boolean>() {
-        };
+    public boolean removeFromUserDictionary(String nominativeCorrection) throws
+            IOException,
+            InvalidFlagsException,
+            ArgumentEmptyException
+    {
+        TypeReference<Boolean> responseType = new TypeReference<Boolean>() {};
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", nominativeCorrection);
