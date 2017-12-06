@@ -62,6 +62,8 @@ public class RussianClient {
             return declension;
         } catch (InvalidServerResponseException exception) {
             switch (exception.getResponseCode()) {
+                case 494:
+                    throw new InvalidFlagsException("Указаны неправильные флаги.");
                 case 495:
                     throw new NumeralsDeclensionNotSupportedException("Для склонения числительных используйте метод spell");
                 case 496:
@@ -75,7 +77,6 @@ public class RussianClient {
     public NumberSpellingResult spell(int number, String unit) throws
             IOException,
             ArgumentNotRussianException,
-            InvalidFlagsException,
             ArgumentEmptyException
     {
         TypeReference<NumberSpellingResult> responseType = new TypeReference<NumberSpellingResult>() {};
@@ -98,7 +99,6 @@ public class RussianClient {
 
     public String addStressMarks(String text) throws
             IOException,
-            InvalidFlagsException,
             ArgumentEmptyException
     {
         TypeReference<String> responseType = new TypeReference<String>() {};
@@ -111,7 +111,6 @@ public class RussianClient {
 
     public List<String> adjectivize(String lemma) throws
             IOException,
-            InvalidFlagsException,
             ArgumentEmptyException
     {
         TypeReference<ArrayList<String>> responseType = new TypeReference<ArrayList<String>>() {};
@@ -124,7 +123,6 @@ public class RussianClient {
 
     public AdjectiveGendersResult adjectiveGenders(String lemma) throws
             IOException,
-            InvalidFlagsException,
             ArgumentEmptyException
     {
         TypeReference<AdjectiveGendersResult> responseType = new TypeReference<AdjectiveGendersResult>() {};
@@ -137,7 +135,6 @@ public class RussianClient {
 
     public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws
             IOException,
-            InvalidFlagsException,
             ArgumentEmptyException
     {
         Map<String, String> params = new HashMap<String, String>();
@@ -165,7 +162,6 @@ public class RussianClient {
 
     public List<CorrectionEntry> fetchAllFromUserDictionary() throws
             IOException,
-            InvalidFlagsException,
             ArgumentEmptyException
     {
         TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {};
@@ -175,7 +171,6 @@ public class RussianClient {
 
     public boolean removeFromUserDictionary(String nominativeCorrection) throws
             IOException,
-            InvalidFlagsException,
             ArgumentEmptyException
     {
         TypeReference<Boolean> responseType = new TypeReference<Boolean>() {};

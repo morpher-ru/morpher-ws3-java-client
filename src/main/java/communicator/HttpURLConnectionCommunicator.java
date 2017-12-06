@@ -26,7 +26,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         this.connectionHandler = connectionHandler;
     }
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, ArgumentEmptyException {
         boolean isContentBody = isContentBody(params, method);
 
         String requestParameters = isContentBody
@@ -127,7 +127,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
     }
 
 
-    private void handleErrors(int responseCode, String responseErrorBody) throws ArgumentEmptyException, InvalidFlagsException {
+    private void handleErrors(int responseCode, String responseErrorBody) throws ArgumentEmptyException {
 
         switch (responseCode) {
             case 402:
@@ -136,8 +136,6 @@ public class HttpURLConnectionCommunicator implements Communicator {
                 throw new IpBlockedException("IP-адрес заблокирован");
             case 400:
                 throw new ArgumentEmptyException("Передана пустая строка");
-            case 494:
-                throw new InvalidFlagsException("Указаны неправильные флаги.");
             case 498:
                 throw new TokenNotFoundException("Переданный токен не найден");
             case 497:

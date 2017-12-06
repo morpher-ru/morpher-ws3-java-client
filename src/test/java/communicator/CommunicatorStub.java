@@ -14,7 +14,7 @@ public class CommunicatorStub implements Communicator {
     private String lastHttpMethodPassed;
     private Exception nextException;
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException,  ArgumentEmptyException {
         lastUrlPassed = url;
         lastParamsPassed = params;
         lastHttpMethodPassed = method;
@@ -22,10 +22,6 @@ public class CommunicatorStub implements Communicator {
         if(nextException != null){
             if(nextException instanceof IOException) {
                 throw (IOException)nextException;
-            }
-
-            if(nextException instanceof InvalidFlagsException) {
-                throw (InvalidFlagsException)nextException;
             }
 
             if(nextException instanceof ArgumentEmptyException) {

@@ -47,7 +47,7 @@ public class UsageExample {
 
     }
 
-    private static void demo(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, InvalidFlagsException, ArgumentEmptyException {
+    private static void demo(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, ArgumentEmptyException, InvalidFlagsException {
         russianDeclensionsAndGenderExample(russianClient);
         russianNamesDeclensionsExample(russianClient);
         russianAdjectivesGendersExample(russianClient);
@@ -56,13 +56,13 @@ public class UsageExample {
         russianNumberSpellingResult(russianClient);
     }
 
-    private static void demo(UkrainianClient ukrainianClient) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    private static void demo(UkrainianClient ukrainianClient) throws IOException,  ArgumentEmptyException {
         ukrainianDeclensionsAndGenderExample(ukrainianClient);
         ukrainianNumberSpellingResult(ukrainianClient);
         ukrainianSpellWithCorrectionExample(ukrainianClient);
     }
 
-    private static void russianSpellWithCorrectionExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, InvalidFlagsException, ArgumentEmptyException {
+    private static void russianSpellWithCorrectionExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, ArgumentEmptyException, InvalidFlagsException {
         // Функции пользовательского словаря для ws3.morpher.ru работают только при наличии токена.
         // Для local сервиса токен не нужен.
 
@@ -123,7 +123,7 @@ public class UsageExample {
 
     }
 
-    private static void russianAdjectivizeExample(RussianClient russianClient) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    private static void russianAdjectivizeExample(RussianClient russianClient) throws IOException,  ArgumentEmptyException {
         log("Образование прилагательных:");
         List<String> adjectives = russianClient.adjectivize("Мытищи");
         for (String adjective : adjectives) {
@@ -133,7 +133,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void russianNumberSpellingResult(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, InvalidFlagsException, ArgumentEmptyException {
+    private static void russianNumberSpellingResult(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException,  ArgumentEmptyException {
         log("Сумма прописью:");
 
         int number = 2513;
@@ -143,7 +143,7 @@ public class UsageExample {
                 result.unitDeclension.genitive);
     }
 
-    private static void russianAdjectivesGendersExample(RussianClient russianClient) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    private static void russianAdjectivesGendersExample(RussianClient russianClient) throws IOException,  ArgumentEmptyException {
         log("Склонение прилагательных по родам:");
 
         AdjectiveGendersResult adjectiveGenders = russianClient.adjectiveGenders("уважаемый");
@@ -153,7 +153,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void russianDeclensionsAndGenderExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, InvalidFlagsException, ArgumentEmptyException {
+    private static void russianDeclensionsAndGenderExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, ArgumentEmptyException, InvalidFlagsException {
         log("Склонение на русском языке:");
 
         DeclensionResult result = russianClient.declension("Соединенное королевство");
@@ -184,7 +184,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void russianNamesDeclensionsExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, InvalidFlagsException, ArgumentEmptyException {
+    private static void russianNamesDeclensionsExample(RussianClient russianClient) throws IOException, NumeralsDeclensionNotSupportedException, ArgumentNotRussianException, ArgumentEmptyException, InvalidFlagsException {
         log("Разделение ФИО на части:");
 
         DeclensionResult nameResult = russianClient.declension("Полад Бюльбюль-оглы Мамедов");
@@ -194,7 +194,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void ukrainianSpellWithCorrectionExample(UkrainianClient ukrainianClient) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    private static void ukrainianSpellWithCorrectionExample(UkrainianClient ukrainianClient) throws IOException,  ArgumentEmptyException {
         // Функции пользовательского словаря для ws3.morpher.ru работают только при наличии токена.
         // Для local сервиса токен не нужен.
 
@@ -248,7 +248,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void ukrainianNumberSpellingResult(UkrainianClient ukrainianClient) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    private static void ukrainianNumberSpellingResult(UkrainianClient ukrainianClient) throws IOException,  ArgumentEmptyException {
         log("Сумма прописью на укранинском:");
         int number = 2513;
         clients.ukrainian.data.NumberSpellingResult ukrainianNumberSpellingResult = ukrainianClient.spell(number, "рубль");
@@ -258,7 +258,7 @@ public class UsageExample {
         log("");
     }
 
-    private static void ukrainianDeclensionsAndGenderExample(UkrainianClient ukrainianClient) throws IOException, InvalidFlagsException, ArgumentEmptyException {
+    private static void ukrainianDeclensionsAndGenderExample(UkrainianClient ukrainianClient) throws IOException,  ArgumentEmptyException {
         log("Склонение ФИО на украинском языке:");
         clients.ukrainian.data.DeclensionResult ukrainianDeclensionResult = ukrainianClient.declension("Тест");
         log(" Називний вiдмiнок: " + ukrainianDeclensionResult.nominative);
