@@ -2,6 +2,7 @@ package clients.russian;
 
 import clients.russian.data.AdjectiveGendersResult;
 import clients.russian.data.CorrectionEntry;
+import clients.russian.data.DeclensionFlag;
 import clients.russian.data.DeclensionResult;
 import clients.russian.data.Gender;
 import clients.russian.data.NumberSpellingResult;
@@ -98,6 +99,52 @@ public class RussianClientTest {
         assertNotNull(params);
         assertEquals(1, params.size());
         assertEquals("тест", params.get("s"));
+
+        String httpMethod = communicator.readLastHttpMethodPassed();
+        assertEquals(METHOD_GET, httpMethod);
+    }
+
+    @Test
+    public void declension_WithFlags_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
+        communicator.writeNextResponse("{\n" +
+                "  \"Р\": \"Любови Соколовой\",\n" +
+                "  \"Д\": \"Любови Соколовой\",\n" +
+                "  \"В\": \"Любовь Соколову\",\n" +
+                "  \"Т\": \"Любовью Соколовой\",\n" +
+                "  \"П\": \"Любови Соколовой\",\n" +
+                "  \"ФИО\": {\n" +
+                "    \"Ф\": \"Соколова\",\n" +
+                "    \"И\": \"Любовь\",\n" +
+                "    \"О\": \"\"\n" +
+                "  }\n" +
+                "}");
+
+        DeclensionResult declensionResult = russianClient.declension("Любовь Соколова", DeclensionFlag.Name, DeclensionFlag.Feminine);
+        assertNotNull(declensionResult);
+        assertNull(declensionResult.plural);
+        assertEquals("Любовь Соколова", declensionResult.nominative);
+        assertEquals("Любови Соколовой", declensionResult.genitive);
+        assertEquals("Любови Соколовой", declensionResult.dative);
+        assertEquals("Любовь Соколову", declensionResult.accusative);
+        assertEquals("Любовью Соколовой", declensionResult.instrumental);
+        assertEquals("Любови Соколовой", declensionResult.prepositional);
+
+        assertNull(declensionResult.prepositionalWithO);
+        assertNull(declensionResult.where);
+        assertNull(declensionResult.to);
+        assertNull(declensionResult.from);
+        assertNull(declensionResult.gender);
+
+        assertNotNull(declensionResult.fullName);
+        assertEquals("Соколова", declensionResult.fullName.surname);
+        assertEquals("Любовь", declensionResult.fullName.name);
+        assertEquals("", declensionResult.fullName.patronymic);
+
+        Map<String, String> params = communicator.readLastParamsPassed();
+        assertNotNull(params);
+        assertEquals(2, params.size());
+        assertEquals("Любовь Соколова", params.get("s"));
+        assertEquals("name,feminine", params.get("flags"));
 
         String httpMethod = communicator.readLastHttpMethodPassed();
         assertEquals(METHOD_GET, httpMethod);

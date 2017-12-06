@@ -2,6 +2,7 @@ package clients.russian;
 
 import clients.russian.data.AdjectiveGendersResult;
 import clients.russian.data.CorrectionEntry;
+import clients.russian.data.DeclensionFlag;
 import clients.russian.data.DeclensionResult;
 import clients.russian.data.NumberSpellingResult;
 import clients.russian.exceptions.ArgumentNotRussianException;
@@ -30,17 +31,29 @@ public class RussianClient {
         this.communicator = communicator;
     }
 
-    public DeclensionResult declension(String phrase) throws
+    public DeclensionResult declension(String phrase, DeclensionFlag... flags) throws
             IOException,
             NumeralsDeclensionNotSupportedException,
             ArgumentNotRussianException,
             InvalidFlagsException,
-            ArgumentEmptyException
-    {
-        TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {};
+            ArgumentEmptyException{
+        TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
+        };
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", phrase);
+
+        if(flags.length > 0){
+            StringBuilder sb = new StringBuilder();
+            for (DeclensionFlag flag : flags) {
+                String delimiter = sb.length() == 0 ? "" : ",";
+
+                sb.append(delimiter);
+                sb.append(flag.toString().toLowerCase());
+            }
+
+            params.put("flags", sb.toString());
+        }
 
         try {
             DeclensionResult declension = communicator.sendRequest("declension", params, METHOD_GET, responseType);
