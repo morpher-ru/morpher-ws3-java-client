@@ -16,7 +16,7 @@ public class PrefixAppender implements PathCommunicator {
         this.prefix = prefix;
     }
 
-    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException, ArgumentEmptyException {
+    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException {
         return communicator.sendRequest(Path.combine(prefix, operation), params, httpMethod, responseType);
     }
 }

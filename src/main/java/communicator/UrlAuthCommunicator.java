@@ -16,7 +16,7 @@ public class UrlAuthCommunicator implements Communicator {
         this.communicator = communicator;
     }
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException,  ArgumentEmptyException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException {
         //Keep appender logic since url may already contain some url params in future for some reason
         String appenderChar = url.contains("?") ? "&" : "?";
         url = url + appenderChar + "token=" + token;

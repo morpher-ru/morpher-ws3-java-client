@@ -47,7 +47,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, ArgumentEmptyException, InvalidFlagsException {
+    public void declension_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"теста\",\n" +
                 "  \"Д\": \"тесту\",\n" +
@@ -105,7 +105,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_WithFlags_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, ArgumentEmptyException, InvalidFlagsException {
+    public void declension_WithFlags_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"Любови Соколовой\",\n" +
                 "  \"Д\": \"Любови Соколовой\",\n" +
@@ -151,7 +151,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_SplitFio() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, ArgumentEmptyException, InvalidFlagsException {
+    public void declension_SplitFio() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"Александра Сергеевича Пушкина\",\n" +
                 "  \"Д\": \"Александру Сергеевичу Пушкину\",\n" +
@@ -183,7 +183,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_nullGenitive() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, ArgumentEmptyException, InvalidFlagsException {
+    public void declension_nullGenitive() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
         communicator.writeNextResponse("{\"Д\": \"теляти\",\"В\": \"теля\"}");
 
         DeclensionResult declensionResult = russianClient.declension("теля");
@@ -202,7 +202,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void spell_Success() throws IOException, ArgumentNotRussianException,  ArgumentEmptyException {
+    public void spell_Success() throws IOException, ArgumentNotRussianException, ArgumentEmptyException {
         communicator.writeNextResponse("{\n" +
                 "  \"n\": {\n" +
                 "    \"И\": \"десять\",\n" +
@@ -254,7 +254,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void adjectiveGenders_Success() throws IOException,  ArgumentEmptyException {
+    public void adjectiveGenders_Success() throws IOException {
         communicator.writeNextResponse("{\n" +
                 "  \"feminine\": \"уважаемая\",\n" +
                 "  \"neuter\": \"уважаемое\",\n" +
@@ -279,7 +279,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void addStressMarks_Success() throws IOException,  ArgumentEmptyException {
+    public void addStressMarks_Success() throws IOException {
         communicator.writeNextResponse("\"передава́емый текст для ударе́ний\"");
 
         String text = russianClient.addStressMarks("передава́емый текст для ударений");
@@ -297,7 +297,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void adjectivize_Success() throws IOException,  ArgumentEmptyException {
+    public void adjectivize_Success() throws IOException {
         communicator.writeNextResponse("[\n" +
                 "  \"мытыщинский\",\n" +
                 "  \"мытыщенский\"\n" +
@@ -314,7 +314,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void removeFromUserDictionary_Success() throws IOException,  ArgumentEmptyException {
+    public void removeFromUserDictionary_Success() throws IOException {
         communicator.writeNextResponse("true");
 
         boolean found = russianClient.removeFromUserDictionary("кошка");
@@ -331,7 +331,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void fetchAllFromUserDictionary_Success() throws IOException,  ArgumentEmptyException {
+    public void fetchAllFromUserDictionary_Success() throws IOException {
         communicator.writeNextResponse("[\n" +
                 "    {\n" +
                 "        \"singular\": {\n" +
@@ -414,16 +414,16 @@ public class RussianClientTest {
             fail("Should not throw " + e.getClass() + ", IpBlockedException should be thrown instead");
         }
     }
-
+    
     @Test
-    public void declension_rethrowsArgumentEmptyException() throws Exception {
-        ArgumentEmptyException expectedException = new ArgumentEmptyException("message");
+    public void declension_convertsException_errorCode_400() throws Exception {
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(400, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.declension("тест");
             fail("Should throw ArgumentEmptyException");
         } catch (ArgumentEmptyException e) {
-            assertEquals(expectedException, e);
+            assertEquals(e.getMessage(), "Передана пустая строка");
         } catch (Exception e) {
             fail("Should not throw " + e.getClass() + ", ArgumentEmptyException should be thrown instead");
         }
@@ -528,14 +528,14 @@ public class RussianClientTest {
     }
 
     @Test
-    public void spell_rethrowsArgumentEmptyException() throws Exception {
-        ArgumentEmptyException expectedException = new ArgumentEmptyException("message");
+    public void spell_convertsException_errorCode_400() throws Exception {
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(400, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.spell(10, "рубль");
             fail("Should throw ArgumentEmptyException");
         } catch (ArgumentEmptyException e) {
-            assertEquals(expectedException, e);
+            assertEquals(e.getMessage(), "Передана пустая строка");
         } catch (Exception e) {
             fail("Should not throw " + e.getClass() + ", ArgumentEmptyException should be thrown instead");
         }

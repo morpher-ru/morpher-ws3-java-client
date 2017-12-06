@@ -18,7 +18,7 @@ public class LanguagePathCommunicator implements PathCommunicator {
         this.communicator = communicator;
     }
 
-    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException, ArgumentEmptyException {
+    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException {
         String url = buildUrl(operation);
         String responseBody = communicator.sendRequest(url, params, httpMethod);
 

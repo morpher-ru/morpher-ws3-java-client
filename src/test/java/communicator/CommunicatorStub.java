@@ -14,18 +14,14 @@ public class CommunicatorStub implements Communicator {
     private String lastHttpMethodPassed;
     private Exception nextException;
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException,  ArgumentEmptyException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException {
         lastUrlPassed = url;
         lastParamsPassed = params;
         lastHttpMethodPassed = method;
 
         if(nextException != null){
             if(nextException instanceof IOException) {
-                throw (IOException)nextException;
-            }
-
-            if(nextException instanceof ArgumentEmptyException) {
-                throw (ArgumentEmptyException)nextException;
+                throw (IOException) nextException;
             }
 
             throw (RuntimeException) nextException;

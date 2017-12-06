@@ -35,7 +35,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void declension_Success() throws IOException,  ArgumentEmptyException {
+    public void declension_Success() throws IOException {
         communicator.writeNextResponse("{" +
                 "\"Р\": \"теста\"," +
                 "\"Д\": \"тесту\"," +
@@ -68,7 +68,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void spell_Success() throws IOException,  ArgumentEmptyException {
+    public void spell_Success() throws IOException {
         communicator.writeNextResponse("{" +
                 "\"n\": {" +
                 "\"Н\": \"десять\"," +
@@ -123,7 +123,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void removeFromUserDictionary_Success() throws IOException,  ArgumentEmptyException {
+    public void removeFromUserDictionary_Success() throws IOException {
         communicator.writeNextResponse("true");
 
         boolean found = ukrainianClient.removeFromUserDictionary("тест");
@@ -140,7 +140,7 @@ public class UkrainianClientTest {
     }
 
     @Test
-    public void fetchAllFromUserDictionary_Success() throws IOException,  ArgumentEmptyException {
+    public void fetchAllFromUserDictionary_Success() throws IOException {
         communicator.writeNextResponse("[" +
                 "{" +
                 "\"singular\": {" +

@@ -26,7 +26,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         this.connectionHandler = connectionHandler;
     }
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, ArgumentEmptyException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException {
         boolean isContentBody = isContentBody(params, method);
 
         String requestParameters = isContentBody
@@ -127,15 +127,13 @@ public class HttpURLConnectionCommunicator implements Communicator {
     }
 
 
-    private void handleErrors(int responseCode, String responseErrorBody) throws ArgumentEmptyException {
+    private void handleErrors(int responseCode, String responseErrorBody) {
 
         switch (responseCode) {
             case 402:
                 throw new DailyLimitExceededException("Превышен лимит на количество запросов");
             case 403:
                 throw new IpBlockedException("IP-адрес заблокирован");
-            case 400:
-                throw new ArgumentEmptyException("Передана пустая строка");
             case 498:
                 throw new TokenNotFoundException("Переданный токен не найден");
             case 497:

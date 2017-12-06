@@ -24,7 +24,7 @@ public class UkrainianClient {
         this.communicator = communicator;
     }
 
-    public DeclensionResult declension(String lemma) throws IOException,  ArgumentEmptyException {
+    public DeclensionResult declension(String lemma) throws IOException {
         TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
         };
 
@@ -37,7 +37,7 @@ public class UkrainianClient {
         return declensionResult;
     }
 
-    public NumberSpellingResult spell(int number, String unit) throws IOException,  ArgumentEmptyException {
+    public NumberSpellingResult spell(int number, String unit) throws IOException {
         TypeReference<NumberSpellingResult> responseType = new TypeReference<NumberSpellingResult>() {
         };
 
@@ -48,7 +48,7 @@ public class UkrainianClient {
         return communicator.sendRequest("spell", params, METHOD_GET, responseType);
     }
 
-    public void addOrUpdateToUserDict(CorrectionEntry correctionEntry) throws IOException,  ArgumentEmptyException {
+    public void addOrUpdateToUserDict(CorrectionEntry correctionEntry) throws IOException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("Н", correctionEntry.singular.nominative);
         params.put("Р", correctionEntry.singular.genitive);
@@ -73,14 +73,14 @@ public class UkrainianClient {
         communicator.sendRequest("userdict", params, METHOD_POST, null);
     }
 
-    public List<CorrectionEntry> fetchAllFromUserDictionary() throws IOException,  ArgumentEmptyException {
+    public List<CorrectionEntry> fetchAllFromUserDictionary() throws IOException {
         TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {
         };
 
         return communicator.sendRequest("userdict", new HashMap<String, String>(), METHOD_GET, responseType);
     }
 
-    public boolean removeFromUserDictionary(String nominativeCorrection) throws IOException,  ArgumentEmptyException {
+    public boolean removeFromUserDictionary(String nominativeCorrection) throws IOException {
         TypeReference<Boolean> responseType = new TypeReference<Boolean>() {
         };
 

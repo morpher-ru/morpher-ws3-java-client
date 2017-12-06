@@ -36,7 +36,8 @@ public class RussianClient {
             NumeralsDeclensionNotSupportedException,
             ArgumentNotRussianException,
             InvalidFlagsException,
-            ArgumentEmptyException{
+            ArgumentEmptyException
+    {
         TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
         };
 
@@ -62,6 +63,8 @@ public class RussianClient {
             return declension;
         } catch (InvalidServerResponseException exception) {
             switch (exception.getResponseCode()) {
+                case 400:
+                    throw new ArgumentEmptyException("Передана пустая строка");
                 case 494:
                     throw new InvalidFlagsException("Указаны неправильные флаги.");
                 case 495:
@@ -89,6 +92,8 @@ public class RussianClient {
             return communicator.sendRequest("spell", params, METHOD_GET, responseType);
         } catch (InvalidServerResponseException exception) {
             switch (exception.getResponseCode()) {
+                case 400:
+                    throw new ArgumentEmptyException("Передана пустая строка");
                 case 496:
                     throw new ArgumentNotRussianException("Не найдено русских слов");
                 default:
@@ -98,8 +103,7 @@ public class RussianClient {
     }
 
     public String addStressMarks(String text) throws
-            IOException,
-            ArgumentEmptyException
+            IOException
     {
         TypeReference<String> responseType = new TypeReference<String>() {};
 
@@ -110,8 +114,7 @@ public class RussianClient {
     }
 
     public List<String> adjectivize(String lemma) throws
-            IOException,
-            ArgumentEmptyException
+            IOException
     {
         TypeReference<ArrayList<String>> responseType = new TypeReference<ArrayList<String>>() {};
 
@@ -121,10 +124,7 @@ public class RussianClient {
         return communicator.sendRequest("adjectivize", params, METHOD_GET, responseType);
     }
 
-    public AdjectiveGendersResult adjectiveGenders(String lemma) throws
-            IOException,
-            ArgumentEmptyException
-    {
+    public AdjectiveGendersResult adjectiveGenders(String lemma) throws IOException {
         TypeReference<AdjectiveGendersResult> responseType = new TypeReference<AdjectiveGendersResult>() {};
 
         Map<String, String> params = new HashMap<String, String>();
@@ -134,8 +134,7 @@ public class RussianClient {
     }
 
     public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws
-            IOException,
-            ArgumentEmptyException
+            IOException
     {
         Map<String, String> params = new HashMap<String, String>();
         params.put("И", correctionEntry.singular.nominative);
@@ -161,8 +160,7 @@ public class RussianClient {
     }
 
     public List<CorrectionEntry> fetchAllFromUserDictionary() throws
-            IOException,
-            ArgumentEmptyException
+            IOException
     {
         TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {};
 
@@ -170,8 +168,7 @@ public class RussianClient {
     }
 
     public boolean removeFromUserDictionary(String nominativeCorrection) throws
-            IOException,
-            ArgumentEmptyException
+            IOException
     {
         TypeReference<Boolean> responseType = new TypeReference<Boolean>() {};
 
