@@ -2,6 +2,7 @@ package communicator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.InvalidFlagsException;
 
@@ -18,7 +19,7 @@ public class LanguagePathCommunicator implements PathCommunicator {
         this.communicator = communicator;
     }
 
-    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException {
+    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException, AccessDeniedException {
         String url = buildUrl(operation);
         String responseBody = communicator.sendRequest(url, params, httpMethod);
 

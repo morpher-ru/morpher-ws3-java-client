@@ -9,6 +9,7 @@ import clients.russian.exceptions.ArgumentNotRussianException;
 import clients.russian.exceptions.NumeralsDeclensionNotSupportedException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import communicator.PathCommunicator;
+import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.InvalidFlagsException;
 import exceptions.InvalidServerResponseException;
@@ -36,8 +37,7 @@ public class RussianClient {
             NumeralsDeclensionNotSupportedException,
             ArgumentNotRussianException,
             InvalidFlagsException,
-            ArgumentEmptyException
-    {
+            ArgumentEmptyException, AccessDeniedException {
         TypeReference<DeclensionResult> responseType = new TypeReference<DeclensionResult>() {
         };
 
@@ -80,8 +80,7 @@ public class RussianClient {
     public NumberSpellingResult spell(int number, String unit) throws
             IOException,
             ArgumentNotRussianException,
-            ArgumentEmptyException
-    {
+            ArgumentEmptyException, AccessDeniedException {
         TypeReference<NumberSpellingResult> responseType = new TypeReference<NumberSpellingResult>() {};
 
         Map<String, String> params = new HashMap<String, String>();
@@ -103,8 +102,7 @@ public class RussianClient {
     }
 
     public String addStressMarks(String text) throws
-            IOException
-    {
+            IOException, AccessDeniedException {
         TypeReference<String> responseType = new TypeReference<String>() {};
 
         Map<String, String> params = new HashMap<String, String>();
@@ -114,8 +112,7 @@ public class RussianClient {
     }
 
     public List<String> adjectivize(String lemma) throws
-            IOException
-    {
+            IOException, AccessDeniedException {
         TypeReference<ArrayList<String>> responseType = new TypeReference<ArrayList<String>>() {};
 
         Map<String, String> params = new HashMap<String, String>();
@@ -124,7 +121,7 @@ public class RussianClient {
         return communicator.sendRequest("adjectivize", params, METHOD_GET, responseType);
     }
 
-    public AdjectiveGendersResult adjectiveGenders(String lemma) throws IOException {
+    public AdjectiveGendersResult adjectiveGenders(String lemma) throws IOException, AccessDeniedException {
         TypeReference<AdjectiveGendersResult> responseType = new TypeReference<AdjectiveGendersResult>() {};
 
         Map<String, String> params = new HashMap<String, String>();
@@ -134,8 +131,7 @@ public class RussianClient {
     }
 
     public void addOrUpdateUserDict(CorrectionEntry correctionEntry) throws
-            IOException
-    {
+            IOException, AccessDeniedException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("И", correctionEntry.singular.nominative);
         params.put("Р", correctionEntry.singular.genitive);
@@ -160,16 +156,14 @@ public class RussianClient {
     }
 
     public List<CorrectionEntry> fetchAllFromUserDictionary() throws
-            IOException
-    {
+            IOException, AccessDeniedException {
         TypeReference<List<CorrectionEntry>> responseType = new TypeReference<List<CorrectionEntry>>() {};
 
         return communicator.sendRequest("userdict", new HashMap<String, String>(), METHOD_GET, responseType);
     }
 
     public boolean removeFromUserDictionary(String nominativeCorrection) throws
-            IOException
-    {
+            IOException, AccessDeniedException {
         TypeReference<Boolean> responseType = new TypeReference<Boolean>() {};
 
         Map<String, String> params = new HashMap<String, String>();

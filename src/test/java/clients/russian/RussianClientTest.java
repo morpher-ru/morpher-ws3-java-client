@@ -11,6 +11,7 @@ import clients.russian.exceptions.NumeralsDeclensionNotSupportedException;
 import communicator.CommunicatorStub;
 import communicator.LanguagePathCommunicator;
 import communicator.PrefixAppender;
+import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.DailyLimitExceededException;
 import exceptions.InvalidFlagsException;
@@ -47,7 +48,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
+    public void declension_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException, AccessDeniedException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"теста\",\n" +
                 "  \"Д\": \"тесту\",\n" +
@@ -105,7 +106,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_WithFlags_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
+    public void declension_WithFlags_Success() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException, AccessDeniedException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"Любови Соколовой\",\n" +
                 "  \"Д\": \"Любови Соколовой\",\n" +
@@ -151,7 +152,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_SplitFio() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
+    public void declension_SplitFio() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException, AccessDeniedException {
         communicator.writeNextResponse("{\n" +
                 "  \"Р\": \"Александра Сергеевича Пушкина\",\n" +
                 "  \"Д\": \"Александру Сергеевичу Пушкину\",\n" +
@@ -183,7 +184,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void declension_nullGenitive() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException {
+    public void declension_nullGenitive() throws IOException, ArgumentNotRussianException, NumeralsDeclensionNotSupportedException, InvalidFlagsException, ArgumentEmptyException, AccessDeniedException {
         communicator.writeNextResponse("{\"Д\": \"теляти\",\"В\": \"теля\"}");
 
         DeclensionResult declensionResult = russianClient.declension("теля");
@@ -202,7 +203,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void spell_Success() throws IOException, ArgumentNotRussianException, ArgumentEmptyException {
+    public void spell_Success() throws IOException, ArgumentNotRussianException, ArgumentEmptyException, AccessDeniedException {
         communicator.writeNextResponse("{\n" +
                 "  \"n\": {\n" +
                 "    \"И\": \"десять\",\n" +
@@ -254,7 +255,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void adjectiveGenders_Success() throws IOException {
+    public void adjectiveGenders_Success() throws IOException, AccessDeniedException {
         communicator.writeNextResponse("{\n" +
                 "  \"feminine\": \"уважаемая\",\n" +
                 "  \"neuter\": \"уважаемое\",\n" +
@@ -279,7 +280,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void addStressMarks_Success() throws IOException {
+    public void addStressMarks_Success() throws IOException, AccessDeniedException {
         communicator.writeNextResponse("\"передава́емый текст для ударе́ний\"");
 
         String text = russianClient.addStressMarks("передава́емый текст для ударений");
@@ -297,7 +298,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void adjectivize_Success() throws IOException {
+    public void adjectivize_Success() throws IOException, AccessDeniedException {
         communicator.writeNextResponse("[\n" +
                 "  \"мытыщинский\",\n" +
                 "  \"мытыщенский\"\n" +
@@ -314,7 +315,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void removeFromUserDictionary_Success() throws IOException {
+    public void removeFromUserDictionary_Success() throws IOException, AccessDeniedException {
         communicator.writeNextResponse("true");
 
         boolean found = russianClient.removeFromUserDictionary("кошка");
@@ -331,7 +332,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void fetchAllFromUserDictionary_Success() throws IOException {
+    public void fetchAllFromUserDictionary_Success() throws IOException, AccessDeniedException {
         communicator.writeNextResponse("[\n" +
                 "    {\n" +
                 "        \"singular\": {\n" +

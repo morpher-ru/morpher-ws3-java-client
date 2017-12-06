@@ -1,6 +1,7 @@
 package communicator;
 
 import communicator.connection.ConnectionHandler;
+import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.DailyLimitExceededException;
 import exceptions.InvalidFlagsException;
@@ -26,7 +27,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         this.connectionHandler = connectionHandler;
     }
 
-    public String sendRequest(String url, Map<String, String> params, String method) throws IOException {
+    public String sendRequest(String url, Map<String, String> params, String method) throws IOException, AccessDeniedException {
         boolean isContentBody = isContentBody(params, method);
 
         String requestParameters = isContentBody
@@ -90,7 +91,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return METHOD_POST.equalsIgnoreCase(method) && params.size() == 1 && params.containsKey(CONTENT_BODY_KEY);
     }
 
-    private HttpURLConnection getHttpConnection(String urlString, String method) throws IOException {
+    private HttpURLConnection getHttpConnection(String urlString, String method) throws IOException, AccessDeniedException {
         HttpURLConnection con = connectionHandler.openConnection(urlString);
         con.setConnectTimeout(10000);
         con.setReadTimeout(10000);
@@ -102,7 +103,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         return con;
     }
 
-    static void populatePostParams(String urlParameters, HttpURLConnection con) throws IOException {
+    static void populatePostParams(String urlParameters, HttpURLConnection con) throws IOException, AccessDeniedException {
         byte[] postData = urlParameters.getBytes("UTF8");
         int postDataLength = postData.length;
 
@@ -112,7 +113,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
         outputStream.write(postData);
     }
 
-    private static String toResponseBody(InputStream inputStream) throws IOException {
+    private static String toResponseBody(InputStream inputStream) throws IOException, AccessDeniedException {
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder responseBuilder = new StringBuilder();
 
@@ -127,7 +128,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
     }
 
 
-    private void handleErrors(int responseCode, String responseErrorBody) {
+    private void handleErrors(int responseCode, String responseErrorBody) throws AccessDeniedException {
 
         switch (responseCode) {
             case 402:

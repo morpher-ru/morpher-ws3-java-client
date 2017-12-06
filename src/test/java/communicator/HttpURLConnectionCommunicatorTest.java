@@ -1,6 +1,7 @@
 package communicator;
 
 import communicator.connection.ConnectionHandler;
+import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.DailyLimitExceededException;
 import exceptions.InvalidFlagsException;
@@ -37,7 +38,7 @@ public class HttpURLConnectionCommunicatorTest {
 
         ConnectionHandler connectionHandler = new ConnectionHandler() {
             @Override
-            public HttpURLConnection openConnection(String urlString) throws IOException {
+            public HttpURLConnection openConnection(String urlString) throws IOException, AccessDeniedException {
                 //build correct url here instead of passing it in each testcase
                 httpURLConnection.setSourceUrl(httpURLConnection.getSourceUrl() + urlString);
                 return httpURLConnection;
@@ -99,7 +100,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void populatePostParams_outputStreamOfConnectionPopulatedWithUrlParameters() throws IOException {
+    public void populatePostParams_outputStreamOfConnectionPopulatedWithUrlParameters() throws IOException, AccessDeniedException {
         String urlParameters = "unit=twenty+five&s=test&n=25";
         HttpURLConnectionStub con = new HttpURLConnectionStub("http://test.com");
         OutputStream outputStreamPopulatedWithParams = con.getOutputStream();
@@ -116,7 +117,7 @@ public class HttpURLConnectionCommunicatorTest {
 
 
     @Test
-    public void sendRequest_urlParamsPopulatedForGETParams() throws IOException {
+    public void sendRequest_urlParamsPopulatedForGETParams() throws IOException, AccessDeniedException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "test");
 
@@ -131,7 +132,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_urlParamsPopulatedForPOSTParams() throws IOException {
+    public void sendRequest_urlParamsPopulatedForPOSTParams() throws IOException, AccessDeniedException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "тест");
 
@@ -147,7 +148,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_contentBodyPopulatedForPOSTParamsWithoutKey() throws IOException {
+    public void sendRequest_contentBodyPopulatedForPOSTParamsWithoutKey() throws IOException, AccessDeniedException {
         Map<String, String> params = new HashMap<String, String>();
         params.put(CONTENT_BODY_KEY, "текст без преобразования через URLEncoder");
 
@@ -163,7 +164,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_urlParamsPopulatedForDELETEParams() throws IOException {
+    public void sendRequest_urlParamsPopulatedForDELETEParams() throws IOException, AccessDeniedException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("s", "test");
 
@@ -178,7 +179,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_400_InvalidServerResponseException() throws IOException, InvalidFlagsException {
+    public void sendRequest_validateErrorResponseCode_400_InvalidServerResponseException() throws IOException, InvalidFlagsException, AccessDeniedException {
         httpURLConnection.setResponseCode(400);
 
         try {
@@ -192,7 +193,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_402_DailyLimitExceededException() throws IOException {
+    public void sendRequest_validateErrorResponseCode_402_DailyLimitExceededException() throws IOException, AccessDeniedException {
         httpURLConnection.setResponseCode(402);
 
         try {
@@ -206,7 +207,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_403_IpBlockedException() throws IOException {
+    public void sendRequest_validateErrorResponseCode_403_IpBlockedException() throws IOException, AccessDeniedException {
         httpURLConnection.setResponseCode(403);
 
         try {
@@ -220,7 +221,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_495_InvalidServerResponseException() throws IOException {
+    public void sendRequest_validateErrorResponseCode_495_InvalidServerResponseException() throws IOException, AccessDeniedException {
         httpURLConnection.setResponseCode(495);
 
         try {
@@ -234,7 +235,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_496() throws IOException {
+    public void sendRequest_validateErrorResponseCode_496() throws IOException, AccessDeniedException {
         httpURLConnection.setResponseCode(496);
 
         try {
@@ -248,7 +249,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_497() throws IOException {
+    public void sendRequest_validateErrorResponseCode_497() throws IOException, AccessDeniedException {
         httpURLConnection.setResponseCode(497);
 
         try {
@@ -263,7 +264,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateErrorResponseCode_498() throws IOException {
+    public void sendRequest_validateErrorResponseCode_498() throws IOException, AccessDeniedException {
         httpURLConnection.setResponseCode(498);
 
         try {
@@ -277,7 +278,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_validateUnknownErrorResponseCode_500() throws IOException {
+    public void sendRequest_validateUnknownErrorResponseCode_500() throws IOException, AccessDeniedException {
         httpURLConnection.setResponseCode(500);
         httpURLConnection.setErrorStream(new ByteArrayInputStream("We have maintenance, please try again later".getBytes()));
 
@@ -293,7 +294,7 @@ public class HttpURLConnectionCommunicatorTest {
     }
 
     @Test
-    public void sendRequest_ResponseInputStreamShouldBeConvertedToStringResponse() throws IOException {
+    public void sendRequest_ResponseInputStreamShouldBeConvertedToStringResponse() throws IOException, AccessDeniedException {
         String expectedResponseString = "{\"feminine\": \"тестовая\",\"neuter\": \"тестовое\",\"plural\": \"тестовые\"}";
 
         httpURLConnection.setResponseCode(200);

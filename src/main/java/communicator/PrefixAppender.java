@@ -1,6 +1,7 @@
 package communicator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.InvalidFlagsException;
 
@@ -16,7 +17,7 @@ public class PrefixAppender implements PathCommunicator {
         this.prefix = prefix;
     }
 
-    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException {
+    public <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType) throws IOException, AccessDeniedException {
         return communicator.sendRequest(Path.combine(prefix, operation), params, httpMethod, responseType);
     }
 }

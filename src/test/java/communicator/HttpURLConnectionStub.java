@@ -1,5 +1,6 @@
 package communicator;
 
+import exceptions.AccessDeniedException;
 import sun.net.www.protocol.http.HttpURLConnection;
 
 import java.io.ByteArrayInputStream;

@@ -1,6 +1,7 @@
 package communicator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.InvalidFlagsException;
 
@@ -9,5 +10,5 @@ import java.util.Map;
 
 public interface PathCommunicator {
     <T> T sendRequest(String operation, Map<String, String> params, String httpMethod, TypeReference<T> responseType)
-            throws IOException;
+            throws IOException, AccessDeniedException;
 }

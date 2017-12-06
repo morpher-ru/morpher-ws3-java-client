@@ -1,5 +1,6 @@
 package communicator;
 
+import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.InvalidFlagsException;
 
@@ -12,5 +13,5 @@ public interface Communicator {
     String METHOD_POST = "POST";
     String CONTENT_BODY_KEY = "Content-Body";
 
-    String sendRequest(String url, Map<String, String> params, String method) throws IOException;
+    String sendRequest(String url, Map<String, String> params, String method) throws IOException, AccessDeniedException;
 }

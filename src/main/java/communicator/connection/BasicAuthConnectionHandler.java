@@ -1,5 +1,6 @@
 package communicator.connection;
 
+import exceptions.AccessDeniedException;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class BasicAuthConnectionHandler extends ConnectionHandler {
     }
 
     @Override
-    public HttpURLConnection openConnection(String urlString) throws IOException {
+    public HttpURLConnection openConnection(String urlString) throws IOException, AccessDeniedException {
         HttpURLConnection con = super.openConnection(urlString);
         populateAuthHeader(con);
 
