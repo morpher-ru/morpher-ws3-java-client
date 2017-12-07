@@ -52,7 +52,7 @@ public class RussianClientTest {
     }
 
     @Test
-    public void givenToken_TokenMustAppearOnUrl() throws InvalidFlagsException, IOException, ArgumentNotRussianException, AccessDeniedException, ArgumentEmptyException, NumeralsDeclensionNotSupportedException {
+    public void givenToken_TokenMustAppearOnUrl() throws IOException, AccessDeniedException {
         String baseUrl = "https://ws3.morpher.ru";
         CommunicatorStub communicator = new CommunicatorStub();
         String token = "token1";
