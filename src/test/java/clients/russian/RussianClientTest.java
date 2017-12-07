@@ -20,6 +20,7 @@ import exceptions.IpBlockedException;
 import exceptions.TokenNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
+import ru.morpher.ws3.MorpherClient;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,7 +45,10 @@ public class RussianClientTest {
         String baseUrl = "https://ws3.morpher.ru";
 
         communicator = new CommunicatorStub();
-        russianClient = new RussianClient(new PrefixAppender(new LanguagePathCommunicator(baseUrl, communicator), "russian"));
+        russianClient = new MorpherClient.ClientBuilder()
+                .use(communicator)
+                .useUrl(baseUrl)
+                .build().russian();
     }
 
     @Test

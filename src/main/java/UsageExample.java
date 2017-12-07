@@ -10,6 +10,7 @@ import clients.ukrainian.UkrainianClient;
 import exceptions.AccessDeniedException;
 import exceptions.ArgumentEmptyException;
 import exceptions.InvalidFlagsException;
+import ru.morpher.ws3.MorpherClient;
 
 import java.io.IOException;
 import java.util.List;

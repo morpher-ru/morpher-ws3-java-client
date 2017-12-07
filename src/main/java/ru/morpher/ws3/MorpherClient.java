@@ -1,3 +1,5 @@
+package ru.morpher.ws3;
+
 import clients.russian.RussianClient;
 import clients.ukrainian.UkrainianClient;
 import communicator.Communicator;
