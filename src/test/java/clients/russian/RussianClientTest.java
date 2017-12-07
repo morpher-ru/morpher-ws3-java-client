@@ -55,9 +55,9 @@ public class RussianClientTest {
     public void givenToken_TokenMustAppearOnUrl() throws InvalidFlagsException, IOException, ArgumentNotRussianException, AccessDeniedException, ArgumentEmptyException, NumeralsDeclensionNotSupportedException {
         String baseUrl = "https://ws3.morpher.ru";
 
-        communicator = new CommunicatorStub();
+        CommunicatorStub communicator = new CommunicatorStub();
         String token = "token1";
-        russianClient = new MorpherClient.ClientBuilder()
+        RussianClient russianClient = new MorpherClient.ClientBuilder()
                 .use(communicator)
                 .useUrl(baseUrl)
                 .useToken(token)
