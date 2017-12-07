@@ -74,10 +74,10 @@ public class MorpherClient {
                 // ConnectionHandler connectionHandler = new BasicAuthConnectionHandler(token);
                 ConnectionHandler connectionHandler = new ConnectionHandler();
                 communicator = new HttpURLConnectionCommunicator(connectionHandler);
+            }
 
-                if (token != null) {
-                    communicator = new UrlAuthCommunicator(token, communicator);
-                }
+            if (token != null) {
+                communicator = new UrlAuthCommunicator(token, communicator);
             }
 
             LanguagePathCommunicator languagePathCommunicator = new LanguagePathCommunicator(url, this.communicator);
