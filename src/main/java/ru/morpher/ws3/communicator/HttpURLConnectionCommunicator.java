@@ -1,6 +1,5 @@
 package ru.morpher.ws3.communicator;
 
-import ru.morpher.ws3.communicator.connection.ConnectionHandler;
 import ru.morpher.ws3.AccessDeniedException;
 import ru.morpher.ws3.DailyLimitExceededException;
 import ru.morpher.ws3.InvalidServerResponseException;

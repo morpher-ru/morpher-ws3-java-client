@@ -1,4 +1,4 @@
-package ru.morpher.ws3.communicator.connection;
+package ru.morpher.ws3.communicator;
 
 import ru.morpher.ws3.AccessDeniedException;
 

@@ -1,7 +1,8 @@
-package ru.morpher.ws3.communicator.connection;
+package ru.morpher.ws3.communicator;
 
 import java.net.HttpURLConnection;
 
+import ru.morpher.ws3.communicator.BasicAuthConnectionHandler;
 import ru.morpher.ws3.communicator.HttpURLConnectionStub;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Map;
 
-import static ru.morpher.ws3.communicator.connection.BasicAuthConnectionHandler.HEADER_AUTHORIZATION;
+import static ru.morpher.ws3.communicator.BasicAuthConnectionHandler.HEADER_AUTHORIZATION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

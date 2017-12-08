@@ -8,7 +8,7 @@ import ru.morpher.ws3.communicator.HttpURLConnectionCommunicator;
 import ru.morpher.ws3.communicator.LanguagePathCommunicator;
 import ru.morpher.ws3.communicator.PrefixAppender;
 import ru.morpher.ws3.communicator.UrlAuthCommunicator;
-import ru.morpher.ws3.communicator.connection.ConnectionHandler;
+import ru.morpher.ws3.communicator.ConnectionHandler;
 
 import java.io.IOException;
 import java.util.Collections;
