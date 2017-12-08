@@ -1,4 +1,4 @@
-package clients.russian.exceptions;
+package clients.russian;
 
 public class NumeralsDeclensionNotSupportedException extends Exception {
     public NumeralsDeclensionNotSupportedException(String s) {

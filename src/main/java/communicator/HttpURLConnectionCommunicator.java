@@ -1,13 +1,11 @@
 package communicator;
 
 import communicator.connection.ConnectionHandler;
-import exceptions.AccessDeniedException;
-import exceptions.ArgumentEmptyException;
-import exceptions.DailyLimitExceededException;
-import exceptions.InvalidFlagsException;
-import exceptions.InvalidServerResponseException;
-import exceptions.IpBlockedException;
-import exceptions.TokenNotFoundException;
+import ru.morpher.ws3.AccessDeniedException;
+import ru.morpher.ws3.DailyLimitExceededException;
+import ru.morpher.ws3.InvalidServerResponseException;
+import ru.morpher.ws3.IpBlockedException;
+import ru.morpher.ws3.TokenNotFoundException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

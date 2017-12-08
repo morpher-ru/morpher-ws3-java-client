@@ -1,9 +1,6 @@
 package communicator;
 
-import exceptions.AccessDeniedException;
-import exceptions.ArgumentEmptyException;
-import exceptions.DailyLimitExceededException;
-import exceptions.InvalidFlagsException;
+import ru.morpher.ws3.AccessDeniedException;
 
 import java.io.IOException;
 import java.util.Map;

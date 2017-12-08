@@ -5,14 +5,12 @@ import clients.russian.data.CorrectionEntry;
 import clients.russian.data.DeclensionFlag;
 import clients.russian.data.DeclensionResult;
 import clients.russian.data.NumberSpellingResult;
-import clients.russian.exceptions.ArgumentNotRussianException;
-import clients.russian.exceptions.NumeralsDeclensionNotSupportedException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import communicator.PathCommunicator;
-import exceptions.AccessDeniedException;
-import exceptions.ArgumentEmptyException;
-import exceptions.InvalidFlagsException;
-import exceptions.InvalidServerResponseException;
+import ru.morpher.ws3.AccessDeniedException;
+import ru.morpher.ws3.ArgumentEmptyException;
+import ru.morpher.ws3.InvalidFlagsException;
+import ru.morpher.ws3.InvalidServerResponseException;
 
 import java.io.IOException;
 import java.util.ArrayList;

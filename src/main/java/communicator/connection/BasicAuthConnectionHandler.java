@@ -1,6 +1,6 @@
 package communicator.connection;
 
-import exceptions.AccessDeniedException;
+import ru.morpher.ws3.AccessDeniedException;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;

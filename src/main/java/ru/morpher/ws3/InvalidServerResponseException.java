@@ -1,4 +1,4 @@
-package exceptions;
+package ru.morpher.ws3;
 
 public class InvalidServerResponseException extends RuntimeException {
     private int responseCode;

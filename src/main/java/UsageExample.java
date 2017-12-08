@@ -1,16 +1,7 @@
-import clients.russian.RussianClient;
-import clients.russian.data.AdjectiveGendersResult;
-import clients.russian.data.CorrectionEntry;
-import clients.russian.data.CorrectionForms;
-import clients.russian.data.DeclensionResult;
-import clients.russian.data.NumberSpellingResult;
-import clients.russian.exceptions.ArgumentNotRussianException;
-import clients.russian.exceptions.NumeralsDeclensionNotSupportedException;
-import clients.ukrainian.UkrainianClient;
-import exceptions.AccessDeniedException;
-import exceptions.ArgumentEmptyException;
-import exceptions.InvalidFlagsException;
-import ru.morpher.ws3.MorpherClient;
+import clients.russian.data.*;
+import clients.russian.*;
+import clients.ukrainian.*;
+import ru.morpher.ws3.*;
 
 import java.io.IOException;
 import java.util.List;

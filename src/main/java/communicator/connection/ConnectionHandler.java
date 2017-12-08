@@ -1,6 +1,6 @@
 package communicator.connection;
 
-import exceptions.AccessDeniedException;
+import ru.morpher.ws3.AccessDeniedException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

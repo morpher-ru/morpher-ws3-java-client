@@ -5,9 +5,7 @@ import clients.ukrainian.data.DeclensionResult;
 import clients.ukrainian.data.NumberSpellingResult;
 import com.fasterxml.jackson.core.type.TypeReference;
 import communicator.PathCommunicator;
-import exceptions.AccessDeniedException;
-import exceptions.ArgumentEmptyException;
-import exceptions.InvalidFlagsException;
+import ru.morpher.ws3.AccessDeniedException;
 
 import java.io.IOException;
 import java.util.HashMap;

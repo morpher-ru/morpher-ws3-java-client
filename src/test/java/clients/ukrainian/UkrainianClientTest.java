@@ -7,9 +7,7 @@ import clients.ukrainian.data.NumberSpellingResult;
 import communicator.CommunicatorStub;
 import communicator.LanguagePathCommunicator;
 import communicator.PrefixAppender;
-import exceptions.AccessDeniedException;
-import exceptions.ArgumentEmptyException;
-import exceptions.InvalidFlagsException;
+import ru.morpher.ws3.AccessDeniedException;
 import org.junit.Before;
 import org.junit.Test;
 

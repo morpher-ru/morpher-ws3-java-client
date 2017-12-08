@@ -2,9 +2,7 @@ package communicator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import exceptions.AccessDeniedException;
-import exceptions.ArgumentEmptyException;
-import exceptions.InvalidFlagsException;
+import ru.morpher.ws3.AccessDeniedException;
 
 import java.io.IOException;
 import java.util.Map;

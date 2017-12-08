@@ -1,13 +1,12 @@
 package communicator;
 
 import communicator.connection.ConnectionHandler;
-import exceptions.AccessDeniedException;
-import exceptions.ArgumentEmptyException;
-import exceptions.DailyLimitExceededException;
-import exceptions.InvalidFlagsException;
-import exceptions.InvalidServerResponseException;
-import exceptions.IpBlockedException;
-import exceptions.TokenNotFoundException;
+import ru.morpher.ws3.AccessDeniedException;
+import ru.morpher.ws3.DailyLimitExceededException;
+import ru.morpher.ws3.InvalidFlagsException;
+import ru.morpher.ws3.InvalidServerResponseException;
+import ru.morpher.ws3.IpBlockedException;
+import ru.morpher.ws3.TokenNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 

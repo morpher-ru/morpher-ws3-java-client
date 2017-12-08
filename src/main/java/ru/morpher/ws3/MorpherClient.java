@@ -9,13 +9,11 @@ import communicator.LanguagePathCommunicator;
 import communicator.PrefixAppender;
 import communicator.UrlAuthCommunicator;
 import communicator.connection.ConnectionHandler;
-import exceptions.AccessDeniedException;
 
 import java.io.IOException;
 import java.util.Collections;
 
 import static communicator.Communicator.METHOD_GET;
-import static java.util.Collections.emptyMap;
 
 /**
  * <p>
