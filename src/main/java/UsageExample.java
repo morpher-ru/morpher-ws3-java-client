@@ -35,21 +35,10 @@ public class UsageExample {
 
             log("Остаток запросов на сегодня: " + morpherClient.queriesLeftForToday());
             log("");
-
-            log("Провоцируем ошибку");
-            morpherClient.russian().declension("wuf");
         } catch (IOException e) {
             log("Ошибка коммуникации: " + e.getMessage());
-        } catch (ArgumentNotRussianException e) {
-            log("Ошибка аргументов неверного языка: " + e.getMessage());
         } catch (AccessDeniedException e) {
             log("Ошибка доступа: " + e.getMessage());
-        } catch (NumeralsDeclensionNotSupportedException e) {
-            log("Ошибка неверных числовых аргументов: " + e.getMessage());
-        } catch (ArgumentEmptyException e) {
-            log("Ошибка пустых аргументов: " + e.getMessage());
-        } catch (InvalidFlagsException e) {
-            log("Ошибка неверных флагов: " + e.getMessage());
         }
     }
 
@@ -210,6 +199,8 @@ public class UsageExample {
             log("Определение рода на русском языке:");
             log("Род: %s", result.gender != null ? result.gender : PREMIUM);
             log("");
+            log("Провоцируем ошибку");
+            russianClient.declension("wuf");
         }
         catch(NumeralsDeclensionNotSupportedException e){
             // Во входном словосочетании было числительное, например "три кота".
@@ -229,6 +220,7 @@ public class UsageExample {
         catch(ArgumentEmptyException e) {
             log(e.getMessage());
         }
+        log("");
     }
 
     private static void russianNamesDeclensionsExample(RussianClient russianClient) throws IOException, AccessDeniedException {
