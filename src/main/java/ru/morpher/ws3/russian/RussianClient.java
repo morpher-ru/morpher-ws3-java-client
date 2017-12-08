@@ -56,13 +56,13 @@ public class RussianClient {
         } catch (InvalidServerResponseException exception) {
             switch (exception.getResponseCode()) {
                 case 400:
-                    throw new ArgumentEmptyException("Передана пустая строка");
+                    throw new ArgumentEmptyException();
                 case 494:
-                    throw new InvalidFlagsException("Указаны неправильные флаги.");
+                    throw new InvalidFlagsException();
                 case 495:
-                    throw new NumeralsDeclensionNotSupportedException("Для склонения числительных используйте метод spell");
+                    throw new NumeralsDeclensionNotSupportedException();
                 case 496:
-                    throw new ArgumentNotRussianException("Не найдено русских слов");
+                    throw new ArgumentNotRussianException();
                 default:
                     throw exception;
             }
@@ -84,9 +84,9 @@ public class RussianClient {
         } catch (InvalidServerResponseException exception) {
             switch (exception.getResponseCode()) {
                 case 400:
-                    throw new ArgumentEmptyException("Передана пустая строка");
+                    throw new ArgumentEmptyException();
                 case 496:
-                    throw new ArgumentNotRussianException("Не найдено русских слов");
+                    throw new ArgumentNotRussianException();
                 default:
                     throw exception;
             }
