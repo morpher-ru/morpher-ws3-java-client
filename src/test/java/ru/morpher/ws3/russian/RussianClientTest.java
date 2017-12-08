@@ -10,7 +10,6 @@ import ru.morpher.ws3.communicator.CommunicatorStub;
 import ru.morpher.ws3.AccessDeniedException;
 import ru.morpher.ws3.ArgumentEmptyException;
 import ru.morpher.ws3.DailyLimitExceededException;
-import ru.morpher.ws3.InvalidFlagsException;
 import ru.morpher.ws3.InvalidServerResponseException;
 import ru.morpher.ws3.IpBlockedException;
 import ru.morpher.ws3.TokenNotFoundException;

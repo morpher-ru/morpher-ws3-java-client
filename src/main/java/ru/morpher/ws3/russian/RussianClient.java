@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import ru.morpher.ws3.communicator.PathCommunicator;
 import ru.morpher.ws3.AccessDeniedException;
 import ru.morpher.ws3.ArgumentEmptyException;
-import ru.morpher.ws3.InvalidFlagsException;
 import ru.morpher.ws3.InvalidServerResponseException;
 
 import java.io.IOException;

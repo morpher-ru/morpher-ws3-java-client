@@ -3,7 +3,7 @@ package ru.morpher.ws3.communicator;
 import ru.morpher.ws3.communicator.connection.ConnectionHandler;
 import ru.morpher.ws3.AccessDeniedException;
 import ru.morpher.ws3.DailyLimitExceededException;
-import ru.morpher.ws3.InvalidFlagsException;
+import ru.morpher.ws3.russian.InvalidFlagsException;
 import ru.morpher.ws3.InvalidServerResponseException;
 import ru.morpher.ws3.IpBlockedException;
 import ru.morpher.ws3.TokenNotFoundException;
