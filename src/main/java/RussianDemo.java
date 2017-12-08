@@ -101,7 +101,8 @@ class RussianDemo extends Log
         try {
             int number = 2513;
             NumberSpellingResult result = russianClient.spell(number, "рубль");
-            log("В размере %s (%s) %s", number,
+            log("В размере %s (%s) %s",
+                    number,
                     result.numberDeclension.genitive,
                     result.unitDeclension.genitive);
         } catch (ArgumentNotRussianException e) {

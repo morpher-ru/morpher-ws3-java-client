@@ -69,10 +69,11 @@ class UkrainianDemo extends Log
     private static void numberSpellingExample(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
         log("Сумма прописью на укранинском:");
         int number = 2513;
-        NumberSpellingResult numberSpellingResult = ukrainianClient.spell(number, "рубль");
-        log("У розмірі %s (%s) %s", number,
-                numberSpellingResult.numberDeclension.genitive,
-                numberSpellingResult.unitDeclension.genitive);
+        NumberSpellingResult result = ukrainianClient.spell(number, "рубль");
+        log("У розмірі %s (%s) %s",
+                number,
+                result.numberDeclension.genitive,
+                result.unitDeclension.genitive);
         log("");
     }
 
