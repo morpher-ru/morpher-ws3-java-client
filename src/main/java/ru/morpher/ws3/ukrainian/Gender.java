@@ -1,4 +1,4 @@
-package ru.morpher.ws3.russian.data;
+package ru.morpher.ws3.ukrainian;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -15,10 +15,10 @@ public enum Gender {
     private static Map<String, Gender> namesMap = new HashMap<String, Gender>(4);
 
     static {
-        namesMap.put("Мужской", Masculine);
-        namesMap.put("Женский", Feminine);
-        namesMap.put("Средний", Neuter);
-        namesMap.put("Множественное", Plural);
+        namesMap.put("Чоловічий", Masculine);
+        namesMap.put("Жіночий", Feminine);
+        namesMap.put("Середній", Neuter);
+        namesMap.put("Множина", Plural);
     }
 
     @JsonCreator

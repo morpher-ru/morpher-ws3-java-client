@@ -1,6 +1,5 @@
 import ru.morpher.ws3.*;
 import ru.morpher.ws3.ukrainian.*;
-import ru.morpher.ws3.ukrainian.data.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,17 +18,17 @@ class UkrainianDemo extends Log
 
         // Украинский язык
         // Добавляем новое пользовательское исправление
-        ru.morpher.ws3.ukrainian.data.CorrectionForms singular = new ru.morpher.ws3.ukrainian.data.CorrectionForms();
+        CorrectionForms singular = new CorrectionForms();
         singular.nominative = "Сергій";
         singular.prepositional = "Сергієві";
 
-        ru.morpher.ws3.ukrainian.data.CorrectionEntry correctionEntry = new ru.morpher.ws3.ukrainian.data.CorrectionEntry();
+        CorrectionEntry correctionEntry = new CorrectionEntry();
         correctionEntry.singular = singular;
 
         ukrainianClient.addOrUpdateToUserDict(correctionEntry);
 
         log("Склонение с исправлением:");
-        ru.morpher.ws3.ukrainian.data.DeclensionResult spellWithCorrection = ukrainianClient.declension("Сергій");
+        DeclensionResult spellWithCorrection = ukrainianClient.declension("Сергій");
         log("Називний вiдмiнок: %s", spellWithCorrection.nominative);
         log("Мiсцевий вiдмiнок: %s", spellWithCorrection.prepositional);
         log("");
@@ -61,7 +60,7 @@ class UkrainianDemo extends Log
         log("Исправление найдено: %s", found ? "Да" : "Нет");
 
         log("Склонение после удаления исправления:");
-        ru.morpher.ws3.ukrainian.data.DeclensionResult spellWithoutCorrection = ukrainianClient.declension("Сергій");
+        DeclensionResult spellWithoutCorrection = ukrainianClient.declension("Сергій");
         log("Називний вiдмiнок: %s", spellWithoutCorrection.nominative);
         log("Мiсцевий вiдмiнок: %s", spellWithoutCorrection.prepositional);
         log("");
@@ -70,7 +69,7 @@ class UkrainianDemo extends Log
     private static void ukrainianNumberSpellingResult(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
         log("Сумма прописью на укранинском:");
         int number = 2513;
-        ru.morpher.ws3.ukrainian.data.NumberSpellingResult ukrainianNumberSpellingResult = ukrainianClient.spell(number, "рубль");
+        NumberSpellingResult ukrainianNumberSpellingResult = ukrainianClient.spell(number, "рубль");
         log("У розмірі %s (%s) %s", number,
                 ukrainianNumberSpellingResult.numberDeclension.genitive,
                 ukrainianNumberSpellingResult.unitDeclension.genitive);
@@ -79,7 +78,7 @@ class UkrainianDemo extends Log
 
     private static void ukrainianDeclensionsAndGenderExample(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
         log("Склонение ФИО на украинском языке:");
-        ru.morpher.ws3.ukrainian.data.DeclensionResult ukrainianDeclensionResult = ukrainianClient.declension("Тест");
+        DeclensionResult ukrainianDeclensionResult = ukrainianClient.declension("Тест");
         log(" Називний вiдмiнок: " + ukrainianDeclensionResult.nominative);
         log("  Родовий вiдмiнок: " + ukrainianDeclensionResult.genitive);
         log("Давальний вiдмiнок: " + ukrainianDeclensionResult.dative);

@@ -1,24 +1,23 @@
-package ru.morpher.ws3.ukrainian.data;
+package ru.morpher.ws3.russian;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CorrectionForms {
-
-    @JsonProperty("Н")
+public class DeclensionForms {
+    @JsonProperty("И")
     public String nominative;
     @JsonProperty("Р")
     public String genitive;
     @JsonProperty("Д")
     public String dative;
-    @JsonProperty("З")
+    @JsonProperty("В")
     public String accusative;
-    @JsonProperty("О")
+    @JsonProperty("Т")
     public String instrumental;
-    @JsonProperty("М")
+    @JsonProperty("П")
     public String prepositional;
-    @JsonProperty("К")
-    public String vocative;
+    @JsonProperty("П_о")
+    public String prepositionalWithO;
 
 }

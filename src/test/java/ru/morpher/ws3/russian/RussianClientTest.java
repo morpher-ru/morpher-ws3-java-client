@@ -1,11 +1,5 @@
 package ru.morpher.ws3.russian;
 
-import ru.morpher.ws3.russian.data.AdjectiveGendersResult;
-import ru.morpher.ws3.russian.data.CorrectionEntry;
-import ru.morpher.ws3.russian.data.DeclensionFlag;
-import ru.morpher.ws3.russian.data.DeclensionResult;
-import ru.morpher.ws3.russian.data.Gender;
-import ru.morpher.ws3.russian.data.NumberSpellingResult;
 import ru.morpher.ws3.communicator.CommunicatorStub;
 import ru.morpher.ws3.AccessDeniedException;
 import ru.morpher.ws3.ArgumentEmptyException;

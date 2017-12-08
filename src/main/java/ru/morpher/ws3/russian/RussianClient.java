@@ -1,10 +1,5 @@
 package ru.morpher.ws3.russian;
 
-import ru.morpher.ws3.russian.data.AdjectiveGendersResult;
-import ru.morpher.ws3.russian.data.CorrectionEntry;
-import ru.morpher.ws3.russian.data.DeclensionFlag;
-import ru.morpher.ws3.russian.data.DeclensionResult;
-import ru.morpher.ws3.russian.data.NumberSpellingResult;
 import com.fasterxml.jackson.core.type.TypeReference;
 import ru.morpher.ws3.communicator.PathCommunicator;
 import ru.morpher.ws3.AccessDeniedException;

@@ -1,9 +1,5 @@
 package ru.morpher.ws3.ukrainian;
 
-import ru.morpher.ws3.ukrainian.data.CorrectionEntry;
-import ru.morpher.ws3.ukrainian.data.DeclensionResult;
-import ru.morpher.ws3.ukrainian.data.Gender;
-import ru.morpher.ws3.ukrainian.data.NumberSpellingResult;
 import ru.morpher.ws3.communicator.CommunicatorStub;
 import ru.morpher.ws3.communicator.LanguagePathCommunicator;
 import ru.morpher.ws3.communicator.PrefixAppender;

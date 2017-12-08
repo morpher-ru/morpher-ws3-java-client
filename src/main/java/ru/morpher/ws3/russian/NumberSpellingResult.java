@@ -1,4 +1,4 @@
-package ru.morpher.ws3.ukrainian.data;
+package ru.morpher.ws3.russian;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,5 +11,4 @@ public class NumberSpellingResult {
 
     @JsonProperty("unit")
     public DeclensionForms unitDeclension;
-
 }

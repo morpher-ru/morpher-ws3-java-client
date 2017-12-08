@@ -1,4 +1,4 @@
-package ru.morpher.ws3.russian.data;
+package ru.morpher.ws3.ukrainian;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

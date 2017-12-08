@@ -1,8 +1,5 @@
 package ru.morpher.ws3.ukrainian;
 
-import ru.morpher.ws3.ukrainian.data.CorrectionEntry;
-import ru.morpher.ws3.ukrainian.data.DeclensionResult;
-import ru.morpher.ws3.ukrainian.data.NumberSpellingResult;
 import com.fasterxml.jackson.core.type.TypeReference;
 import ru.morpher.ws3.communicator.PathCommunicator;
 import ru.morpher.ws3.AccessDeniedException;

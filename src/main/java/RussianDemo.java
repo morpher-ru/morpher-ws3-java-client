@@ -1,6 +1,5 @@
 import ru.morpher.ws3.*;
 import ru.morpher.ws3.russian.*;
-import ru.morpher.ws3.russian.data.*;
 
 import java.io.IOException;
 import java.util.List;
