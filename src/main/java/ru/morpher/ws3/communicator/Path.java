@@ -1,6 +1,6 @@
 package ru.morpher.ws3.communicator;
 
-public class Path
+class Path
 {
     private static String stripSlashes(String s) {
         if (s.startsWith("/")) s = s.substring(1);
