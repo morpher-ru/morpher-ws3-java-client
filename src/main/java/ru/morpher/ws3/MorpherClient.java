@@ -1,19 +1,19 @@
 package ru.morpher.ws3;
 
-import clients.russian.RussianClient;
-import clients.ukrainian.UkrainianClient;
+import ru.morpher.ws3.russian.RussianClient;
+import ru.morpher.ws3.ukrainian.UkrainianClient;
 import com.fasterxml.jackson.core.type.TypeReference;
-import communicator.Communicator;
-import communicator.HttpURLConnectionCommunicator;
-import communicator.LanguagePathCommunicator;
-import communicator.PrefixAppender;
-import communicator.UrlAuthCommunicator;
-import communicator.connection.ConnectionHandler;
+import ru.morpher.ws3.communicator.Communicator;
+import ru.morpher.ws3.communicator.HttpURLConnectionCommunicator;
+import ru.morpher.ws3.communicator.LanguagePathCommunicator;
+import ru.morpher.ws3.communicator.PrefixAppender;
+import ru.morpher.ws3.communicator.UrlAuthCommunicator;
+import ru.morpher.ws3.communicator.connection.ConnectionHandler;
 
 import java.io.IOException;
 import java.util.Collections;
 
-import static communicator.Communicator.METHOD_GET;
+import static ru.morpher.ws3.communicator.Communicator.METHOD_GET;
 
 /**
  * <p>
@@ -21,7 +21,7 @@ import static communicator.Communicator.METHOD_GET;
  * <p>
  * token - access-token при использовании платной версии веб-сервиса
  * url -  endpoint url сервиса
- * communicator - кастомная имплементация коммуникатора, также может использоваться для проведения unit-тестов
+ * ru.morpher.ws3.communicator - кастомная имплементация коммуникатора, также может использоваться для проведения unit-тестов
  */
 public class MorpherClient {
     private static final String WS3_MORPHER_DEFAULT_URL = "https://ws3.morpher.ru";

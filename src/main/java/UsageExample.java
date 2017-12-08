@@ -1,6 +1,6 @@
-import clients.russian.data.*;
-import clients.russian.*;
-import clients.ukrainian.*;
+import ru.morpher.ws3.russian.data.*;
+import ru.morpher.ws3.russian.*;
+import ru.morpher.ws3.ukrainian.*;
 import ru.morpher.ws3.*;
 
 import java.io.IOException;
@@ -253,24 +253,24 @@ public class UsageExample {
 
         // Украинский язык
         // Добавляем новое пользовательское исправление
-        clients.ukrainian.data.CorrectionForms singular = new clients.ukrainian.data.CorrectionForms();
+        ru.morpher.ws3.ukrainian.data.CorrectionForms singular = new ru.morpher.ws3.ukrainian.data.CorrectionForms();
         singular.nominative = "Сергій";
         singular.prepositional = "Сергієві";
 
-        clients.ukrainian.data.CorrectionEntry correctionEntry = new clients.ukrainian.data.CorrectionEntry();
+        ru.morpher.ws3.ukrainian.data.CorrectionEntry correctionEntry = new ru.morpher.ws3.ukrainian.data.CorrectionEntry();
         correctionEntry.singular = singular;
 
         ukrainianClient.addOrUpdateToUserDict(correctionEntry);
 
         log("Склонение с исправлением:");
-        clients.ukrainian.data.DeclensionResult spellWithCorrection = ukrainianClient.declension("Сергій");
+        ru.morpher.ws3.ukrainian.data.DeclensionResult spellWithCorrection = ukrainianClient.declension("Сергій");
         log("Називний вiдмiнок: %s", spellWithCorrection.nominative);
         log("Мiсцевий вiдмiнок: %s", spellWithCorrection.prepositional);
         log("");
 
         log("Получаем список всех исправлений:");
-        List<clients.ukrainian.data.CorrectionEntry> corrections = ukrainianClient.fetchAllFromUserDictionary();
-        for (clients.ukrainian.data.CorrectionEntry correction : corrections) {
+        List<ru.morpher.ws3.ukrainian.data.CorrectionEntry> corrections = ukrainianClient.fetchAllFromUserDictionary();
+        for (ru.morpher.ws3.ukrainian.data.CorrectionEntry correction : corrections) {
             log(correction.singular.nominative + ":");
             log("   Р: " + correction.singular.genitive);
             log("   Д: " + correction.singular.dative);
@@ -295,7 +295,7 @@ public class UsageExample {
         log("Исправление найдено: %s", found ? "Да" : "Нет");
 
         log("Склонение после удаления исправления:");
-        clients.ukrainian.data.DeclensionResult spellWithoutCorrection = ukrainianClient.declension("Сергій");
+        ru.morpher.ws3.ukrainian.data.DeclensionResult spellWithoutCorrection = ukrainianClient.declension("Сергій");
         log("Називний вiдмiнок: %s", spellWithoutCorrection.nominative);
         log("Мiсцевий вiдмiнок: %s", spellWithoutCorrection.prepositional);
         log("");
@@ -304,7 +304,7 @@ public class UsageExample {
     private static void ukrainianNumberSpellingResult(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
         log("Сумма прописью на укранинском:");
         int number = 2513;
-        clients.ukrainian.data.NumberSpellingResult ukrainianNumberSpellingResult = ukrainianClient.spell(number, "рубль");
+        ru.morpher.ws3.ukrainian.data.NumberSpellingResult ukrainianNumberSpellingResult = ukrainianClient.spell(number, "рубль");
         log("У розмірі %s (%s) %s", number,
                 ukrainianNumberSpellingResult.numberDeclension.genitive,
                 ukrainianNumberSpellingResult.unitDeclension.genitive);
@@ -313,7 +313,7 @@ public class UsageExample {
 
     private static void ukrainianDeclensionsAndGenderExample(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
         log("Склонение ФИО на украинском языке:");
-        clients.ukrainian.data.DeclensionResult ukrainianDeclensionResult = ukrainianClient.declension("Тест");
+        ru.morpher.ws3.ukrainian.data.DeclensionResult ukrainianDeclensionResult = ukrainianClient.declension("Тест");
         log(" Називний вiдмiнок: " + ukrainianDeclensionResult.nominative);
         log("  Родовий вiдмiнок: " + ukrainianDeclensionResult.genitive);
         log("Давальний вiдмiнок: " + ukrainianDeclensionResult.dative);
