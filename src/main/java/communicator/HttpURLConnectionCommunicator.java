@@ -41,16 +41,16 @@ public class HttpURLConnectionCommunicator implements Communicator {
 
         HttpURLConnection con = getHttpConnection(url, method);
 
-        if (isPost(method)) {
-            populatePostParams(requestParameters, con);
-        }
-
         String contentType = isContentBody
                 ? "text-plain"
                 : "application/x-www-form-urlencoded";
 
         con.setRequestProperty("Content-Type", contentType);
         con.setRequestProperty("Accept", "application/json");
+        
+        if (isPost(method)) {
+            populatePostParams(requestParameters, con);
+        }
 
         con.connect();
 

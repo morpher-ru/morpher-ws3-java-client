@@ -41,10 +41,24 @@ public class UsageExample {
         try {
             demo(morpherClient.russian());
             demo(morpherClient.ukrainian());
+
+            log("Остаток запросов на сегодня: " + morpherClient.queriesLeftForToday());
+            log("");
+
+            log("Провоцируем ошибку");
+            morpherClient.russian().declension("wuf");
         } catch (IOException e) {
-            e.printStackTrace();
+            log("Ошибка коммуникации: " + e.getMessage());
+        } catch (ArgumentNotRussianException e) {
+            log("Ошибка аргументов неверного языка: " + e.getMessage());
         } catch (AccessDeniedException e) {
-            e.printStackTrace();
+            log("Ошибка доступа: " + e.getMessage());
+        } catch (NumeralsDeclensionNotSupportedException e) {
+            log("Ошибка неверных числовых аргументов: " + e.getMessage());
+        } catch (ArgumentEmptyException e) {
+            log("Ошибка пустых аргументов: " + e.getMessage());
+        } catch (InvalidFlagsException e) {
+            log("Ошибка неверных флагов: " + e.getMessage());
         }
     }
 

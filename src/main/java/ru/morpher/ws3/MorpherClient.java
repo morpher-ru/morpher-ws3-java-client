@@ -2,12 +2,20 @@ package ru.morpher.ws3;
 
 import clients.russian.RussianClient;
 import clients.ukrainian.UkrainianClient;
+import com.fasterxml.jackson.core.type.TypeReference;
 import communicator.Communicator;
 import communicator.HttpURLConnectionCommunicator;
 import communicator.LanguagePathCommunicator;
-import communicator.UrlAuthCommunicator;
 import communicator.PrefixAppender;
+import communicator.UrlAuthCommunicator;
 import communicator.connection.ConnectionHandler;
+import exceptions.AccessDeniedException;
+
+import java.io.IOException;
+import java.util.Collections;
+
+import static communicator.Communicator.METHOD_GET;
+import static java.util.Collections.emptyMap;
 
 /**
  * <p>
@@ -22,10 +30,12 @@ public class MorpherClient {
 
     private RussianClient russianClient;
     private UkrainianClient ukrainianClient;
+    private LanguagePathCommunicator communicator;
 
     MorpherClient(LanguagePathCommunicator communicator) {
-        russianClient = new RussianClient(new PrefixAppender(communicator, "russian"));
-        ukrainianClient = new UkrainianClient(new PrefixAppender(communicator, "ukrainian"));
+        this.russianClient = new RussianClient(new PrefixAppender(communicator, "russian"));
+        this.ukrainianClient = new UkrainianClient(new PrefixAppender(communicator, "ukrainian"));
+        this.communicator = communicator;
     }
 
     public RussianClient russian() {
@@ -34,6 +44,14 @@ public class MorpherClient {
 
     public UkrainianClient ukrainian() {
         return ukrainianClient;
+    }
+
+    public int queriesLeftForToday() throws IOException, AccessDeniedException {
+        TypeReference<Integer> responseType = new TypeReference<Integer>() {
+        };
+
+        String operation = "get_queries_left_for_today";
+        return communicator.sendRequest(operation, Collections.<String, String>emptyMap(), METHOD_GET, responseType);
     }
 
     public static class ClientBuilder {
