@@ -7,12 +7,12 @@ import java.util.List;
 class UkrainianDemo extends Log
 {
     static void demo(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
-        ukrainianDeclensionsAndGenderExample(ukrainianClient);
-        ukrainianNumberSpellingResult(ukrainianClient);
-        ukrainianSpellWithCorrectionExample(ukrainianClient);
+        declensionsAndGenderExample(ukrainianClient);
+        numberSpellingExample(ukrainianClient);
+        spellWithCorrectionExample(ukrainianClient);
     }
 
-    private static void ukrainianSpellWithCorrectionExample(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
+    private static void spellWithCorrectionExample(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
         // Функции пользовательского словаря для ws3.morpher.ru работают только при наличии токена.
         // Для local сервиса токен не нужен.
 
@@ -66,30 +66,30 @@ class UkrainianDemo extends Log
         log("");
     }
 
-    private static void ukrainianNumberSpellingResult(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
+    private static void numberSpellingExample(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
         log("Сумма прописью на укранинском:");
         int number = 2513;
-        NumberSpellingResult ukrainianNumberSpellingResult = ukrainianClient.spell(number, "рубль");
+        NumberSpellingResult numberSpellingResult = ukrainianClient.spell(number, "рубль");
         log("У розмірі %s (%s) %s", number,
-                ukrainianNumberSpellingResult.numberDeclension.genitive,
-                ukrainianNumberSpellingResult.unitDeclension.genitive);
+                numberSpellingResult.numberDeclension.genitive,
+                numberSpellingResult.unitDeclension.genitive);
         log("");
     }
 
-    private static void ukrainianDeclensionsAndGenderExample(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
+    private static void declensionsAndGenderExample(UkrainianClient ukrainianClient) throws IOException, AccessDeniedException {
         log("Склонение ФИО на украинском языке:");
-        DeclensionResult ukrainianDeclensionResult = ukrainianClient.declension("Тест");
-        log(" Називний вiдмiнок: " + ukrainianDeclensionResult.nominative);
-        log("  Родовий вiдмiнок: " + ukrainianDeclensionResult.genitive);
-        log("Давальний вiдмiнок: " + ukrainianDeclensionResult.dative);
-        log("Знахідний вiдмiнок: " + ukrainianDeclensionResult.accusative);
-        log("  Орудний вiдмiнок: " + ukrainianDeclensionResult.instrumental);
-        log(" Місцевий вiдмiнок: " + ukrainianDeclensionResult.prepositional);
-        log("  Кличний вiдмiнок: " + ukrainianDeclensionResult.vocative);
+        DeclensionResult declensionResult = ukrainianClient.declension("Тест");
+        log(" Називний вiдмiнок: " + declensionResult.nominative);
+        log("  Родовий вiдмiнок: " + declensionResult.genitive);
+        log("Давальний вiдмiнок: " + declensionResult.dative);
+        log("Знахідний вiдмiнок: " + declensionResult.accusative);
+        log("  Орудний вiдмiнок: " + declensionResult.instrumental);
+        log(" Місцевий вiдмiнок: " + declensionResult.prepositional);
+        log("  Кличний вiдмiнок: " + declensionResult.vocative);
         log("");
 
         log("Определение рода на украинском языке:");
-        log("Род: %s", ukrainianDeclensionResult.gender != null ? ukrainianDeclensionResult.gender : PREMIUM);
+        log("Род: %s", declensionResult.gender != null ? declensionResult.gender : PREMIUM);
         log("");
     }
 }

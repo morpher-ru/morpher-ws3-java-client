@@ -7,15 +7,15 @@ import java.util.List;
 class RussianDemo extends Log
 {
    static void demo(RussianClient russianClient) throws IOException, AccessDeniedException {
-        russianDeclensionsAndGenderExample(russianClient);
-        russianNamesDeclensionsExample(russianClient);
-        russianAdjectivesGendersExample(russianClient);
-        russianAdjectivizeExample(russianClient);
-        russianSpellWithCorrectionExample(russianClient);
-        russianNumberSpellingResult(russianClient);
+        declensionsAndGenderExample(russianClient);
+        nameDeclensionsExample(russianClient);
+        adjectivesGendersExample(russianClient);
+        adjectivizeExample(russianClient);
+        spellWithCorrectionExample(russianClient);
+        numberSpellingExample(russianClient);
     }
 
-    private static void russianSpellWithCorrectionExample(RussianClient russianClient) throws IOException, AccessDeniedException {
+    private static void spellWithCorrectionExample(RussianClient russianClient) throws IOException, AccessDeniedException {
         try {
             // Функции пользовательского словаря для ws3.morpher.ru работают только при наличии токена.
             // Для local сервиса токен не нужен.
@@ -85,7 +85,7 @@ class RussianDemo extends Log
         }
     }
 
-    private static void russianAdjectivizeExample(RussianClient russianClient) throws IOException, AccessDeniedException {
+    private static void adjectivizeExample(RussianClient russianClient) throws IOException, AccessDeniedException {
         log("Образование прилагательных:");
         List<String> adjectives = russianClient.adjectivize("Мытищи");
         for (String adjective : adjectives) {
@@ -95,7 +95,7 @@ class RussianDemo extends Log
         log("");
     }
 
-    private static void russianNumberSpellingResult(RussianClient russianClient) throws IOException, AccessDeniedException {
+    private static void numberSpellingExample(RussianClient russianClient) throws IOException, AccessDeniedException {
         log("Сумма прописью:");
 
         try {
@@ -111,7 +111,7 @@ class RussianDemo extends Log
         }
     }
 
-    private static void russianAdjectivesGendersExample(RussianClient russianClient) throws IOException, AccessDeniedException {
+    private static void adjectivesGendersExample(RussianClient russianClient) throws IOException, AccessDeniedException {
         log("Склонение прилагательных по родам:");
 
         AdjectiveGendersResult adjectiveGenders = russianClient.adjectiveGenders("уважаемый");
@@ -121,7 +121,7 @@ class RussianDemo extends Log
         log("");
     }
 
-    private static void russianDeclensionsAndGenderExample(RussianClient russianClient) throws IOException, AccessDeniedException {
+    private static void declensionsAndGenderExample(RussianClient russianClient) throws IOException, AccessDeniedException {
         log("Склонение на русском языке:");
 
         try {
@@ -171,7 +171,7 @@ class RussianDemo extends Log
         log("");
     }
 
-    private static void russianNamesDeclensionsExample(RussianClient russianClient) throws IOException, AccessDeniedException {
+    private static void nameDeclensionsExample(RussianClient russianClient) throws IOException, AccessDeniedException {
         try {
             log("Разделение ФИО на части:");
 
