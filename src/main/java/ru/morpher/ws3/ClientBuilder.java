@@ -33,6 +33,8 @@ public class ClientBuilder {
     }
 
     public Client build() {
+        Communicator communicator = this.communicator;
+
         if (communicator == null) {
             // Can be used for Basic authentication
             // ConnectionHandler connectionHandler = new BasicAuthConnectionHandler(token);
@@ -44,7 +46,7 @@ public class ClientBuilder {
             communicator = new UrlAuthCommunicator(token, communicator);
         }
 
-        LanguagePathCommunicator languagePathCommunicator = new LanguagePathCommunicator(url, this.communicator);
+        LanguagePathCommunicator languagePathCommunicator = new LanguagePathCommunicator(url, communicator);
 
         return new Client(languagePathCommunicator);
     }
