@@ -129,15 +129,15 @@ public class HttpURLConnectionCommunicator implements Communicator {
 
         switch (responseCode) {
             case 402:
-                throw new DailyLimitExceededException("Превышен лимит на количество запросов");
+                throw new DailyLimitExceededException("Превышен лимит на количество запросов.");
             case 403:
-                throw new IpBlockedException("IP-адрес заблокирован");
+                throw new IpBlockedException("IP-адрес заблокирован.");
             case 498:
-                throw new TokenNotFoundException("Переданный токен не найден");
+                throw new TokenNotFoundException("Переданный токен не найден.");
             case 497:
-                throw new InvalidServerResponseException(497, "Неверный формат токена");
+                throw new InvalidServerResponseException(497, "Неверный формат токена.", responseErrorBody);
             default:
-                throw new InvalidServerResponseException(responseCode, "Сервер вернул неожиданный код. Возможно, у вас неактуальная версия клиента.");
+                throw new InvalidServerResponseException(responseCode, "Сервер вернул неожиданный код. Возможно, у вас неактуальная версия клиента.", responseErrorBody);
         }
     }
 }
