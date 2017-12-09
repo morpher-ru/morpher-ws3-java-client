@@ -23,14 +23,14 @@ import static ru.morpher.ws3.communicator.Communicator.METHOD_GET;
  * url -  endpoint url сервиса
  * ru.morpher.ws3.communicator - кастомная имплементация коммуникатора, также может использоваться для проведения unit-тестов
  */
-public class MorpherClient {
+public class Client {
     private static final String WS3_MORPHER_DEFAULT_URL = "https://ws3.morpher.ru";
 
     private RussianClient russianClient;
     private UkrainianClient ukrainianClient;
     private LanguagePathCommunicator communicator;
 
-    MorpherClient(LanguagePathCommunicator communicator) {
+    Client(LanguagePathCommunicator communicator) {
         this.russianClient = new RussianClient(new PrefixAppender(communicator, "russian"));
         this.ukrainianClient = new UkrainianClient(new PrefixAppender(communicator, "ukrainian"));
         this.communicator = communicator;
@@ -84,7 +84,7 @@ public class MorpherClient {
             return this;
         }
 
-        public MorpherClient build() {
+        public Client build() {
             if (communicator == null) {
                 // Can be used for Basic authentication
                 // ConnectionHandler connectionHandler = new BasicAuthConnectionHandler(token);
@@ -98,7 +98,7 @@ public class MorpherClient {
 
             LanguagePathCommunicator languagePathCommunicator = new LanguagePathCommunicator(url, this.communicator);
 
-            return new MorpherClient(languagePathCommunicator);
+            return new Client(languagePathCommunicator);
         }
     }
 }

@@ -13,19 +13,19 @@ public class UsageExample extends Log {
         // то вы можете указать в качестве url адрес вашего локального сервера:
         // String url = "http://ws3.morpher.ru"
         //
-        // MorpherClient morpherClient = new MorpherClient(token, url);
+        // Client client = new Client(token, url);
         // Для удобства можно использовать встроенный билдер:
 
-        MorpherClient morpherClient = new MorpherClient.ClientBuilder()
+        Client client = new Client.ClientBuilder()
                 .useToken("a8dab5fe-7a47-4c17-84ea-46facb7d19fe")
                 .useUrl("http://ws3.morpher.ru")
                 .build();
 
         try {
-            RussianDemo.demo(morpherClient.russian());
-            UkrainianDemo.demo(morpherClient.ukrainian());
+            RussianDemo.demo(client.russian());
+            UkrainianDemo.demo(client.ukrainian());
 
-            log("Остаток запросов на сегодня: " + morpherClient.queriesLeftForToday());
+            log("Остаток запросов на сегодня: " + client.queriesLeftForToday());
             log("");
         } catch (IOException e) {
             log("Ошибка коммуникации: " + e.getMessage());

@@ -3,18 +3,18 @@
 Java-клиент веб-сервиса ["Морфер" 3.0](http://morpher.ru/ws3)
 ***
 ## Использование
-Работа с веб-сервисом осуществляется за счет основного класса MorpherClient, который реализует все функции веб-сервиса.  
+Работа с веб-сервисом осуществляется за счет основного класса Client, который реализует все функции веб-сервиса.  
 Результат выполнения запросов возвращается как объект класса соответствующей модели данных.  
 
 ### Начало работы
-Перед использованием веб-сервиса требуется создать экземпляр класса MorpherClient:  
+Перед использованием веб-сервиса требуется создать экземпляр класса Client:  
 ```java
-morpherClient = new MorpherClient();
+client = new Client();
 ```
 В случае использования [платной](1) версии веб-сервиса Морфер в конструктор передается access-token:
 ```java
 final String ACCESS_TOKEN = "Some token";
-morpherClient = new MorpherClient(ACCESS_TOKEN);
+client = new Client(ACCESS_TOKEN);
 ```
 ### Выполнение запросов
 
@@ -22,8 +22,8 @@ morpherClient = new MorpherClient(ACCESS_TOKEN);
 ##### Склонение
 ```java
 // Формат вызова:
-// DeclensionResult russianDeclensionResult = morpherClient.getRussian().declension(<текст>);
-DeclensionResult russianDeclensionResult = morpherClient.getRussian().declension("ёлка");
+// DeclensionResult russianDeclensionResult = client.getRussian().declension(<текст>);
+DeclensionResult russianDeclensionResult = client.getRussian().declension("ёлка");
 String nominativeCase = russianDeclensionResult.getNominativeCase();
 // Для других падежей:
 // .getGenitiveCase()           - Родительный падеж
@@ -63,8 +63,8 @@ if (name != null) { // Это ФИО
 ##### Cумма прописью:
 ```java
 //  Формат вызова:
-//  SpellingResult russianSpellingResult = morpherClient.getRussian().spell(<число>, <единица измерения>);
-SpellingResult russianSpellingResult = morpherClient.getRussian().spell(123, "ёлка");
+//  SpellingResult russianSpellingResult = client.getRussian().spell(<число>, <единица измерения>);
+SpellingResult russianSpellingResult = client.getRussian().spell(123, "ёлка");
 String numberNominativeCase = russianSpellingResult.getNumber().getNominativeCase();//сто двадцать три
 String unitNominativeCase = russianSpellingResult.getUnit().getNominativeCase();    //ёлки
 String nominativeCase = russianSpellingResult.getNominativeCase();                  //Сто двадцать три ёлки
@@ -74,8 +74,8 @@ String nominativeCase = russianSpellingResult.getNominativeCase();              
 ##### Склонение прилагательных по родам
 ```java
 // Формат вызова:
-// AdjectiveGenders russianAdjectiveGenders = morpherClient.getRussian().adjectiveGenders(<прилагательное>);
-AdjectiveGenders russianAdjectiveGenders = morpherClient.getRussian().adjectiveGenders("ёлочный");
+// AdjectiveGenders russianAdjectiveGenders = client.getRussian().adjectiveGenders(<прилагательное>);
+AdjectiveGenders russianAdjectiveGenders = client.getRussian().adjectiveGenders("ёлочный");
 String feminineGender = russianAdjectiveGenders.getFeminine();//Женский род
 String neuterGender = russianAdjectiveGenders.getNeuter();  //Средний род
 String plural = russianAdjectiveGenders.getPlural();        //Множественное число
@@ -84,16 +84,16 @@ String plural = russianAdjectiveGenders.getPlural();        //Множестве
 ##### Образование прилагательных:
 ```java
 // Формат вызова:
-// List<String> adjectives = morpherClient.getRussian().adjectivize(<слово>);
-List<String> adjectives = morpherClient.getRussian().adjectivize("Мытищи");
+// List<String> adjectives = client.getRussian().adjectivize(<слово>);
+List<String> adjectives = client.getRussian().adjectivize("Мытищи");
 ```
 ***
 #### Украинский язык
 ##### Склонение
 ```java
 // Формат вызова:
-// DeclensionResult ukrainianDeclensionResult = morpherClient.getUkrainian().declension(<текст>);
-DeclensionResult ukrainianDeclensionResult = morpherClient.getUkrainian().declension("ялинка");
+// DeclensionResult ukrainianDeclensionResult = client.getUkrainian().declension(<текст>);
+DeclensionResult ukrainianDeclensionResult = client.getUkrainian().declension("ялинка");
 String nominativeCase = ukrainianDeclensionResult.getNominativeCase();
 // Для других падежей
 // .getGenitiveCase()       - родовий відмінок
@@ -112,8 +112,8 @@ String gender = ukrainianDeclensionResult.getGender();
 ##### Сумма прописью
 ```java
 // Формат вызова:
-// SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(<число>,<одиниця виміру>);
-SpellingResult ukrainianSpellingResult = morpherClient.getUkrainian().spell(123, "ялинка");
+// SpellingResult ukrainianSpellingResult = client.getUkrainian().spell(<число>,<одиниця виміру>);
+SpellingResult ukrainianSpellingResult = client.getUkrainian().spell(123, "ялинка");
 String numberNominativeCase = ukrainianSpellingResult.getNumber().getNominativeCase();  //сто двадцять три 
 String unitNominativeCase = ukrainianSpellingResult.getUnit().getNominativeCase();      //ялинки
 String nominativeCase = ukrainianSpellingResult.getNominativeCase();                    //Сто двадцять три ялинки
