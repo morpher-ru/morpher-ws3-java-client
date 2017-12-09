@@ -18,6 +18,6 @@ public class ClientBuilderTests {
         Client client = builder.build();
         communicator.writeNextResponse("1");
         client.queriesLeftForToday();
-        assertEquals(baseUrl + "/get_queries_left_for_today", communicator.readLastUrlPassed());
+        assertEquals(baseUrl + "/get_queries_left_for_today?token=token", communicator.readLastUrlPassed());
     }
 }
