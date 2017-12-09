@@ -61,8 +61,7 @@ public class HttpURLConnectionCommunicator implements Communicator {
                 throw new IpBlockedException("IP-адрес заблокирован.");
             case 498:
                 throw new TokenNotFoundException("Переданный токен не найден.");
-            case 497:
-                throw new InvalidServerResponseException(497, "Неверный формат токена.");
+            case 497: // "Неверный формат токена"
             default:
                 throw new InvalidServerResponseException(responseCode, "Сервер вернул неожиданный код. Возможно, у вас неактуальная версия клиента.");
         }
