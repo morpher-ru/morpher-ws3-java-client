@@ -422,7 +422,7 @@ public class RussianClientTest {
     
     @Test
     public void declension_convertsException_errorCode_400() throws Exception {
-        InvalidServerResponseException expectedException = new InvalidServerResponseException(400, "message", "response");
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(400, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.declension("тест");
@@ -436,7 +436,7 @@ public class RussianClientTest {
 
     @Test
     public void declension_convertsInvalidFlagsException() throws Exception {
-        InvalidServerResponseException expectedException = new InvalidServerResponseException(494, "message", "response");
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(494, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.declension("тест");
@@ -464,7 +464,7 @@ public class RussianClientTest {
 
     @Test
     public void declension_rethrowsInvalidServerResponseException_errorCode_500() throws Exception {
-        InvalidServerResponseException expectedException = new InvalidServerResponseException(500, "message", "response");
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(500, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.declension("тест");
@@ -478,7 +478,7 @@ public class RussianClientTest {
 
     @Test
     public void declension_convertsException_errorCode_495() throws Exception {
-        InvalidServerResponseException expectedException = new InvalidServerResponseException(495, "message", "response");
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(495, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.declension("десять");
@@ -492,7 +492,7 @@ public class RussianClientTest {
 
     @Test
     public void declension_convertsException_errorCode_496() throws Exception {
-        InvalidServerResponseException expectedException = new InvalidServerResponseException(496, "message", "response");
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(496, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.declension("тест");
@@ -534,7 +534,7 @@ public class RussianClientTest {
 
     @Test
     public void spell_convertsException_errorCode_400() throws Exception {
-        InvalidServerResponseException expectedException = new InvalidServerResponseException(400, "message", "response");
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(400, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.spell(10, "рубль");
@@ -562,7 +562,7 @@ public class RussianClientTest {
 
     @Test
     public void spell_rethrowsInvalidServerResponseException_errorCode_500() throws Exception {
-        InvalidServerResponseException expectedException = new InvalidServerResponseException(500, "message", "response");
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(500, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.spell(10, "рубль");
@@ -576,7 +576,7 @@ public class RussianClientTest {
     
     @Test
     public void spell_convertsException_errorCode_496() throws Exception {
-        InvalidServerResponseException expectedException = new InvalidServerResponseException(496, "message", "response");
+        InvalidServerResponseException expectedException = new InvalidServerResponseException(496, "message");
         try {
             communicator.throwOnNextCall(expectedException);
             russianClient.spell(10, "рубль");

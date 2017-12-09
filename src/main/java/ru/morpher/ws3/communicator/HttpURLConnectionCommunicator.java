@@ -52,12 +52,20 @@ public class HttpURLConnectionCommunicator implements Communicator {
         con.connect();
 
         int responseCode = con.getResponseCode();
-        if (responseCode != 200) {
-            String responseErrorBody = toResponseBody(con.getErrorStream());
-            handleErrors(responseCode, responseErrorBody);
+        switch (responseCode) {
+            case 200:
+                return toResponseBody(con.getInputStream());
+            case 402:
+                throw new DailyLimitExceededException("Превышен лимит на количество запросов.");
+            case 403:
+                throw new IpBlockedException("IP-адрес заблокирован.");
+            case 498:
+                throw new TokenNotFoundException("Переданный токен не найден.");
+            case 497:
+                throw new InvalidServerResponseException(497, "Неверный формат токена.");
+            default:
+                throw new InvalidServerResponseException(responseCode, "Сервер вернул неожиданный код. Возможно, у вас неактуальная версия клиента.");
         }
-
-        return toResponseBody(con.getInputStream());
     }
 
     private static boolean isPost(String method) {
@@ -125,19 +133,4 @@ public class HttpURLConnectionCommunicator implements Communicator {
     }
 
 
-    private void handleErrors(int responseCode, String responseErrorBody) throws AccessDeniedException {
-
-        switch (responseCode) {
-            case 402:
-                throw new DailyLimitExceededException("Превышен лимит на количество запросов.");
-            case 403:
-                throw new IpBlockedException("IP-адрес заблокирован.");
-            case 498:
-                throw new TokenNotFoundException("Переданный токен не найден.");
-            case 497:
-                throw new InvalidServerResponseException(497, "Неверный формат токена.", responseErrorBody);
-            default:
-                throw new InvalidServerResponseException(responseCode, "Сервер вернул неожиданный код. Возможно, у вас неактуальная версия клиента.", responseErrorBody);
-        }
-    }
 }
