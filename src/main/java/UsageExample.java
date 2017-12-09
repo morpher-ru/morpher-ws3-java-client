@@ -16,7 +16,7 @@ public class UsageExample extends Log {
         // Client client = new Client(token, url);
         // Для удобства можно использовать встроенный билдер:
 
-        Client client = new Client.ClientBuilder()
+        Client client = new ClientBuilder()
                 .useToken("a8dab5fe-7a47-4c17-84ea-46facb7d19fe")
                 .useUrl("http://ws3.morpher.ru")
                 .build();

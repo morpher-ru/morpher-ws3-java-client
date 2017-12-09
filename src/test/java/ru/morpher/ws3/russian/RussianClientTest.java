@@ -4,7 +4,6 @@ import ru.morpher.ws3.*;
 import ru.morpher.ws3.communicator.CommunicatorStub;
 import org.junit.Before;
 import org.junit.Test;
-import ru.morpher.ws3.Client;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +28,7 @@ public class RussianClientTest {
         String baseUrl = "https://ws3.morpher.ru";
 
         communicator = new CommunicatorStub();
-        russianClient = new Client.ClientBuilder()
+        russianClient = new ClientBuilder()
                 .use(communicator)
                 .useUrl(baseUrl)
                 .build().russian();
@@ -40,7 +39,7 @@ public class RussianClientTest {
         String baseUrl = "https://ws3.morpher.ru";
         CommunicatorStub communicator = new CommunicatorStub();
         String token = "token1";
-        RussianClient russianClient = new Client.ClientBuilder()
+        RussianClient russianClient = new ClientBuilder()
                 .use(communicator)
                 .useUrl(baseUrl)
                 .useToken(token)
