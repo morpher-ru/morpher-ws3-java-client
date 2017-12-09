@@ -8,9 +8,6 @@ public class ClientBuilder {
     private String token;
     private Communicator communicator;
 
-    public ClientBuilder() {
-    }
-
     public ClientBuilder useUrl(String clientUrl) {
         this.url = clientUrl;
 
