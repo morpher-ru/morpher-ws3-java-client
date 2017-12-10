@@ -1,5 +1,1 @@
 language: java
-
-branches:
-  except:
-    - mvn-repo
