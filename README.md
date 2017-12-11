@@ -1,28 +1,38 @@
 [![](https://travis-ci.org/morpher-ru/morpher-ws3-java-client.svg?branch=master)](https://travis-ci.org/morpher-ru/morpher-ws3-java-client)
+
 # morpher-ws3-java-client
 Java-клиент веб-сервиса ["Морфер" 3.0](http://morpher.ru/ws3)
 ***
+
+Если вам удобнее учиться на примерах, мы разработали для вас рабочий пример с демонстрацией всех функций веб-сервиса:
+
+ * https://github.com/morpher-ru/morpher-ws3-java-client-sample
+
+Этот пример [подключает](https://github.com/morpher-ru/morpher-ws3-java-client-sample/blob/master/pom.xml) данную библиотеку через Maven и вызывает функции веб-сервиса для [русского](https://github.com/morpher-ru/morpher-ws3-java-client-sample/blob/master/src/main/java/ru/morpher/ws3/client/sample/RussianDemo.java) и [украинского](https://github.com/morpher-ru/morpher-ws3-java-client-sample/blob/master/src/main/java/ru/morpher/ws3/client/sample/UkrainianDemo.java) языков.
+
 ## Использование
-Работа с веб-сервисом осуществляется за счет основного класса Client, который реализует все функции веб-сервиса.  
-Результат выполнения запросов возвращается как объект класса соответствующей модели данных.  
+
+Работа с веб-сервисом осуществляется за счет основного класса `ru.morpher.ws3.Client`, который реализует все функции веб-сервиса.  
 
 ### Начало работы
-Перед использованием веб-сервиса требуется создать экземпляр класса Client:  
+Чтобы создать стандартный (без параметров) экземпляр класса `Client`, достаточно вызвать `ClientBuilder.build()`:
 ```java
-client = new Client();
+import ru.morpher.ws3.*;
+
+Client client = new ClientBuilder().build();
 ```
-В случае использования [платной](1) версии веб-сервиса Морфер в конструктор передается access-token:
+Однако для полноценной работы с веб-сервисом крайне рекомендуется [зарегистрироваться](http://morpher.ru/Register.aspx) и получить token, который потом передается в ClientBuilder:
+
 ```java
-final String ACCESS_TOKEN = "Some token";
-client = new Client(ACCESS_TOKEN);
+Client client = new ClientBuilder().useToken("my-token").build();
 ```
+Отлично! Теперь веб-сервис вас ни с кем не спутает, случайно не заблокирует и у вас будет свой собственный счетчик запросов.
+
 ### Выполнение запросов
 
 #### Русский язык
 ##### Склонение
 ```java
-// Формат вызова:
-// DeclensionResult russianDeclensionResult = client.getRussian().declension(<текст>);
 DeclensionResult russianDeclensionResult = client.getRussian().declension("ёлка");
 String nominativeCase = russianDeclensionResult.getNominativeCase();
 // Для других падежей:
@@ -62,8 +72,6 @@ if (name != null) { // Это ФИО
 ***
 ##### Cумма прописью:
 ```java
-//  Формат вызова:
-//  SpellingResult russianSpellingResult = client.getRussian().spell(<число>, <единица измерения>);
 SpellingResult russianSpellingResult = client.getRussian().spell(123, "ёлка");
 String numberNominativeCase = russianSpellingResult.getNumber().getNominativeCase();//сто двадцать три
 String unitNominativeCase = russianSpellingResult.getUnit().getNominativeCase();    //ёлки
@@ -73,26 +81,20 @@ String nominativeCase = russianSpellingResult.getNominativeCase();              
 ***
 ##### Склонение прилагательных по родам
 ```java
-// Формат вызова:
-// AdjectiveGenders russianAdjectiveGenders = client.getRussian().adjectiveGenders(<прилагательное>);
 AdjectiveGenders russianAdjectiveGenders = client.getRussian().adjectiveGenders("ёлочный");
 String feminineGender = russianAdjectiveGenders.getFeminine();//Женский род
-String neuterGender = russianAdjectiveGenders.getNeuter();  //Средний род
-String plural = russianAdjectiveGenders.getPlural();        //Множественное число
+String neuterGender = russianAdjectiveGenders.getNeuter();    //Средний род
+String plural = russianAdjectiveGenders.getPlural();          //Множественное число
 ```
 ***
 ##### Образование прилагательных:
 ```java
-// Формат вызова:
-// List<String> adjectives = client.getRussian().adjectivize(<слово>);
 List<String> adjectives = client.getRussian().adjectivize("Мытищи");
 ```
 ***
 #### Украинский язык
 ##### Склонение
 ```java
-// Формат вызова:
-// DeclensionResult ukrainianDeclensionResult = client.getUkrainian().declension(<текст>);
 DeclensionResult ukrainianDeclensionResult = client.getUkrainian().declension("ялинка");
 String nominativeCase = ukrainianDeclensionResult.getNominativeCase();
 // Для других падежей
@@ -111,8 +113,6 @@ String gender = ukrainianDeclensionResult.getGender();
 ***
 ##### Сумма прописью
 ```java
-// Формат вызова:
-// SpellingResult ukrainianSpellingResult = client.getUkrainian().spell(<число>,<одиниця виміру>);
 SpellingResult ukrainianSpellingResult = client.getUkrainian().spell(123, "ялинка");
 String numberNominativeCase = ukrainianSpellingResult.getNumber().getNominativeCase();  //сто двадцять три 
 String unitNominativeCase = ukrainianSpellingResult.getUnit().getNominativeCase();      //ялинки
@@ -120,21 +120,11 @@ String nominativeCase = ukrainianSpellingResult.getNominativeCase();            
 ```
 Склонение по падежам аналогично функции declension (см. выше), т.е. `.getGenitiveCase()`, `.getDativeCase()` и т.д.
 ***
-### Обработка исключений
-В процессе работы с библиотекой может быть сгенерировано исключение MorpherWebServiceException по следующим причинам:  
-* LimitExceededException - Превышен лимит на количество запросов в сутки.
-* IpBlockedException - IP заблокирован.
-* WrongMethodException - Склонение числительных в declension не поддерживается. Используйте метод spell.
-* NoRussianWordsException - Не найдено русских слов.
-* EmptyStringException - В функцию передана пустая строка.
-* UnpaidServiceException - Необходимо оплатить услугу.
-* TokenNotFoundException - Данный token не найден.
-* WrongTokenFormatException - Неверный формат токена.
-***
-## Сборка и зависимости
-Для использования клиента в своем проекте стоит подключить библоитеку через Maven.
 
-Для начала добавить в файл pom.xml репозиторий который содержит библиотеку:
+## Сборка и зависимости
+Для использования клиента в своем проекте рекомендуется подключить библиотеку через Maven:
+
+Добавьте в файл pom.xml репозиторий, который содержит библиотеку:
 
 ```xml
     <repositories>
