@@ -23,7 +23,7 @@ public class HttpURLConnectionStub extends HttpURLConnection {
     private String sourceUrl;
     private int customResponseCode = 200;
 
-    public HttpURLConnectionStub(String url) throws MalformedURLException {
+    public HttpURLConnectionStub(String url) throws IOException {
         super(new URL(url), "", 0);
         this.sourceUrl = url;
     }
